@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Savizar/dexteritydb-node/issues"
   },
-  "homepage": "https://github.com/Savizar/dexteritydb-node#readme"
+  "homepage": "https://github.com/Savizar/dexteritydb-node#readme",
+  "dependencies": {
+    "ws": "^3.1.0"
+  }
 }
