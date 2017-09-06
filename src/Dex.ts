@@ -7,19 +7,21 @@ interface CollectionTag {
 
 interface FieldValue {
     field: string,
-    value: Value
+    value: any 
 }
 
 interface FieldValues {
     field: string,
-    values: [Value]
+    values: [any]
 }
 
 interface FieldValueRange {
     field: string,
-    low: Value,
-    high: Value
+    low: any,
+    high: any
 }
+
+
 
 interface PayloadRequest {
     none?: boolean,
