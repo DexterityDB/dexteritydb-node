@@ -1,50 +1,44 @@
-import * as Webserver from 'ws';
-
-interface CollectionTag {
-    db: string,
-    collection: string
-}
-
-interface FieldValue {
-    field: string,
-    value: any 
-}
-
-interface FieldValues {
-    field: string,
-    values: [any]
-}
-
-interface FieldValueRange {
-    field: string,
-    low: any,
-    high: any
-}
-
-
-
-interface PayloadRequest {
-    none?: boolean,
-    count?: [Ops],
-    list?: [Ops],
-    fetch?: [Ops],
-    insert?: [Ops],
-    update?: [Ops],
-    remove?: [Ops],
-    ensureIndex?: [Ops],
-    removeIndex?: [Ops],
-    removeCollection?: boolean
-}
+import * as WebSocket from 'ws';
+import { ReadOp } from './Ops';
+import { ResponseMessage } from './Response';
 
 interface RequestCallback {
     resolve: Function,
     reject: Function
 }
 
-interface ResponseMessage {
-    request_id: string
-    payload: PayloadRequest,
-    collection: CollectionTag
+class ReadQuery {
+    private collection: Collection;
+    private optree: ReadOp;
+
+    constructor(collection: Collection) {
+
+    }
+    
+    aggregate() {}
+    count() {}
+    fetch() {}
+    send() {}
+    and() {}
+    or() {}
+}
+
+class Collection {
+    private db: Dex;
+    private collectionName: string;
+    
+    constructor(db: Dex, collectionName: string) {
+        this.db = db;
+        this.collectionName = collectionName;
+    }
+
+    find() {}
+    insert() {}
+    update() {}
+    remove() {}
+    ensureIndex() {}
+    removeIndex() {}
+    removeCollection() {}
 }
 
 export class Dex {
@@ -68,7 +62,7 @@ export class Dex {
         ws.onmessage = function(message) {
             let message_data: ResponseMessage;
             try {
-                message_data = JSON.parse(message.data);
+                message_data = JSON.parse(message.data.toString());
             } catch (err) {
                 console.error(err);
                 return;
@@ -78,9 +72,16 @@ export class Dex {
                 const callback = activeRequests.get(message_data.request_id);
                 if (callback != null) {
                     activeRequests.delete(message_data.request_id);
-                    callback.resolve(message);
+                    callback.resolve(message_data.payload.data);
                 }
             }
         }
     }
+
+    collection(collectionName: string) {
+        return new Collection(this, collectionName);
+    }
+
+    and(){}
+    or() {}
 }
