@@ -1,87 +1,95 @@
 import * as WebSocket from 'ws';
-import { ReadOp } from './Ops';
+import { Collection } from './Collection';
+import * as Ops from './Ops';
 import { ResponseMessage } from './Response';
+import { Value } from './Utils';
 
 interface RequestCallback {
     resolve: Function,
     reject: Function
 }
 
-class ReadQuery {
-    private collection: Collection;
-    private optree: ReadOp;
-
-    constructor(collection: Collection) {
-
-    }
-    
-    aggregate() {}
-    count() {}
-    fetch() {}
-    send() {}
-    and() {}
-    or() {}
-}
-
-class Collection {
-    private db: Dex;
-    private collectionName: string;
-    
-    constructor(db: Dex, collectionName: string) {
-        this.db = db;
-        this.collectionName = collectionName;
-    }
-
-    find() {}
-    insert() {}
-    update() {}
-    remove() {}
-    ensureIndex() {}
-    removeIndex() {}
-    removeCollection() {}
-}
-
 export class Dex {
-    _url: string;
-    _ready: boolean;
+    private url: string;
+    private ready: boolean;
+
     constructor(url: string) {
-        this._url = url;
+        this.url = url;
+        this.ready = false;
         let activeRequests = new Map<string, RequestCallback>();
         const db = this;
         const ws = new WebSocket(url);
-        ws.onopen = function() {
-            db._ready = true;
+
+        ws.addEventListener("open", () => {
+            db.ready = true;
             console.log("Connected to DexterityDB");
-        };
-        ws.onclose = function() {
-            if (db._ready) {
-                console.log("Disconnected from DexterityDB")
-                db._ready = false;
+        });
+
+        ws.addEventListener("close", () => {
+            if (db.ready) {
+                console.log("Disconnected from DexterityDB");
+                db.ready = false;
+                // TODO: Auto-reconnect
             }
-        };
-        ws.onmessage = function(message) {
-            let message_data: ResponseMessage;
+        });
+
+        ws.addEventListener("message", (message) => {
+            let messageData: ResponseMessage;
             try {
-                message_data = JSON.parse(message.data.toString());
+                messageData = JSON.parse(message.data.toString());
             } catch (err) {
-                console.error(err);
-                return;
+                return console.error(err);
             }
 
-            if (message_data.request_id != null) {
-                const callback = activeRequests.get(message_data.request_id);
+            if (messageData.request_id != null) {
+                const callback = activeRequests.get(messageData.request_id);
                 if (callback != null) {
-                    activeRequests.delete(message_data.request_id);
-                    callback.resolve(message_data.payload.data);
+                    activeRequests.delete(messageData.request_id);
+                    callback.resolve(messageData.payload.data);
                 }
             }
-        }
+        });
     }
 
     collection(collectionName: string) {
         return new Collection(this, collectionName);
     }
 
-    and(){}
-    or() {}
+    static eq(value: Value) {
+        return new Ops.PartialEq(value);
+    }
+    static in(...values: Value[]) {
+        return new Ops.PartialIn(...values);
+    }
+    static lt(value: Value) {
+        return new Ops.PartialLt(value);
+    }
+    static lte(value: Value) {
+        return new Ops.PartialLte(value);
+    }
+    static gt(value: Value) {
+        return new Ops.PartialGt(value);
+    }
+    static gte(value: Value) {
+        return new Ops.PartialGte(value);
+    }
+    static gt_lt(start: Value, end: Value) {
+        return new Ops.PartialGtLt(start, end);
+    }
+    static gte_lt(start: Value, end: Value) {
+        return new Ops.PartialGteLt(start, end);
+    }
+    static gt_lte(start: Value, end: Value) {
+        return new Ops.PartialGtLte(start, end);
+    }
+    static gte_lte(start: Value, end: Value) {
+        return new Ops.PartialGteLte(start, end);
+    }
+
+    static and(...ops: (Ops.ReadOp | object)[]) {
+        return new Ops.And(...ops);
+    }
+    static or(...ops: (Ops.ReadOp | object)[]) {
+        return new Ops.Or(...ops);
+    }
 }

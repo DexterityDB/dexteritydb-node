@@ -1,88 +1,81 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const WebSocket = require("ws");
-var OpType;
-(function (OpType) {
-    OpType["LoadEq"] = "LoadEq";
-    OpType["LoadIn"] = "LoadIn";
-    OpType["LoadLt"] = "LoadLt";
-    OpType["LoadLte"] = "LoadLte";
-    OpType["LoadGt"] = "LoadGt";
-    OpType["LoadGte"] = "LoadGte";
-    OpType["LoadGtLt"] = "LoadGtLt";
-    OpType["LoadGteLt"] = "LoadGteLt";
-    OpType["LoadGtLte"] = "LoadGtLte";
-    OpType["LoadGteLte"] = "LoadGteLte";
-    OpType["And"] = "And";
-    OpType["Or"] = "Or";
-})(OpType || (OpType = {}));
-var PayloadRequestType;
-(function (PayloadRequestType) {
-    PayloadRequestType["None"] = "None";
-    PayloadRequestType["Count"] = "Count";
-    PayloadRequestType["Fetch"] = "Fetch";
-    PayloadRequestType["Insert"] = "Insert";
-    PayloadRequestType["Update"] = "Update";
-    PayloadRequestType["Remove"] = "Remove";
-    PayloadRequestType["EnsureIndex"] = "EnsureIndex";
-    PayloadRequestType["RemoveIndex"] = "RemoveIndex";
-    PayloadRequestType["RemoveCollection"] = "RemoveCollection";
-})(PayloadRequestType || (PayloadRequestType = {}));
-var ProjectionType;
-(function (ProjectionType) {
-    ProjectionType["All"] = "All";
-    ProjectionType["Include"] = "Include";
-    ProjectionType["Exclude"] = "Exclude";
-})(ProjectionType || (ProjectionType = {}));
-var UpdateKindType;
-(function (UpdateKindType) {
-    UpdateKindType["Overwrite"] = "Overwrite";
-    UpdateKindType["Partial"] = "UpdatePartial";
-})(UpdateKindType || (UpdateKindType = {}));
-class ReadQuery {
-}
-class Collection {
-    constructor(db, collectionName) {
-        this.db = db;
-        this.collectionName = collectionName;
-    }
-}
+const Collection_1 = require("./Collection");
+const Ops = require("./Ops");
 class Dex {
     constructor(url) {
-        this._url = url;
+        this.url = url;
+        this.ready = false;
         let activeRequests = new Map();
         const db = this;
         const ws = new WebSocket(url);
-        ws.onopen = function () {
-            db._ready = true;
+        ws.addEventListener("open", () => {
+            db.ready = true;
             console.log("Connected to DexterityDB");
-        };
-        ws.onclose = function () {
-            if (db._ready) {
+        });
+        ws.addEventListener("close", () => {
+            if (db.ready) {
                 console.log("Disconnected from DexterityDB");
-                db._ready = false;
+                db.ready = false;
+                // TODO: Auto-reconnect
             }
-        };
-        ws.onmessage = function (message) {
-            let message_data;
+        });
+        ws.addEventListener("message", (message) => {
+            let messageData;
             try {
-                message_data = JSON.parse(message.data);
+                messageData = JSON.parse(message.data.toString());
             }
             catch (err) {
-                console.error(err);
-                return;
+                return console.error(err);
             }
-            if (message_data.request_id != null) {
-                const callback = activeRequests.get(message_data.request_id);
+            if (messageData.request_id != null) {
+                const callback = activeRequests.get(messageData.request_id);
                 if (callback != null) {
-                    activeRequests.delete(message_data.request_id);
-                    callback.resolve(message);
+                    activeRequests.delete(messageData.request_id);
+                    callback.resolve(messageData.payload.data);
                 }
             }
-        };
+        });
     }
     collection(collectionName) {
-        return new Collection(this, collectionName);
+        return new Collection_1.Collection(this, collectionName);
+    }
+    static eq(value) {
+        return new Ops.PartialEq(value);
+    }
+    static in(...values) {
+        return new Ops.PartialIn(...values);
+    }
+    static lt(value) {
+        return new Ops.PartialLt(value);
+    }
+    static lte(value) {
+        return new Ops.PartialLte(value);
+    }
+    static gt(value) {
+        return new Ops.PartialGt(value);
+    }
+    static gte(value) {
+        return new Ops.PartialGte(value);
+    }
+    static gt_lt(start, end) {
+        return new Ops.PartialGtLt(start, end);
+    }
+    static gte_lt(start, end) {
+        return new Ops.PartialGteLt(start, end);
+    }
+    static gt_lte(start, end) {
+        return new Ops.PartialGtLte(start, end);
+    }
+    static gte_lte(start, end) {
+        return new Ops.PartialGteLte(start, end);
+    }
+    static and(...ops) {
+        return new Ops.And(...ops);
+    }
+    static or(...ops) {
+        return new Ops.Or(...ops);
     }
 }
 exports.Dex = Dex;

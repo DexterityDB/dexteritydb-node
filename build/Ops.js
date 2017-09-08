@@ -1,257 +1,204 @@
-import { Value } from './Utils';
-
-export class ReadOp { }
-export class ReadOpPartial { }
-
-export class PartialEq extends ReadOpPartial {
-    value: Value;
-
-    constructor(value: Value) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class ReadOp {
+}
+exports.ReadOp = ReadOp;
+class ReadOpPartial {
+}
+exports.ReadOpPartial = ReadOpPartial;
+class PartialEq extends ReadOpPartial {
+    constructor(value) {
         super();
         this.value = value;
     }
-    addField(field: string) {
+    addField(field) {
         return new LoadEq(field, this.value);
     }
 }
-
-export class LoadEq extends ReadOp {
-    field: string;
-    value: Value;
-
-    constructor(field: string, value: Value) {
+exports.PartialEq = PartialEq;
+class LoadEq extends ReadOp {
+    constructor(field, value) {
         super();
         this.field = field;
         this.value = value;
     }
 }
-
-export class PartialIn extends ReadOpPartial {
-    values: Value[];
-
-    constructor(...values: Value[]) {
+exports.LoadEq = LoadEq;
+class PartialIn extends ReadOpPartial {
+    constructor(...values) {
         super();
-        if (values.length === 0) throw "Empty In operator!";
+        if (values.length === 0)
+            throw "Empty In operator!";
         this.values = values;
     }
-    addField(field: string) {
+    addField(field) {
         return new LoadIn(field, ...this.values);
     }
 }
-
-export class LoadIn extends ReadOp {
-    field: string;
-    values: Value[];
-
-    constructor(field: string, ...values: Value[]) {
+exports.PartialIn = PartialIn;
+class LoadIn extends ReadOp {
+    constructor(field, ...values) {
         super();
-        if (values.length === 0) throw "Empty In operator!";
+        if (values.length === 0)
+            throw "Empty In operator!";
         this.field = field;
         this.values = values;
     }
 }
-
-export class PartialLt extends ReadOpPartial {
-    value: Value;
-
-    constructor(value: Value) {
+exports.LoadIn = LoadIn;
+class PartialLt extends ReadOpPartial {
+    constructor(value) {
         super();
         this.value = value;
     }
-    addField(field: string) {
+    addField(field) {
         return new LoadLt(field, this.value);
     }
 }
-
-export class LoadLt extends ReadOp {
-    field: string;
-    value: Value;
-
-    constructor(field: string, value: Value) {
+exports.PartialLt = PartialLt;
+class LoadLt extends ReadOp {
+    constructor(field, value) {
         super();
         this.field = field;
         this.value = value;
     }
 }
-
-export class PartialLte extends ReadOpPartial {
-    value: Value;
-
-    constructor(value: Value) {
+exports.LoadLt = LoadLt;
+class PartialLte extends ReadOpPartial {
+    constructor(value) {
         super();
         this.value = value;
     }
-    addField(field: string) {
+    addField(field) {
         return new LoadLte(field, this.value);
     }
 }
-
-export class LoadLte extends ReadOp {
-    field: string;
-    value: Value;
-
-    constructor(field: string, value: Value) {
+exports.PartialLte = PartialLte;
+class LoadLte extends ReadOp {
+    constructor(field, value) {
         super();
         this.field = field;
         this.value = value;
     }
 }
-
-export class PartialGt extends ReadOpPartial {
-    value: Value;
-
-    constructor(value: Value) {
+exports.LoadLte = LoadLte;
+class PartialGt extends ReadOpPartial {
+    constructor(value) {
         super();
         this.value = value;
     }
-    addField(field: string) {
+    addField(field) {
         return new LoadGt(field, this.value);
     }
 }
-
-export class LoadGt extends ReadOp {
-    field: string;
-    value: Value;
-
-    constructor(field: string, value: Value) {
+exports.PartialGt = PartialGt;
+class LoadGt extends ReadOp {
+    constructor(field, value) {
         super();
         this.field = field;
         this.value = value;
     }
 }
-
-export class PartialGte extends ReadOpPartial {
-    value: Value;
-
-    constructor(value: Value) {
+exports.LoadGt = LoadGt;
+class PartialGte extends ReadOpPartial {
+    constructor(value) {
         super();
         this.value = value;
     }
-    addField(field: string) {
+    addField(field) {
         return new LoadGte(field, this.value);
     }
 }
-
-export class LoadGte extends ReadOp {
-    field: string;
-    value: Value;
-
-    constructor(field: string, value: Value) {
+exports.PartialGte = PartialGte;
+class LoadGte extends ReadOp {
+    constructor(field, value) {
         super();
         this.field = field;
         this.value = value;
     }
 }
-
-export class PartialGtLt extends ReadOpPartial {
-    start: Value;
-    end: Value;
-
-    constructor(start: Value, end: Value) {
+exports.LoadGte = LoadGte;
+class PartialGtLt extends ReadOpPartial {
+    constructor(start, end) {
         super();
         this.start = start;
         this.end = end;
     }
-    addField(field: string) {
+    addField(field) {
         return new LoadGtLt(field, this.start, this.end);
     }
 }
-
-export class LoadGtLt extends ReadOp {
-    field: string;
-    start: Value;
-    end: Value;
-
-    constructor(field: string, start: Value, end: Value) {
+exports.PartialGtLt = PartialGtLt;
+class LoadGtLt extends ReadOp {
+    constructor(field, start, end) {
         super();
         this.field = field;
         this.start = start;
         this.end = end;
     }
 }
-
-export class PartialGteLt extends ReadOpPartial {
-    start: Value;
-    end: Value;
-
-    constructor(start: Value, end: Value) {
+exports.LoadGtLt = LoadGtLt;
+class PartialGteLt extends ReadOpPartial {
+    constructor(start, end) {
         super();
         this.start = start;
         this.end = end;
     }
-    addField(field: string) {
+    addField(field) {
         return new LoadGteLt(field, this.start, this.end);
     }
 }
-
-export class LoadGteLt extends ReadOp {
-    field: string;
-    start: Value;
-    end: Value;
-
-    constructor(field: string, start: Value, end: Value) {
+exports.PartialGteLt = PartialGteLt;
+class LoadGteLt extends ReadOp {
+    constructor(field, start, end) {
         super();
         this.field = field;
         this.start = start;
         this.end = end;
     }
 }
-
-export class PartialGtLte extends ReadOpPartial {
-    start: Value;
-    end: Value;
-
-    constructor(start: Value, end: Value) {
+exports.LoadGteLt = LoadGteLt;
+class PartialGtLte extends ReadOpPartial {
+    constructor(start, end) {
         super();
         this.start = start;
         this.end = end;
     }
-    addField(field: string) {
+    addField(field) {
         return new LoadGtLte(field, this.start, this.end);
     }
 }
-
-export class LoadGtLte extends ReadOp {
-    field: string;
-    start: Value;
-    end: Value;
-
-    constructor(field: string, start: Value, end: Value) {
+exports.PartialGtLte = PartialGtLte;
+class LoadGtLte extends ReadOp {
+    constructor(field, start, end) {
         super();
         this.field = field;
         this.start = start;
         this.end = end;
     }
 }
-
-export class PartialGteLte extends ReadOpPartial {
-    start: Value;
-    end: Value;
-
-    constructor(start: Value, end: Value) {
+exports.LoadGtLte = LoadGtLte;
+class PartialGteLte extends ReadOpPartial {
+    constructor(start, end) {
         super();
         this.start = start;
         this.end = end;
     }
-    addField(field: string) {
+    addField(field) {
         return new LoadGteLte(field, this.start, this.end);
     }
 }
-
-export class LoadGteLte extends ReadOp {
-    field: string;
-    start: Value;
-    end: Value;
-
-    constructor(field: string, start: Value, end: Value) {
+exports.PartialGteLte = PartialGteLte;
+class LoadGteLte extends ReadOp {
+    constructor(field, start, end) {
         super();
         this.field = field;
         this.start = start;
         this.end = end;
     }
 }
-
-function convertObject(obj: { [key:string]:any; }): ReadOp|null {
+exports.LoadGteLte = LoadGteLte;
+function convertObject(obj) {
     let ops = [];
     for (const field in obj) {
         let value = obj[field];
@@ -283,53 +230,54 @@ function convertObject(obj: { [key:string]:any; }): ReadOp|null {
         }
         ops.push(value); // Pushes the now parsed op
     }
-
     // Return ReadOp|null based on the ops:
     if (ops.length > 1) {
         return new And(...ops);
-    } else if (ops.length === 1) {
+    }
+    else if (ops.length === 1) {
         return ops[0];
-    } else {
+    }
+    else {
         return null;
     }
 }
-
-export class And extends ReadOp {
-    ops: ReadOp;
-
-    constructor(...ops: (ReadOp | Object)[]) {
+class And extends ReadOp {
+    constructor(...ops) {
         super();
-        if (ops.length === 0) throw "Empty And operator!";
+        if (ops.length === 0)
+            throw "Empty And operator!";
         // Resolve any objects in ops:
         for (let i = 0; i < ops.length; i++) {
             // Check if not ReadOp:
             if (!(ops[i] instanceof ReadOp)) {
                 // Is object, so convert to a AndOp:
                 let op = convertObject(ops[i]);
-                if (op == null) throw "Bad op!";
+                if (op == null)
+                    throw "Bad op!";
                 ops[i] = op;
             }
         }
         this.ops = ops;
     }
 }
-
-export class Or extends ReadOp {
-    ops: ReadOp;
-
-    constructor(...ops: (ReadOp | Object)[]) {
+exports.And = And;
+class Or extends ReadOp {
+    constructor(...ops) {
         super();
-        if (ops.length === 0) throw "Empty Or operator!";
+        if (ops.length === 0)
+            throw "Empty Or operator!";
         // Resolve any objects in ops:
         for (let i = 0; i < ops.length; i++) {
             // Check if not ReadOp:
             if (!(ops[i] instanceof ReadOp)) {
                 // Is object, so convert to a AndOp:
                 let op = convertObject(ops[i]);
-                if (op == null) throw "Bad op!";
+                if (op == null)
+                    throw "Bad op!";
                 ops[i] = op;
             }
         }
         this.ops = ops;
     }
 }
+exports.Or = Or;
