@@ -4,11 +4,8 @@ export class ReadOp { }
 export class ReadOpPartial { }
 
 export class PartialEq extends ReadOpPartial {
-    value: Value;
-
-    constructor(value: Value) {
+    constructor(public value: Value) {
         super();
-        this.value = value;
     }
     addField(field: string) {
         return new LoadEq(field, this.value);
@@ -16,13 +13,8 @@ export class PartialEq extends ReadOpPartial {
 }
 
 export class LoadEq extends ReadOp {
-    field: string;
-    value: Value;
-
-    constructor(field: string, value: Value) {
+    constructor(public field: string, public value: Value) {
         super();
-        this.field = field;
-        this.value = value;
     }
 }
 
@@ -40,23 +32,18 @@ export class PartialIn extends ReadOpPartial {
 }
 
 export class LoadIn extends ReadOp {
-    field: string;
     values: Value[];
 
-    constructor(field: string, ...values: Value[]) {
+    constructor(public field: string, ...values: Value[]) {
         super();
         if (values.length === 0) throw "Empty In operator!";
-        this.field = field;
         this.values = values;
     }
 }
 
 export class PartialLt extends ReadOpPartial {
-    value: Value;
-
-    constructor(value: Value) {
+    constructor(public value: Value) {
         super();
-        this.value = value;
     }
     addField(field: string) {
         return new LoadLt(field, this.value);
@@ -64,22 +51,14 @@ export class PartialLt extends ReadOpPartial {
 }
 
 export class LoadLt extends ReadOp {
-    field: string;
-    value: Value;
-
-    constructor(field: string, value: Value) {
+    constructor(public field: string, public value: Value) {
         super();
-        this.field = field;
-        this.value = value;
     }
 }
 
 export class PartialLte extends ReadOpPartial {
-    value: Value;
-
-    constructor(value: Value) {
+    constructor(public value: Value) {
         super();
-        this.value = value;
     }
     addField(field: string) {
         return new LoadLte(field, this.value);
@@ -87,22 +66,14 @@ export class PartialLte extends ReadOpPartial {
 }
 
 export class LoadLte extends ReadOp {
-    field: string;
-    value: Value;
-
-    constructor(field: string, value: Value) {
+    constructor(public field: string, public value: Value) {
         super();
-        this.field = field;
-        this.value = value;
     }
 }
 
 export class PartialGt extends ReadOpPartial {
-    value: Value;
-
-    constructor(value: Value) {
+    constructor(public value: Value) {
         super();
-        this.value = value;
     }
     addField(field: string) {
         return new LoadGt(field, this.value);
@@ -110,22 +81,14 @@ export class PartialGt extends ReadOpPartial {
 }
 
 export class LoadGt extends ReadOp {
-    field: string;
-    value: Value;
-
-    constructor(field: string, value: Value) {
+    constructor(public field: string, public value: Value) {
         super();
-        this.field = field;
-        this.value = value;
     }
 }
 
 export class PartialGte extends ReadOpPartial {
-    value: Value;
-
-    constructor(value: Value) {
+    constructor(public value: Value) {
         super();
-        this.value = value;
     }
     addField(field: string) {
         return new LoadGte(field, this.value);
@@ -133,24 +96,14 @@ export class PartialGte extends ReadOpPartial {
 }
 
 export class LoadGte extends ReadOp {
-    field: string;
-    value: Value;
-
-    constructor(field: string, value: Value) {
+    constructor(public field: string, public value: Value) {
         super();
-        this.field = field;
-        this.value = value;
     }
 }
 
 export class PartialGtLt extends ReadOpPartial {
-    start: Value;
-    end: Value;
-
-    constructor(start: Value, end: Value) {
+    constructor(public start: Value, public end: Value) {
         super();
-        this.start = start;
-        this.end = end;
     }
     addField(field: string) {
         return new LoadGtLt(field, this.start, this.end);
@@ -158,26 +111,14 @@ export class PartialGtLt extends ReadOpPartial {
 }
 
 export class LoadGtLt extends ReadOp {
-    field: string;
-    start: Value;
-    end: Value;
-
-    constructor(field: string, start: Value, end: Value) {
+    constructor(public field: string, public start: Value, public end: Value) {
         super();
-        this.field = field;
-        this.start = start;
-        this.end = end;
     }
 }
 
 export class PartialGteLt extends ReadOpPartial {
-    start: Value;
-    end: Value;
-
-    constructor(start: Value, end: Value) {
+    constructor(public start: Value, public end: Value) {
         super();
-        this.start = start;
-        this.end = end;
     }
     addField(field: string) {
         return new LoadGteLt(field, this.start, this.end);
@@ -185,26 +126,14 @@ export class PartialGteLt extends ReadOpPartial {
 }
 
 export class LoadGteLt extends ReadOp {
-    field: string;
-    start: Value;
-    end: Value;
-
-    constructor(field: string, start: Value, end: Value) {
+    constructor(public field: string, public start: Value, public end: Value) {
         super();
-        this.field = field;
-        this.start = start;
-        this.end = end;
     }
 }
 
 export class PartialGtLte extends ReadOpPartial {
-    start: Value;
-    end: Value;
-
-    constructor(start: Value, end: Value) {
+    constructor(public start: Value, public end: Value) {
         super();
-        this.start = start;
-        this.end = end;
     }
     addField(field: string) {
         return new LoadGtLte(field, this.start, this.end);
@@ -212,26 +141,14 @@ export class PartialGtLte extends ReadOpPartial {
 }
 
 export class LoadGtLte extends ReadOp {
-    field: string;
-    start: Value;
-    end: Value;
-
-    constructor(field: string, start: Value, end: Value) {
+    constructor(public field: string, public start: Value, public end: Value) {
         super();
-        this.field = field;
-        this.start = start;
-        this.end = end;
     }
 }
 
 export class PartialGteLte extends ReadOpPartial {
-    start: Value;
-    end: Value;
-
-    constructor(start: Value, end: Value) {
+    constructor(public start: Value, public end: Value) {
         super();
-        this.start = start;
-        this.end = end;
     }
     addField(field: string) {
         return new LoadGteLte(field, this.start, this.end);
@@ -239,15 +156,8 @@ export class PartialGteLte extends ReadOpPartial {
 }
 
 export class LoadGteLte extends ReadOp {
-    field: string;
-    start: Value;
-    end: Value;
-
-    constructor(field: string, start: Value, end: Value) {
+    constructor(public field: string, public start: Value, public end: Value) {
         super();
-        this.field = field;
-        this.start = start;
-        this.end = end;
     }
 }
 

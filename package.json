@@ -2,7 +2,7 @@
   "name": "dexteritydb",
   "version": "0.0.1",
   "description": "Node.js driver for DexterityDB",
-  "main": "index.js",
+  "main": "build/Dex.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/Savizar/dexteritydb-node#readme",
   "dependencies": {
-    "@types/ws": "^3.0.2",
     "ws": "^3.1.0"
   },
   "devDependencies": {
+    "@types/ws": "^3.0.2",
     "typescript": "^2.5.2"
   }
 }
