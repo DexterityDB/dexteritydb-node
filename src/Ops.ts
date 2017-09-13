@@ -300,8 +300,8 @@ export class LoadGteLte extends ReadOp {
 }
 
 export function resolveReadOp(pattern: ReadOp | { [key:string]:any; } | null): ReadOp | null {
-    if (pattern == null) return null;
-    return pattern instanceof ReadOp ? pattern : convertObject(pattern);
+    if (pattern == null || pattern instanceof ReadOp) return pattern;
+    return convertObject(pattern);
 }
 
 function convertObject(obj: { [key:string]:any; }): ReadOp|null {

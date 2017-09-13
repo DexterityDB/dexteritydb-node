@@ -1,7 +1,7 @@
 import * as WebSocket from 'ws';
 import { Collection } from './Collection';
 import * as Ops from './Ops';
-import { PayloadRequest } from './Request';
+import { PayloadRequest, PayloadRequestType } from './Request';
 import { Query } from './Query';
 import { ResponseMessage } from './Response';
 import { Value } from './Utils';
@@ -83,8 +83,8 @@ export class Dex {
         return new Collection(this, collectionName);
     }
     
-    removeCollection(collectionName: string) {
-
+    dropCollection(collectionName: string): Promise<any> {
+        return this.sendJSON({ type: PayloadRequestType.RemoveCollection }, false, collectionName);
     }
 
     static eq(value: Value) {

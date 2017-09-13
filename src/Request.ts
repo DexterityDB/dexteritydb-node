@@ -66,7 +66,7 @@ interface Op {
 
 export interface PayloadRequest {
     type: PayloadRequestType,
-    data: any
+    data?: any
 }
 
 interface Projection {
