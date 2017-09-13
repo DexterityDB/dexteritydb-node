@@ -15,7 +15,7 @@ enum OpType {
     Or = "Or"
 }
 
-enum PayloadRequestType {
+export enum PayloadRequestType {
     None = "None",
     Count = "Count",
     Fetch = "Fetch",
@@ -64,7 +64,7 @@ interface Op {
     data: any
 }
 
-interface PayloadRequest {
+export interface PayloadRequest {
     type: PayloadRequestType,
     data: any
 }

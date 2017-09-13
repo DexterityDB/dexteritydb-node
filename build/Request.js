@@ -26,7 +26,7 @@ var PayloadRequestType;
     PayloadRequestType["EnsureIndex"] = "EnsureIndex";
     PayloadRequestType["RemoveIndex"] = "RemoveIndex";
     PayloadRequestType["RemoveCollection"] = "RemoveCollection";
-})(PayloadRequestType || (PayloadRequestType = {}));
+})(PayloadRequestType = exports.PayloadRequestType || (exports.PayloadRequestType = {}));
 var ProjectionType;
 (function (ProjectionType) {
     ProjectionType["All"] = "All";

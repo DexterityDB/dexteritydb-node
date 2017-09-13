@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class ReadOp {
+    serialize(opList) {
+        throw 'Method called on abstract class!';
+    }
 }
 exports.ReadOp = ReadOp;
 class ReadOpPartial {
@@ -22,6 +25,18 @@ class LoadEq extends ReadOp {
         this.field = field;
         this.value = value;
     }
+    serialize(opList) {
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'LoadEq',
+            data: {
+                field: this.field,
+                value: this.value
+            }
+        });
+        return insertIndex;
+    }
 }
 exports.LoadEq = LoadEq;
 class PartialIn extends ReadOpPartial {
@@ -39,10 +54,22 @@ exports.PartialIn = PartialIn;
 class LoadIn extends ReadOp {
     constructor(field, ...values) {
         super();
+        this.field = field;
         if (values.length === 0)
             throw "Empty In operator!";
-        this.field = field;
         this.values = values;
+    }
+    serialize(opList) {
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'LoadIn',
+            data: {
+                field: this.field,
+                values: this.values
+            }
+        });
+        return insertIndex;
     }
 }
 exports.LoadIn = LoadIn;
@@ -62,6 +89,18 @@ class LoadLt extends ReadOp {
         this.field = field;
         this.value = value;
     }
+    serialize(opList) {
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'LoadLt',
+            data: {
+                field: this.field,
+                value: this.value
+            }
+        });
+        return insertIndex;
+    }
 }
 exports.LoadLt = LoadLt;
 class PartialLte extends ReadOpPartial {
@@ -79,6 +118,18 @@ class LoadLte extends ReadOp {
         super();
         this.field = field;
         this.value = value;
+    }
+    serialize(opList) {
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'LoadLte',
+            data: {
+                field: this.field,
+                value: this.value
+            }
+        });
+        return insertIndex;
     }
 }
 exports.LoadLte = LoadLte;
@@ -98,6 +149,18 @@ class LoadGt extends ReadOp {
         this.field = field;
         this.value = value;
     }
+    serialize(opList) {
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'LoadGt',
+            data: {
+                field: this.field,
+                value: this.value
+            }
+        });
+        return insertIndex;
+    }
 }
 exports.LoadGt = LoadGt;
 class PartialGte extends ReadOpPartial {
@@ -115,6 +178,18 @@ class LoadGte extends ReadOp {
         super();
         this.field = field;
         this.value = value;
+    }
+    serialize(opList) {
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'LoadGte',
+            data: {
+                field: this.field,
+                value: this.value
+            }
+        });
+        return insertIndex;
     }
 }
 exports.LoadGte = LoadGte;
@@ -136,6 +211,19 @@ class LoadGtLt extends ReadOp {
         this.start = start;
         this.end = end;
     }
+    serialize(opList) {
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'LoadGtLt',
+            data: {
+                field: this.field,
+                low: this.start,
+                high: this.end
+            }
+        });
+        return insertIndex;
+    }
 }
 exports.LoadGtLt = LoadGtLt;
 class PartialGteLt extends ReadOpPartial {
@@ -155,6 +243,19 @@ class LoadGteLt extends ReadOp {
         this.field = field;
         this.start = start;
         this.end = end;
+    }
+    serialize(opList) {
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'LoadGteLt',
+            data: {
+                field: this.field,
+                low: this.start,
+                high: this.end
+            }
+        });
+        return insertIndex;
     }
 }
 exports.LoadGteLt = LoadGteLt;
@@ -176,6 +277,19 @@ class LoadGtLte extends ReadOp {
         this.start = start;
         this.end = end;
     }
+    serialize(opList) {
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'LoadGtLte',
+            data: {
+                field: this.field,
+                low: this.start,
+                high: this.end
+            }
+        });
+        return insertIndex;
+    }
 }
 exports.LoadGtLte = LoadGtLte;
 class PartialGteLte extends ReadOpPartial {
@@ -196,8 +310,27 @@ class LoadGteLte extends ReadOp {
         this.start = start;
         this.end = end;
     }
+    serialize(opList) {
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'LoadGteLte',
+            data: {
+                field: this.field,
+                low: this.start,
+                high: this.end
+            }
+        });
+        return insertIndex;
+    }
 }
 exports.LoadGteLte = LoadGteLte;
+function resolveReadOp(pattern) {
+    if (pattern == null)
+        return null;
+    return pattern instanceof ReadOp ? pattern : convertObject(pattern);
+}
+exports.resolveReadOp = resolveReadOp;
 function convertObject(obj) {
     let ops = [];
     for (const field in obj) {
@@ -222,9 +355,6 @@ function convertObject(obj) {
             case PartialGteLte:
                 value = value.addField(field);
                 break;
-            case And:
-            case Or:
-                break;
             default:
                 throw "Bad op passed!";
         }
@@ -244,40 +374,74 @@ function convertObject(obj) {
 class And extends ReadOp {
     constructor(...ops) {
         super();
-        if (ops.length === 0)
-            throw "Empty And operator!";
+        if (ops.length <= 1)
+            throw "And operator requires two or more inputs!";
         // Resolve any objects in ops:
+        let opList = [];
         for (let i = 0; i < ops.length; i++) {
-            // Check if not ReadOp:
-            if (!(ops[i] instanceof ReadOp)) {
-                // Is object, so convert to a AndOp:
-                let op = convertObject(ops[i]);
-                if (op == null)
-                    throw "Bad op!";
-                ops[i] = op;
+            // Is object, so convert to a AndOp:
+            let op = resolveReadOp(ops[i]);
+            if (op == null)
+                throw "Bad op!";
+            if (op instanceof And) {
+                opList.push.apply(opList, op.ops);
+            }
+            else {
+                opList.push(op);
             }
         }
-        this.ops = ops;
+        this.ops = opList;
+    }
+    serialize(opList) {
+        // Keep track of indexes for the And parameters
+        let opIndexes = [];
+        for (let op of this.ops) {
+            opIndexes.push(op.serialize(opList));
+        }
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'And',
+            data: opIndexes
+        });
+        return insertIndex;
     }
 }
 exports.And = And;
 class Or extends ReadOp {
     constructor(...ops) {
         super();
-        if (ops.length === 0)
-            throw "Empty Or operator!";
+        if (ops.length <= 1)
+            throw "Or operator requires two or more inputs!";
         // Resolve any objects in ops:
+        let opList = [];
         for (let i = 0; i < ops.length; i++) {
-            // Check if not ReadOp:
-            if (!(ops[i] instanceof ReadOp)) {
-                // Is object, so convert to a AndOp:
-                let op = convertObject(ops[i]);
-                if (op == null)
-                    throw "Bad op!";
-                ops[i] = op;
+            // Is object, so convert to a AndOp:
+            let op = resolveReadOp(ops[i]);
+            if (op == null)
+                throw "Bad op!";
+            if (op instanceof Or) {
+                opList.push.apply(opList, op.ops);
+            }
+            else {
+                opList.push(op);
             }
         }
-        this.ops = ops;
+        this.ops = opList;
+    }
+    serialize(opList) {
+        // Keep track of indexes for the Or parameters
+        let opIndexes = [];
+        for (let op of this.ops) {
+            opIndexes.push(op.serialize(opList));
+        }
+        // The index where the new item will be in the opList
+        const insertIndex = opList.length;
+        opList.push({
+            type: 'Or',
+            data: opIndexes
+        });
+        return insertIndex;
     }
 }
 exports.Or = Or;

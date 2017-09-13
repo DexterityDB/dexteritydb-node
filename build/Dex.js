@@ -3,13 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const WebSocket = require("ws");
 const Collection_1 = require("./Collection");
 const Ops = require("./Ops");
+const Utils = require("./Utils");
 class Dex {
     constructor(url) {
         this.url = url;
         this.ready = false;
         let activeRequests = new Map();
+        this.activeRequests = activeRequests;
         const db = this;
         const ws = new WebSocket(url);
+        this.ws = ws;
         ws.addEventListener("open", () => {
             db.ready = true;
             console.log("Connected to DexterityDB");
@@ -38,8 +41,28 @@ class Dex {
             }
         });
     }
+    sendJSON(payload, explain, collectionName) {
+        const db = this;
+        return new Promise((resolve, reject) => {
+            //if (!db.ready) return reject('Not connected!');
+            console.log(payload);
+            let request_id = Utils.randomString(12);
+            db.activeRequests.set(request_id, { resolve, reject });
+            db.ws.send(JSON.stringify({
+                request_id: request_id,
+                collection: {
+                    db: "test",
+                    collection: collectionName
+                },
+                payload: payload,
+                explain: explain
+            }));
+        });
+    }
     collection(collectionName) {
         return new Collection_1.Collection(this, collectionName);
+    }
+    removeCollection(collectionName) {
     }
     static eq(value) {
         return new Ops.PartialEq(value);

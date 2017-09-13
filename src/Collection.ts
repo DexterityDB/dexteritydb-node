@@ -1,19 +1,22 @@
 import { Dex } from './Dex';
+import * as Ops from './Ops';
+import { ReadQuery } from './Query';
 
 export class Collection {
-    private db: Dex;
-    private collectionName: string;
+    constructor(public db: Dex, public collectionName: string) {}
 
-    constructor(db: Dex, collectionName: string) {
-        this.db = db;
-        this.collectionName = collectionName;
+    get name() {
+        return this.collectionName;
     }
 
-    find() {}
+    // Matches a pattern or a ReadOp object
+    find(pattern: Ops.ReadOp | Object | null): ReadQuery {
+        return new ReadQuery(this, Ops.resolveReadOp(pattern)); 
+    }
+
     insert() {}
     update() {}
     remove() {}
     ensureIndex() {}
     removeIndex() {}
-    removeCollection() {}
 }
