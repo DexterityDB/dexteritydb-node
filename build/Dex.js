@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const WebSocket = require("ws");
 const Collection_1 = require("./Collection");
 const Ops = require("./Ops");
+const Request_1 = require("./Request");
 const Utils = require("./Utils");
 class Dex {
     constructor(url) {
@@ -62,7 +63,8 @@ class Dex {
     collection(collectionName) {
         return new Collection_1.Collection(this, collectionName);
     }
-    removeCollection(collectionName) {
+    dropCollection(collectionName) {
+        return this.sendJSON({ type: Request_1.PayloadRequestType.RemoveCollection }, false, collectionName);
     }
     static eq(value) {
         return new Ops.PartialEq(value);

@@ -326,9 +326,9 @@ class LoadGteLte extends ReadOp {
 }
 exports.LoadGteLte = LoadGteLte;
 function resolveReadOp(pattern) {
-    if (pattern == null)
-        return null;
-    return pattern instanceof ReadOp ? pattern : convertObject(pattern);
+    if (pattern == null || pattern instanceof ReadOp)
+        return pattern;
+    return convertObject(pattern);
 }
 exports.resolveReadOp = resolveReadOp;
 function convertObject(obj) {

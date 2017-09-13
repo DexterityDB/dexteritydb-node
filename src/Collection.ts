@@ -32,8 +32,8 @@ export class Collection {
     }
 
     // Inserts an item into the collection
-    insert(item: Object): Promise<any> {
-        return this.db.sendJSON({ type: PayloadRequestType.Insert, data: item }, false, this.collectionName);
+    insert(...items: Object[]): Promise<any> {
+        return this.db.sendJSON({ type: PayloadRequestType.Insert, data: items }, false, this.collectionName);
     }
 
     // Removes items based on a matched pattern

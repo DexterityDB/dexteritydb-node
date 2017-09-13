@@ -34,22 +34,28 @@ class ReadQuery extends Query_1.Query {
             return new ReadQuery(this.collection, new Ops.Or(this.optree, ...patterns), this.explain);
         }
     }
-    // Serialize the ReadQuery for counting
+    // Count items based on matches from ReadQuery
     count() {
-        let opList = [];
-        if (this.optree != null) {
-            this.optree.serialize(opList);
-        }
-        return this.collection.db.sendJSON({ type: Request_1.PayloadRequestType.Count, data: opList }, this.explain, this.collection.collectionName);
+        return this.send(Request_1.PayloadRequestType.Count);
     }
-    // Serialize the ReadQuery for fetching
+    // Fetch items based on matches from ReadQuery
     fetch() {
+        return this.send(Request_1.PayloadRequestType.Fetch);
+    }
+    // Remove items based on matches from ReadQuery 
+    remove() {
+        return this.send(Request_1.PayloadRequestType.Remove);
+    }
+    serialize() {
         let opList = [];
         if (this.optree != null) {
             this.optree.serialize(opList);
         }
-        return this.collection.db.sendJSON({ type: Request_1.PayloadRequestType.Fetch, data: opList }, this.explain, this.collection.collectionName);
+        return opList;
     }
-    send() { }
+    send(type) {
+        const opList = this.serialize();
+        return this.collection.db.sendJSON({ type: type, data: opList }, this.explain, this.collection.collectionName);
+    }
 }
 exports.ReadQuery = ReadQuery;

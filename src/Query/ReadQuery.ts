@@ -1,6 +1,6 @@
 import { Collection } from '../Collection';
 import * as Ops from '../Ops';
-import { PayloadRequestType } from '../Request';
+import { Op, PayloadRequestType } from '../Request';
 import { Query } from './Query';
 
 export class ReadQuery extends Query {
@@ -36,23 +36,31 @@ export class ReadQuery extends Query {
         }
     }
 
-    // Serialize the ReadQuery for counting
+    // Count items based on matches from ReadQuery
     count(): Promise<any> {
-        let opList: any[] = [];
-        if (this.optree != null) {
-            this.optree.serialize(opList);
-        }
-        return this.collection.db.sendJSON({ type: PayloadRequestType.Count, data: opList }, this.explain, this.collection.collectionName);
+        return this.send(PayloadRequestType.Count);
     }
 
-    // Serialize the ReadQuery for fetching
+    // Fetch items based on matches from ReadQuery
     fetch(): Promise<any> {
+        return this.send(PayloadRequestType.Fetch);
+    }
+
+    // Remove items based on matches from ReadQuery 
+    remove(): Promise<any> {
+        return this.send(PayloadRequestType.Remove);
+    }
+
+    private serialize(): Op[] {
         let opList: any[] = [];
         if (this.optree != null) {
             this.optree.serialize(opList);
         }
-        return this.collection.db.sendJSON({ type: PayloadRequestType.Fetch, data: opList }, this.explain, this.collection.collectionName);
+        return opList;
     }
 
-    send(){}
+    private send(type: PayloadRequestType){
+        const opList = this.serialize();
+        return this.collection.db.sendJSON({ type: type, data: opList }, this.explain, this.collection.collectionName);
+    }
 }

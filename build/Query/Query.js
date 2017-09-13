@@ -5,12 +5,6 @@ class Query {
         this.collection = collection;
         this.explain = explain;
     }
-    bench(isOn = true) {
-        this.explain = isOn;
-    }
-    serialize() {
-        throw 'Method called on abstract class!';
-    }
 }
 exports.Query = Query;
 ;

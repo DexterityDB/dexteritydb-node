@@ -59,7 +59,7 @@ interface FieldValueRange {
     high: any
 }
 
-interface Op {
+export interface Op {
     type: OpType,
     data: any
 }
