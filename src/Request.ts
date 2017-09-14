@@ -39,7 +39,7 @@ enum UpdateKindType {
 }
 
 interface FetchOps {
-    ops: [Op],
+    ops: Op[],
     projection: Projection
 }
 
@@ -50,7 +50,7 @@ interface FieldValue {
 
 interface FieldValues {
     field: string,
-    values: [any]
+    values: any[]
 }
 
 interface FieldValueRange {
@@ -87,11 +87,11 @@ interface UpdateKind {
 }
 
 interface UpdateOps {
-    ops: [Op],
+    ops: Op[],
     update_kind: UpdateKind
 }
 
 interface UpdatePartial {
     set: Map<string, any>,
-    unset: [string]
+    unset: string[]
 }

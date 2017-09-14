@@ -57,7 +57,7 @@ export class ReadQuery extends Query {
         return opList;
     }
 
-    private send(type: PayloadRequestType){
+    private send(type: PayloadRequestType) {
         const opList = this.serialize();
         return this.collection.db.sendJSON({ type: type, data: opList }, this.explain, this.collection.collectionName);
     }

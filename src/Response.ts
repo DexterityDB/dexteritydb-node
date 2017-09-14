@@ -22,5 +22,5 @@ export interface ResponseMessage {
     request_id: string
     payload: PayloadResponse,
     collection: CollectionTag,
-    explain?: [string]
+    explain?: string[]
 }
