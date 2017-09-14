@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Ops = require("../Ops");
-const Request_1 = require("../Request");
 const Query_1 = require("./Query");
+const Request_1 = require("../Request");
 class ReadQuery extends Query_1.Query {
-    constructor(collection, optree, explain = false) {
+    constructor(collection, optree, explain) {
         super(collection, explain);
         this.optree = optree;
     }

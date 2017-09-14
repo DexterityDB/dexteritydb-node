@@ -47,6 +47,7 @@ class Dex {
         return new Promise((resolve, reject) => {
             //if (!db.ready) return reject('Not connected!');
             console.log(payload);
+            console.log(explain);
             let request_id = Utils.randomString(12);
             db.activeRequests.set(request_id, { resolve, reject });
             db.ws.send(JSON.stringify({

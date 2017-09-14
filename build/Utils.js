@@ -9,3 +9,6 @@ function randomString(length) {
     return text;
 }
 exports.randomString = randomString;
+function toJSON(object) {
+}
+exports.toJSON = toJSON;

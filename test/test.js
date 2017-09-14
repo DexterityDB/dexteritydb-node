@@ -8,7 +8,7 @@ db.collection("stuff").find({field1: "value1"})
     .or({num: 0})
     .count();
 
-db.collection("stuff").find({field1: "value1"}).fetch();
+db.collection("stuff").bench().find({field1: "value1"}).fetch();
 
 db.collection("stuff").drop();
 db.dropCollection("stuff");
@@ -21,3 +21,6 @@ db.collection("stuff").find({field1: "value1"}).remove();
 db.collection("stuff").index("field1");
 
 db.collection("stuff").removeIndex("field1");
+
+db.collection("stuff").bench().drop();
+db.collection("stuff").options({bench: true}).drop();

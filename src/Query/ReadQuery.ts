@@ -1,14 +1,12 @@
 import { Collection } from '../Collection';
 import * as Ops from '../Ops';
-import { Op, PayloadRequestType } from '../Request';
 import { Query } from './Query';
+import { Op, PayloadRequestType } from '../Request';
 
 export class ReadQuery extends Query {
-    private optree: Ops.ReadOp | null;
 
-    constructor(collection: Collection, optree: Ops.ReadOp | null, explain: boolean = false) {
+    constructor(collection: Collection, private optree: Ops.ReadOp | null, explain: boolean) {
         super(collection, explain);
-        this.optree = optree;
     }
 
     // Applies an And operator to a chain

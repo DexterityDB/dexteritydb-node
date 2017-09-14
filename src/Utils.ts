@@ -13,3 +13,7 @@ export function randomString(length: number): string {
     }
     return text;
 }
+
+export function toJSON(object: Object) {
+    
+}

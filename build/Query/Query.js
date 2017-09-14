@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Query {
-    constructor(collection, explain = false) {
+    constructor(collection, explain) {
         this.collection = collection;
         this.explain = explain;
     }

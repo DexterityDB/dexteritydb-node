@@ -13,13 +13,11 @@ interface RequestCallback {
 }
 
 export class Dex {
-    private url: string;
     private ready: boolean;
     private ws: WebSocket;
     private activeRequests: Map<string, RequestCallback>;
 
-    constructor(url: string) {
-        this.url = url;
+    constructor(private url: string) {
         this.ready = false;
         let activeRequests = new Map<string, RequestCallback>();
         this.activeRequests = activeRequests;
@@ -63,6 +61,7 @@ export class Dex {
         return new Promise((resolve, reject) => {
             //if (!db.ready) return reject('Not connected!');
             console.log(payload);
+            console.log(explain);
             let request_id = Utils.randomString(12);
 
             db.activeRequests.set(request_id, { resolve, reject });
