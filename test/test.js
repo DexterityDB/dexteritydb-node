@@ -28,6 +28,7 @@ db.collection("stuff").options({bench: true}).drop();
 
 setTimeout(function() {
     db.collection("test").insert({field1: "value1a", field2: "value2"}, {field1: "value1b"});
+    db.collection("test").index("field1");
     db.collection("test").find({field1: "value1b"}).fetch().then(function(items) {
         console.log(items);
     });

@@ -4,9 +4,10 @@ const Ops = require("../Ops");
 const Query_1 = require("./Query");
 const Request_1 = require("../Request");
 class ReadQuery extends Query_1.Query {
-    constructor(collection, optree, explain) {
+    constructor(collection, optree, explain, projection) {
         super(collection, explain);
         this.optree = optree;
+        this.projection = projection;
     }
     // Applies an And operator to a chain
     and(...patterns) {
@@ -36,15 +37,15 @@ class ReadQuery extends Query_1.Query {
     }
     // Count items based on matches from ReadQuery
     count() {
-        return this.send(Request_1.PayloadRequestType.Count);
+        return this.send(Request_1.PayloadRequestType.Count, this.serialize());
     }
     // Fetch items based on matches from ReadQuery
     fetch() {
-        return this.send(Request_1.PayloadRequestType.Fetch);
+        return this.send(Request_1.PayloadRequestType.Fetch, { ops: this.serialize(), projection: this.projection });
     }
     // Remove items based on matches from ReadQuery 
     remove() {
-        return this.send(Request_1.PayloadRequestType.Remove);
+        return this.send(Request_1.PayloadRequestType.Remove, this.serialize());
     }
     serialize() {
         let opList = [];
@@ -53,9 +54,8 @@ class ReadQuery extends Query_1.Query {
         }
         return opList;
     }
-    send(type) {
-        const opList = this.serialize();
-        return this.collection.db.sendJSON({ type: type, data: opList }, this.explain, this.collection.collectionName);
+    send(type, data) {
+        return this.collection.db.sendJSON({ type: type, data: data }, this.explain, this.collection.collectionName);
     }
 }
 exports.ReadQuery = ReadQuery;

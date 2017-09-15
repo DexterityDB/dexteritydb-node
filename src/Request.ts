@@ -69,7 +69,7 @@ export interface PayloadRequest {
     data?: any
 }
 
-interface Projection {
+export interface Projection {
     type: ProjectionType,
     data: any
 }

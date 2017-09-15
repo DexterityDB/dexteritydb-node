@@ -1,11 +1,11 @@
 import { Collection } from '../Collection';
 import * as Ops from '../Ops';
 import { Query } from './Query';
-import { Op, PayloadRequestType } from '../Request';
+import { Op, PayloadRequestType, Projection } from '../Request';
 
 export class ReadQuery extends Query {
 
-    constructor(collection: Collection, private optree: Ops.ReadOp | null, explain: boolean) {
+    constructor(collection: Collection, private optree: Ops.ReadOp | null, explain: boolean, private projection?: Projection) {
         super(collection, explain);
     }
 
@@ -36,17 +36,17 @@ export class ReadQuery extends Query {
 
     // Count items based on matches from ReadQuery
     count(): Promise<any> {
-        return this.send(PayloadRequestType.Count);
+        return this.send(PayloadRequestType.Count, this.serialize());
     }
 
     // Fetch items based on matches from ReadQuery
     fetch(): Promise<any> {
-        return this.send(PayloadRequestType.Fetch);
+        return this.send(PayloadRequestType.Fetch, { ops: this.serialize(), projection: this.projection });
     }
 
     // Remove items based on matches from ReadQuery 
     remove(): Promise<any> {
-        return this.send(PayloadRequestType.Remove);
+        return this.send(PayloadRequestType.Remove, this.serialize());
     }
 
     private serialize(): Op[] {
@@ -57,8 +57,7 @@ export class ReadQuery extends Query {
         return opList;
     }
 
-    private send(type: PayloadRequestType) {
-        const opList = this.serialize();
-        return this.collection.db.sendJSON({ type: type, data: opList }, this.explain, this.collection.collectionName);
+    private send(type: PayloadRequestType, data: any) {
+        return this.collection.db.sendJSON({ type: type, data: data }, this.explain, this.collection.collectionName);
     }
 }
