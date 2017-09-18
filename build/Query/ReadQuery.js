@@ -47,12 +47,13 @@ class ReadQuery extends Query_1.Query {
     remove() {
         return this.send(Request_1.PayloadRequestType.Remove, this.serialize());
     }
+    // Replaces the matched objects with the designated items
+    replace(item) {
+        return this.send(Request_1.PayloadRequestType.Update, this.serializeUpdate(Request_1.UpdateKindType.Overwrite, item));
+    }
     // Updates items in the collection based on previous match results
-    update(obj) {
-        return this.send(Request_1.PayloadRequestType.Update, {
-            ops: this.serialize(),
-            updateKind: { type: Request_1.UpdateKindType.Partial, data: Ops.convertUpdateObject(obj) }
-        });
+    update(updateFields) {
+        return this.send(Request_1.PayloadRequestType.Update, this.serializeUpdate(Request_1.UpdateKindType.Partial, Ops.convertUpdateObject(updateFields)));
     }
     serialize() {
         let opList = [];
@@ -63,6 +64,12 @@ class ReadQuery extends Query_1.Query {
     }
     send(type, data) {
         return this.collection.db.sendJSON({ type: type, data: data }, this.explain, this.collection.collectionName);
+    }
+    serializeUpdate(type, obj) {
+        return {
+            ops: this.serialize(),
+            update_kind: { type: type, data: obj }
+        };
     }
 }
 exports.ReadQuery = ReadQuery;

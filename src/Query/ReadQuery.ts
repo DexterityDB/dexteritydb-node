@@ -1,7 +1,7 @@
 import { Collection } from '../Collection';
 import * as Ops from '../Ops';
 import { Query } from './Query';
-import { Op, PayloadRequestType, Projection, UpdateKindType } from '../Request';
+import { Op, PayloadRequestType, Projection, UpdateKindType, UpdateOps } from '../Request';
 
 export class ReadQuery extends Query {
 
@@ -49,12 +49,14 @@ export class ReadQuery extends Query {
         return this.send(PayloadRequestType.Remove, this.serialize());
     }
 
+    // Replaces the matched objects with the designated items
+    replace(item: { [key:string]:any; }): Promise<any> {
+        return this.send(PayloadRequestType.Update, this.serializeUpdate(UpdateKindType.Overwrite, item));
+    }
+
     // Updates items in the collection based on previous match results
-    update(obj: { [key:string]:any; }): Promise<any> {
-        return this.send(PayloadRequestType.Update, { 
-            ops: this.serialize(),
-            updateKind: { type: UpdateKindType.Partial, data: Ops.convertUpdateObject(obj) }
-        });
+    update(updateFields: { [key:string]:any; }): Promise<any> {
+        return this.send(PayloadRequestType.Update, this.serializeUpdate(UpdateKindType.Partial, Ops.convertUpdateObject(updateFields)));
     }
 
     private serialize(): Op[] {
@@ -67,5 +69,12 @@ export class ReadQuery extends Query {
 
     private send(type: PayloadRequestType, data: any) {
         return this.collection.db.sendJSON({ type: type, data: data }, this.explain, this.collection.collectionName);
+    }
+
+    private serializeUpdate(type: UpdateKindType, obj: Object|null): UpdateOps {
+        return { 
+            ops: this.serialize(),
+            update_kind: { type: type, data: obj }
+        }
     }
 }

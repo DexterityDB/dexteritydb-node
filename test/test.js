@@ -39,3 +39,9 @@ db.collection("stuff").find({ field1: "value1" })
         field1: Dex.delete(),
         field2: 1
     });
+
+db.collection("stuff").find({ field1: "value1" })
+    .replace({
+        field2: "value2",
+        field3: "value3"
+    });

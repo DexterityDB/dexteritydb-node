@@ -86,7 +86,7 @@ interface UpdateKind {
     data: any
 }
 
-interface UpdateOps {
+export interface UpdateOps {
     ops: Op[],
     update_kind: UpdateKind
 }
