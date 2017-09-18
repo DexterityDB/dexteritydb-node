@@ -34,14 +34,27 @@ setTimeout(function() {
 }, 2000);
 */
 
-db.collection("stuff").find({ field1: "value1" })
-    .update({
-        field1: Dex.delete(),
-        field2: 1
+setTimeout(function() {
+
+    db.collection("test").insert({ field1: "value1" });
+    db.collection("test").index("field1");
+    db.collection("test").index("field2");
+    db.collection("test").index("field3");
+
+    db.collection("test").find({ field1: "value1" })
+        .update({
+            field1: Dex.delete(),
+            field2: 1
+        })
+
+    db.collection("test").find({ field2: 1 })
+        .replace({
+            field2: "value2",
+            field3: "value3"
+        });
+
+    db.collection("test").find({ field2: "value2", field3: "value3" }).fetch().then(function(items) {
+        console.log(items);
     });
 
-db.collection("stuff").find({ field1: "value1" })
-    .replace({
-        field2: "value2",
-        field3: "value3"
-    });
+}, 2000);
