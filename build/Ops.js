@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const Request_1 = require("./Request");
 class ReadOp {
     serialize(opList) {
         throw 'Method called on abstract class!';
@@ -9,6 +10,15 @@ exports.ReadOp = ReadOp;
 class ReadOpPartial {
 }
 exports.ReadOpPartial = ReadOpPartial;
+class ProjectionOpPartial {
+    constructor(fields) {
+        this.fields = fields;
+    }
+    resolve() {
+        throw 'Method called on abstract class!';
+    }
+}
+exports.ProjectionOpPartial = ProjectionOpPartial;
 class UpdateOpPartial {
 }
 exports.UpdateOpPartial = UpdateOpPartial;
@@ -328,16 +338,24 @@ class LoadGteLte extends ReadOp {
     }
 }
 exports.LoadGteLte = LoadGteLte;
+class PartialExclude extends ProjectionOpPartial {
+    constructor(...fields) { super(fields); }
+    resolve() {
+        return { type: Request_1.ProjectionType.Exclude, data: this.fields };
+    }
+}
+exports.PartialExclude = PartialExclude;
+class PartialInclude extends ProjectionOpPartial {
+    constructor(...fields) { super(fields); }
+    resolve() {
+        return { type: Request_1.ProjectionType.Include, data: this.fields };
+    }
+}
+exports.PartialInclude = PartialInclude;
 class PartialDelete extends UpdateOpPartial {
     constructor() { super(); }
 }
 exports.PartialDelete = PartialDelete;
-function resolveReadOp(pattern) {
-    if (pattern == null || pattern instanceof ReadOp)
-        return pattern;
-    return convertMatchObject(pattern);
-}
-exports.resolveReadOp = resolveReadOp;
 function convertUpdateObject(obj) {
     let ops = {};
     ops.set = {};
@@ -352,11 +370,20 @@ function convertUpdateObject(obj) {
                 break;
             case PartialDelete:
                 ops.unset.push(field);
+                break;
+            default:
+                throw 'Bad op passed!';
         }
     }
     return ops;
 }
 exports.convertUpdateObject = convertUpdateObject;
+function resolveReadOp(pattern) {
+    if (pattern == null || pattern instanceof ReadOp)
+        return pattern;
+    return convertMatchObject(pattern);
+}
+exports.resolveReadOp = resolveReadOp;
 function convertMatchObject(obj) {
     let ops = [];
     for (const field in obj) {

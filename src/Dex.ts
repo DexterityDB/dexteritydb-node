@@ -127,4 +127,11 @@ export class Dex {
     static delete(): Ops.PartialDelete {
         return new Ops.PartialDelete;
     }
+
+    static exclude(...fields: string[]) {
+        return new Ops.PartialExclude(...fields);
+    }
+    static include(...fields: string[]) {
+        return new Ops.PartialInclude(...fields);
+    }
 }

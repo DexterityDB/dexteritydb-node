@@ -27,7 +27,7 @@ export enum PayloadRequestType {
     RemoveCollection = "RemoveCollection"
 }
 
-enum ProjectionType {
+export enum ProjectionType {
     All = "All",
     Include = "Include",
     Exclude = "Exclude"
@@ -81,14 +81,12 @@ export interface RequestMessage {
     explain: boolean
 }
 
-interface UpdateKind {
-    type: UpdateKindType,
-    data: any
+export class UpdateKind {
+    constructor(public type: UpdateKindType, public data: any) { }
 }
 
-export interface UpdateOps {
-    ops: Op[],
-    update_kind: UpdateKind
+export class UpdateOps {
+    constructor(public ops: Op[], public update_kind: UpdateKind) { }
 }
 
 export interface UpdatePartial {

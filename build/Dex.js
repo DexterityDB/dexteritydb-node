@@ -106,5 +106,11 @@ class Dex {
     static delete() {
         return new Ops.PartialDelete;
     }
+    static exclude(...fields) {
+        return new Ops.PartialExclude(...fields);
+    }
+    static include(...fields) {
+        return new Ops.PartialInclude(...fields);
+    }
 }
 exports.Dex = Dex;

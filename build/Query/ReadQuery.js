@@ -40,8 +40,26 @@ class ReadQuery extends Query_1.Query {
         return this.send(Request_1.PayloadRequestType.Count, this.serialize());
     }
     // Fetch items based on matches from ReadQuery
-    fetch() {
-        return this.send(Request_1.PayloadRequestType.Fetch, { ops: this.serialize(), projection: this.projection });
+    fetch(...fields) {
+        let projection;
+        if (fields.length === 0) {
+            projection = this.projection;
+        }
+        else {
+            const firstField = fields[0];
+            switch (firstField.constructor) {
+                case String:
+                    projection = { type: Request_1.ProjectionType.Include, data: fields };
+                    break;
+                case Ops.PartialExclude:
+                case Ops.PartialInclude:
+                    projection = firstField.resolve();
+                    break;
+                default:
+                    throw 'Bad op passed!';
+            }
+        }
+        return this.send(Request_1.PayloadRequestType.Fetch, { ops: this.serialize(), projection: projection });
     }
     // Remove items based on matches from ReadQuery 
     remove() {
@@ -49,12 +67,13 @@ class ReadQuery extends Query_1.Query {
     }
     // Replaces the matched objects with the designated items
     replace(item) {
-        return this.send(Request_1.PayloadRequestType.Update, this.serializeUpdate(Request_1.UpdateKindType.Overwrite, item));
+        return this.send(Request_1.PayloadRequestType.Update, new Request_1.UpdateOps(this.serialize(), new Request_1.UpdateKind(Request_1.UpdateKindType.Overwrite, item)));
     }
     // Updates items in the collection based on previous match results
     update(updateFields) {
-        return this.send(Request_1.PayloadRequestType.Update, this.serializeUpdate(Request_1.UpdateKindType.Partial, Ops.convertUpdateObject(updateFields)));
+        return this.send(Request_1.PayloadRequestType.Update, new Request_1.UpdateOps(this.serialize(), new Request_1.UpdateKind(Request_1.UpdateKindType.Partial, Ops.convertUpdateObject(updateFields))));
     }
+    // Serializes the ReadQuery
     serialize() {
         let opList = [];
         if (this.optree != null) {
@@ -62,14 +81,9 @@ class ReadQuery extends Query_1.Query {
         }
         return opList;
     }
+    // Prepares the message to be sent
     send(type, data) {
         return this.collection.db.sendJSON({ type: type, data: data }, this.explain, this.collection.collectionName);
-    }
-    serializeUpdate(type, obj) {
-        return {
-            ops: this.serialize(),
-            update_kind: { type: type, data: obj }
-        };
     }
 }
 exports.ReadQuery = ReadQuery;

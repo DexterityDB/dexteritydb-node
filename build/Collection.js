@@ -22,11 +22,11 @@ class Collection {
     }
     // Drop/Remove collection
     drop() {
-        return this.db.sendJSON({ type: Request_1.PayloadRequestType.RemoveCollection }, this.explain, this.collectionName);
+        return this.send(Request_1.PayloadRequestType.RemoveCollection);
     }
     // Create index or make sure it exists
     index(indexName) {
-        return this.db.sendJSON({ type: Request_1.PayloadRequestType.EnsureIndex, data: indexName }, this.explain, this.collectionName);
+        return this.send(Request_1.PayloadRequestType.EnsureIndex, indexName);
     }
     // Matches a pattern or a ReadOp object
     find(pattern) {
@@ -34,21 +34,36 @@ class Collection {
     }
     // Inserts an item into the collection
     insert(...items) {
-        return this.db.sendJSON({ type: Request_1.PayloadRequestType.Insert, data: items }, this.explain, this.collectionName);
+        return this.send(Request_1.PayloadRequestType.Insert, items);
     }
     // Removes items based on a matched pattern
     remove(pattern) {
+        return this.send(Request_1.PayloadRequestType.Remove, this.find_then(pattern));
+    }
+    // Remove index
+    removeIndex(indexName) {
+        return this.send(Request_1.PayloadRequestType.RemoveIndex, indexName);
+    }
+    // Replaces the matched objects with the designated items
+    replace(pattern, item) {
+        return this.send(Request_1.PayloadRequestType.Update, new Request_1.UpdateOps(this.find_then(pattern), new Request_1.UpdateKind(Request_1.UpdateKindType.Overwrite, item)));
+    }
+    // Updates items in the collection based on match results
+    update(pattern, updateFields) {
+        return this.send(Request_1.PayloadRequestType.Update, new Request_1.UpdateOps(this.find_then(pattern), new Request_1.UpdateKind(Request_1.UpdateKindType.Partial, Ops.convertUpdateObject(updateFields))));
+    }
+    // Used to do pattern matching without find function - for monolithic functions
+    find_then(pattern) {
         let opList = [];
         const op = Ops.resolveReadOp(pattern);
         if (op != null) {
             op.serialize(opList);
         }
-        return this.db.sendJSON({ type: Request_1.PayloadRequestType.Remove, data: opList }, this.explain, this.collectionName);
+        return opList;
     }
-    // Remove index
-    removeIndex(indexName) {
-        return this.db.sendJSON({ type: Request_1.PayloadRequestType.RemoveIndex, data: indexName }, this.explain, this.collectionName);
+    // Prepares message to be sent
+    send(type, data) {
+        return this.db.sendJSON({ type: type, data: data }, this.explain, this.collectionName);
     }
-    update() { }
 }
 exports.Collection = Collection;

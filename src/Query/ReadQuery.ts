@@ -1,7 +1,7 @@
 import { Collection } from '../Collection';
 import * as Ops from '../Ops';
 import { Query } from './Query';
-import { Op, PayloadRequestType, Projection, UpdateKindType, UpdateOps } from '../Request';
+import { Op, PayloadRequestType, Projection, ProjectionType, UpdateKind, UpdateKindType, UpdateOps } from '../Request';
 
 export class ReadQuery extends Query {
 
@@ -40,8 +40,25 @@ export class ReadQuery extends Query {
     }
 
     // Fetch items based on matches from ReadQuery
-    fetch(): Promise<any> {
-        return this.send(PayloadRequestType.Fetch, { ops: this.serialize(), projection: this.projection });
+    fetch(...fields: (Ops.ProjectionOpPartial | string)[]): Promise<any> {
+        let projection: Projection | undefined;
+        if (fields.length === 0) {
+            projection = this.projection;
+        } else {
+            const firstField = fields[0] as any;
+            switch (firstField.constructor) {
+                case String:
+                    projection = { type: ProjectionType.Include, data: fields };
+                    break;
+                case Ops.PartialExclude:
+                case Ops.PartialInclude:
+                    projection = firstField.resolve();
+                    break;
+                default:
+                    throw 'Bad op passed!';
+            }
+        }
+        return this.send(PayloadRequestType.Fetch, { ops: this.serialize(), projection: projection });
     }
 
     // Remove items based on matches from ReadQuery 
@@ -51,14 +68,33 @@ export class ReadQuery extends Query {
 
     // Replaces the matched objects with the designated items
     replace(item: { [key:string]:any; }): Promise<any> {
-        return this.send(PayloadRequestType.Update, this.serializeUpdate(UpdateKindType.Overwrite, item));
+        return this.send(
+            PayloadRequestType.Update,
+            new UpdateOps(
+                this.serialize(),
+                new UpdateKind(
+                    UpdateKindType.Overwrite,
+                    item
+                )
+            )
+        );
     }
 
     // Updates items in the collection based on previous match results
     update(updateFields: { [key:string]:any; }): Promise<any> {
-        return this.send(PayloadRequestType.Update, this.serializeUpdate(UpdateKindType.Partial, Ops.convertUpdateObject(updateFields)));
+        return this.send(
+            PayloadRequestType.Update, 
+            new UpdateOps(
+                this.serialize(),
+                new UpdateKind(
+                    UpdateKindType.Partial,
+                    Ops.convertUpdateObject(updateFields)
+                )
+            )
+        );
     }
 
+    // Serializes the ReadQuery
     private serialize(): Op[] {
         let opList: any[] = [];
         if (this.optree != null) {
@@ -67,14 +103,8 @@ export class ReadQuery extends Query {
         return opList;
     }
 
+    // Prepares the message to be sent
     private send(type: PayloadRequestType, data: any) {
         return this.collection.db.sendJSON({ type: type, data: data }, this.explain, this.collection.collectionName);
-    }
-
-    private serializeUpdate(type: UpdateKindType, obj: Object|null): UpdateOps {
-        return { 
-            ops: this.serialize(),
-            update_kind: { type: type, data: obj }
-        }
     }
 }

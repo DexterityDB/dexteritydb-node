@@ -32,9 +32,23 @@ var ProjectionType;
     ProjectionType["All"] = "All";
     ProjectionType["Include"] = "Include";
     ProjectionType["Exclude"] = "Exclude";
-})(ProjectionType || (ProjectionType = {}));
+})(ProjectionType = exports.ProjectionType || (exports.ProjectionType = {}));
 var UpdateKindType;
 (function (UpdateKindType) {
     UpdateKindType["Overwrite"] = "Overwrite";
     UpdateKindType["Partial"] = "Partial";
 })(UpdateKindType = exports.UpdateKindType || (exports.UpdateKindType = {}));
+class UpdateKind {
+    constructor(type, data) {
+        this.type = type;
+        this.data = data;
+    }
+}
+exports.UpdateKind = UpdateKind;
+class UpdateOps {
+    constructor(ops, update_kind) {
+        this.ops = ops;
+        this.update_kind = update_kind;
+    }
+}
+exports.UpdateOps = UpdateOps;

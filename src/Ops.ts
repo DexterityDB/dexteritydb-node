@@ -1,4 +1,4 @@
-import { UpdatePartial } from './Request';
+import { Projection, ProjectionType, UpdatePartial } from './Request';
 import { Value } from './Utils';
 
 export class ReadOp {
@@ -7,6 +7,14 @@ export class ReadOp {
     }
 }
 export class ReadOpPartial { }
+
+export class ProjectionOpPartial {
+    constructor(public fields: string[]) { }
+
+    resolve() {
+        throw 'Method called on abstract class!';
+    }
+ }
 
 export class UpdateOpPartial { }
 
@@ -302,13 +310,24 @@ export class LoadGteLte extends ReadOp {
     }
 }
 
-export class PartialDelete extends UpdateOpPartial {
-    constructor() { super(); }
+export class PartialExclude extends ProjectionOpPartial {
+    constructor(...fields: string[]) { super(fields); }
+
+    resolve(): Projection {
+        return { type: ProjectionType.Exclude, data: this.fields}
+    }
 }
 
-export function resolveReadOp(pattern: ReadOp | { [key:string]:any; } | null): ReadOp | null {
-    if (pattern == null || pattern instanceof ReadOp) return pattern;
-    return convertMatchObject(pattern);
+export class PartialInclude extends ProjectionOpPartial {
+    constructor(...fields: string[]) { super(fields); }
+
+    resolve(): Projection {
+        return { type: ProjectionType.Include, data: this.fields}
+    }
+}
+
+export class PartialDelete extends UpdateOpPartial {
+    constructor() { super(); }
 }
 
 export function convertUpdateObject(obj: { [key:string]:any; }): UpdatePartial|null {
@@ -325,9 +344,17 @@ export function convertUpdateObject(obj: { [key:string]:any; }): UpdatePartial|n
                 break;
             case PartialDelete:
                 ops.unset.push(field);
+                break;
+            default:
+                throw 'Bad op passed!';
         }
     }
     return ops;
+}
+
+export function resolveReadOp(pattern: ReadOp | { [key:string]:any; } | null): ReadOp | null {
+    if (pattern == null || pattern instanceof ReadOp) return pattern;
+    return convertMatchObject(pattern);
 }
 
 function convertMatchObject(obj: { [key:string]:any; }): ReadOp|null {

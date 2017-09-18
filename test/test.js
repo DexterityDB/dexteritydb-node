@@ -41,14 +41,14 @@ setTimeout(function() {
     db.collection("test").index("field2");
     db.collection("test").index("field3");
 
-    db.collection("test").find({ field1: "value1" })
-        .update({
+    db.collection("test")
+        .update({ field1: "value1" }, {
             field1: Dex.delete(),
             field2: 1
         })
 
-    db.collection("test").find({ field2: 1 })
-        .replace({
+    db.collection("test")
+        .replace({ field2: 1 }, {
             field2: "value2",
             field3: "value3"
         });
@@ -58,3 +58,14 @@ setTimeout(function() {
     });
 
 }, 2000);
+
+/*
+setTimeout(function() {
+    let project = Dex.include("field2");
+    db.collection("test").index("field1");
+    db.collection("test").insert({ field1: "value1", field2: "value2" });
+    db.collection("test").find({ field1: "value1" }).fetch(project).then(function(items) {
+        console.log(items);
+    });
+}, 2000);
+*/
