@@ -1,7 +1,7 @@
 import { Collection } from '../Collection';
 import * as Ops from '../Ops';
 import { Query } from './Query';
-import { Op, PayloadRequestType, Projection } from '../Request';
+import { Op, PayloadRequestType, Projection, UpdateKindType } from '../Request';
 
 export class ReadQuery extends Query {
 
@@ -47,6 +47,14 @@ export class ReadQuery extends Query {
     // Remove items based on matches from ReadQuery 
     remove(): Promise<any> {
         return this.send(PayloadRequestType.Remove, this.serialize());
+    }
+
+    // Updates items in the collection based on previous match results
+    update(obj: { [key:string]:any; }): Promise<any> {
+        return this.send(PayloadRequestType.Update, { 
+            ops: this.serialize(),
+            updateKind: { type: UpdateKindType.Partial, data: Ops.convertUpdateObject(obj) }
+        });
     }
 
     private serialize(): Op[] {

@@ -36,5 +36,5 @@ var ProjectionType;
 var UpdateKindType;
 (function (UpdateKindType) {
     UpdateKindType["Overwrite"] = "Overwrite";
-    UpdateKindType["Partial"] = "UpdatePartial";
-})(UpdateKindType || (UpdateKindType = {}));
+    UpdateKindType["Partial"] = "Partial";
+})(UpdateKindType = exports.UpdateKindType || (exports.UpdateKindType = {}));

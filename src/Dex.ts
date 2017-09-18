@@ -86,41 +86,45 @@ export class Dex {
         return this.sendJSON({ type: PayloadRequestType.RemoveCollection }, false, collectionName);
     }
 
-    static eq(value: Value) {
+    static eq(value: Value): Ops.PartialEq {
         return new Ops.PartialEq(value);
     }
-    static in(...values: Value[]) {
+    static in(...values: Value[]): Ops.PartialIn {
         return new Ops.PartialIn(...values);
     }
-    static lt(value: Value) {
+    static lt(value: Value): Ops.PartialLt {
         return new Ops.PartialLt(value);
     }
-    static lte(value: Value) {
+    static lte(value: Value): Ops.PartialLte {
         return new Ops.PartialLte(value);
     }
-    static gt(value: Value) {
+    static gt(value: Value): Ops.PartialGt {
         return new Ops.PartialGt(value);
     }
-    static gte(value: Value) {
+    static gte(value: Value): Ops.PartialGte {
         return new Ops.PartialGte(value);
     }
-    static gt_lt(start: Value, end: Value) {
+    static gt_lt(start: Value, end: Value): Ops.PartialGtLt {
         return new Ops.PartialGtLt(start, end);
     }
-    static gte_lt(start: Value, end: Value) {
+    static gte_lt(start: Value, end: Value): Ops.PartialGteLt {
         return new Ops.PartialGteLt(start, end);
     }
-    static gt_lte(start: Value, end: Value) {
+    static gt_lte(start: Value, end: Value): Ops.PartialGtLte {
         return new Ops.PartialGtLte(start, end);
     }
-    static gte_lte(start: Value, end: Value) {
+    static gte_lte(start: Value, end: Value): Ops.PartialGteLte {
         return new Ops.PartialGteLte(start, end);
     }
 
-    static and(...ops: (Ops.ReadOp | object)[]) {
+    static and(...ops: (Ops.ReadOp | object)[]): Ops.And {
         return new Ops.And(...ops);
     }
-    static or(...ops: (Ops.ReadOp | object)[]) {
+    static or(...ops: (Ops.ReadOp | object)[]): Ops.Or {
         return new Ops.Or(...ops);
+    }
+
+    static delete(): Ops.PartialDelete {
+        return new Ops.PartialDelete;
     }
 }

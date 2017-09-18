@@ -9,6 +9,9 @@ exports.ReadOp = ReadOp;
 class ReadOpPartial {
 }
 exports.ReadOpPartial = ReadOpPartial;
+class UpdateOpPartial {
+}
+exports.UpdateOpPartial = UpdateOpPartial;
 class PartialEq extends ReadOpPartial {
     constructor(value) {
         super();
@@ -325,13 +328,36 @@ class LoadGteLte extends ReadOp {
     }
 }
 exports.LoadGteLte = LoadGteLte;
+class PartialDelete extends UpdateOpPartial {
+    constructor() { super(); }
+}
+exports.PartialDelete = PartialDelete;
 function resolveReadOp(pattern) {
     if (pattern == null || pattern instanceof ReadOp)
         return pattern;
-    return convertObject(pattern);
+    return convertMatchObject(pattern);
 }
 exports.resolveReadOp = resolveReadOp;
-function convertObject(obj) {
+function convertUpdateObject(obj) {
+    let ops = {};
+    ops.set = {};
+    ops.unset = [];
+    for (const field in obj) {
+        let value = obj[field];
+        switch (value.constructor) {
+            case Number:
+            case String:
+            case Array:
+                ops.set[field] = value;
+                break;
+            case PartialDelete:
+                ops.unset.push(field);
+        }
+    }
+    return ops;
+}
+exports.convertUpdateObject = convertUpdateObject;
+function convertMatchObject(obj) {
     let ops = [];
     for (const field in obj) {
         let value = obj[field];

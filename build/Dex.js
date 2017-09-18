@@ -103,5 +103,8 @@ class Dex {
     static or(...ops) {
         return new Ops.Or(...ops);
     }
+    static delete() {
+        return new Ops.PartialDelete;
+    }
 }
 exports.Dex = Dex;

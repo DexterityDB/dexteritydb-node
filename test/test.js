@@ -24,7 +24,6 @@ db.collection("stuff").removeIndex("field1");
 
 db.collection("stuff").bench().drop();
 db.collection("stuff").options({bench: true}).drop();
-*/
 
 setTimeout(function() {
     db.collection("test").insert({field1: "value1a", field2: "value2"}, {field1: "value1b"});
@@ -33,3 +32,10 @@ setTimeout(function() {
         console.log(items);
     });
 }, 2000);
+*/
+
+db.collection("stuff").find({ field1: "value1" })
+    .update({
+        field1: Dex.delete(),
+        field2: 1
+    });

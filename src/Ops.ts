@@ -1,3 +1,4 @@
+import { UpdatePartial } from './Request';
 import { Value } from './Utils';
 
 export class ReadOp {
@@ -6,6 +7,8 @@ export class ReadOp {
     }
 }
 export class ReadOpPartial { }
+
+export class UpdateOpPartial { }
 
 export class PartialEq extends ReadOpPartial {
     constructor(public value: Value) {
@@ -299,12 +302,35 @@ export class LoadGteLte extends ReadOp {
     }
 }
 
-export function resolveReadOp(pattern: ReadOp | { [key:string]:any; } | null): ReadOp | null {
-    if (pattern == null || pattern instanceof ReadOp) return pattern;
-    return convertObject(pattern);
+export class PartialDelete extends UpdateOpPartial {
+    constructor() { super(); }
 }
 
-function convertObject(obj: { [key:string]:any; }): ReadOp|null {
+export function resolveReadOp(pattern: ReadOp | { [key:string]:any; } | null): ReadOp | null {
+    if (pattern == null || pattern instanceof ReadOp) return pattern;
+    return convertMatchObject(pattern);
+}
+
+export function convertUpdateObject(obj: { [key:string]:any; }): UpdatePartial|null {
+    let ops: any = {};
+    ops.set = {};
+    ops.unset = [];
+    for (const field in obj) {
+        let value = obj[field];
+        switch (value.constructor) {
+            case Number:
+            case String:
+            case Array:
+                ops.set[field] = value;
+                break;
+            case PartialDelete:
+                ops.unset.push(field);
+        }
+    }
+    return ops;
+}
+
+function convertMatchObject(obj: { [key:string]:any; }): ReadOp|null {
     let ops = [];
     for (const field in obj) {
         let value = obj[field];

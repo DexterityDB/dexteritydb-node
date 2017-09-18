@@ -47,6 +47,13 @@ class ReadQuery extends Query_1.Query {
     remove() {
         return this.send(Request_1.PayloadRequestType.Remove, this.serialize());
     }
+    // Updates items in the collection based on previous match results
+    update(obj) {
+        return this.send(Request_1.PayloadRequestType.Update, {
+            ops: this.serialize(),
+            updateKind: { type: Request_1.UpdateKindType.Partial, data: Ops.convertUpdateObject(obj) }
+        });
+    }
     serialize() {
         let opList = [];
         if (this.optree != null) {

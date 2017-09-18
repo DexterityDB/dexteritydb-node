@@ -33,9 +33,9 @@ enum ProjectionType {
     Exclude = "Exclude"
 }
 
-enum UpdateKindType {
+export enum UpdateKindType {
     Overwrite = "Overwrite",
-    Partial = "UpdatePartial"
+    Partial = "Partial"
 }
 
 interface FetchOps {
@@ -91,7 +91,7 @@ interface UpdateOps {
     update_kind: UpdateKind
 }
 
-interface UpdatePartial {
+export interface UpdatePartial {
     set: Map<string, any>,
     unset: string[]
 }
