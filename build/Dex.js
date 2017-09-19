@@ -45,6 +45,13 @@ class Dex {
         });
         db.ws.addEventListener("close", () => {
             db.ws = null;
+            // TODO: remove next "for loop" after this line when database supports preservation of active requests
+            // Kill all active requests - reconnection will not preserve active requests
+            for (const callback of db.activeRequests.values()) {
+                callback.reject();
+            }
+            db.activeRequests.clear();
+            // Check if reconnection should be attempted
             if (db.allowReconnect && db.isOpen()) {
                 setTimeout(db.connect.bind(db), 5000);
             }
