@@ -116,8 +116,6 @@ export class Dex {
             });
             const callback = { resolve, reject };
 
-            console.log(payload);
-
             if (db.isReady()) {
                 (db.ws as WebSocket).send(message);
                 db.activeRequests.set(request_id, callback);

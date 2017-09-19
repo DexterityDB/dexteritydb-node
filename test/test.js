@@ -33,26 +33,26 @@ setTimeout(function() {
     });
 }, 2000);
 */
-async function main() {
-    await db.collection("test").insert({ field1: "value1" });
-    await db.collection("test").index("field1");
-    await db.collection("test").index("field2");
-    await db.collection("test").index("field3");
-    await db.collection("test").index("field10");
+
+    db.collection("test").insert({ field1: "value1" });
+    db.collection("test").index("field1");
+    db.collection("test").index("field2");
+    db.collection("test").index("field3");
+    db.collection("test").index("field10");
     
-    await db.collection("test")
+    db.collection("test")
         .update({ field1: "value1" }, {
             field1: Dex.delete(),
             field2: 1
         });
     
-    await db.collection("test")
+    db.collection("test")
         .replace({ field2: 1 }, {
             field2: "value2",
             field3: "value3"
         });
     
-    await db.collection("test").insert({ field2: "value2", field3: "value3", field10: ["value4", "value5", "value8"] });
+    db.collection("test").insert({ field2: "value2", field3: "value3", field10: ["value4", "value5", "value8"] });
 
     db.close();
     db.connect();
@@ -64,12 +64,6 @@ async function main() {
     db.collection("test").find({ field10: "value4" }).fetch().then(function(items) {
         console.log(items);
     });
-
-}
-
-main();
-
-
 
 /*
 setTimeout(function() {

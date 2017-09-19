@@ -95,7 +95,6 @@ class Dex {
                 explain: explain
             });
             const callback = { resolve, reject };
-            console.log(payload);
             if (db.isReady()) {
                 db.ws.send(message);
                 db.activeRequests.set(request_id, callback);
