@@ -12,33 +12,67 @@ interface RequestCallback {
     reject: Function
 }
 
+interface QueuedMessage {
+    request_id: string,
+    message: string,
+    callback: RequestCallback
+}
+
 export class Dex {
-    private ready: boolean;
-    private ws: WebSocket;
-    private activeRequests: Map<string, RequestCallback>;
+    private ws: WebSocket | null;
+    private activeRequests: Map<string, RequestCallback> = new Map<string, RequestCallback>();
+    private requestQueue: QueuedMessage[] = [];
+    private closed: boolean = true;
 
-    constructor(private url: string) {
-        this.ready = false;
-        let activeRequests = new Map<string, RequestCallback>();
-        this.activeRequests = activeRequests;
+    constructor(private url: string = "", public allowReconnect = true) {
+        if (this.url !== "") { this.connect(); }
+    }
+
+    isOpen() {
+        return !this.isClosed();
+    }
+
+    isClosed() {
+        return this.closed;
+    }
+
+    isReady() {
+        return this.ws != null && this.ws.readyState === WebSocket.OPEN;
+    }
+
+    connect(url: string = this.url) {
+        if (url === "") { throw 'No connection URL given!'; }
         const db = this;
-        const ws = new WebSocket(url);
-        this.ws = ws;
+        db.closed = false;
+        if (db.ws != null) {
+            return;
+        }
+        db.ws = new WebSocket(db.url);
 
-        ws.addEventListener("open", () => {
-            db.ready = true;
-            console.log("Connected to DexterityDB");
+        db.ws.addEventListener("open", () => {
+            // Send queued requests
+            for (const request of db.requestQueue) {
+                (db.ws as WebSocket).send(request.message);
+                db.activeRequests.set(request.request_id, request.callback);
+            }
+            db.requestQueue = []; // Reset request queue after sending queued requests
         });
 
-        ws.addEventListener("close", () => {
-            if (db.ready) {
-                console.log("Disconnected from DexterityDB");
-                db.ready = false;
-                // TODO: Auto-reconnect
+        db.ws.addEventListener("close", () => {
+            db.ws = null;
+            // TODO: remove next "for loop" after this line when database supports preservation of active requests
+            // Kill all active requests - reconnection will not preserve active requests
+            for (const callback of db.activeRequests.values()) {
+                callback.reject();
+            }
+            db.activeRequests.clear();
+            // Check if reconnection should be attempted
+            if (db.allowReconnect && db.isOpen()) {
+                setTimeout(db.connect.bind(db), 5000);
             }
         });
 
-        ws.addEventListener("message", (message) => {
+        db.ws.addEventListener("message", (message) => {
             let messageData: ResponseMessage;
             try {
                 messageData = JSON.parse(message.data.toString());
@@ -47,26 +81,31 @@ export class Dex {
             }
 
             if (messageData.request_id != null) {
-                const callback = activeRequests.get(messageData.request_id);
+                const callback = db.activeRequests.get(messageData.request_id);
                 if (callback != null) {
-                    activeRequests.delete(messageData.request_id);
+                    db.activeRequests.delete(messageData.request_id);
                     callback.resolve(messageData.payload.data);
                 }
             }
         });
+
+        // This event listener is present only to catch fail-to-connect error
+        db.ws.addEventListener("error", (error) => { });
+    }
+
+    close() {
+        this.closed = true;
+        if (this.ws != null) {
+            this.ws.close();
+        }
     }
 
     sendJSON(payload: PayloadRequest, explain: boolean, collectionName: string): Promise<any> {
         const db = this;
         return new Promise((resolve, reject) => {
-            //if (!db.ready) return reject('Not connected!');
-            console.log(payload);
-            console.log(explain);
             let request_id = Utils.randomString(12);
 
-            db.activeRequests.set(request_id, { resolve, reject });
-
-            db.ws.send(JSON.stringify({
+            const message = JSON.stringify({
                 request_id: request_id,
                 collection: {
                     db: "test",
@@ -74,7 +113,17 @@ export class Dex {
                 },
                 payload: payload,
                 explain: explain
-            }))
+            });
+            const callback = { resolve, reject };
+
+            console.log(payload);
+
+            if (db.isReady()) {
+                (db.ws as WebSocket).send(message);
+                db.activeRequests.set(request_id, callback);
+            } else {
+                this.requestQueue.push({ request_id, message, callback });
+            }
         });
     }
 
