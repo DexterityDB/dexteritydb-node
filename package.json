@@ -1,6 +1,6 @@
 {
   "name": "dexteritydb",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Node.js driver for DexterityDB",
   "main": "build/Dex.js",
   "scripts": {
