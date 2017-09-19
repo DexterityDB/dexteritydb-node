@@ -2,6 +2,14 @@
   "name": "dexteritydb",
   "version": "0.1.0",
   "description": "Node.js driver for DexterityDB",
+  "keywords": [
+    "dexteritydb",
+    "database",
+    "driver",
+    "official",
+    "api",
+    "client"
+  ],
   "main": "build/Dex.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
