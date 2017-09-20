@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const WebSocket = require("ws");
 const Collection_1 = require("./Collection");
 const Ops = require("./Ops");
+const PromiseResult_1 = require("./PromiseResult");
 const Request_1 = require("./Request");
 const Utils = require("./Utils");
 class Dex {
@@ -68,7 +69,7 @@ class Dex {
                 const callback = db.activeRequests.get(messageData.request_id);
                 if (callback != null) {
                     db.activeRequests.delete(messageData.request_id);
-                    callback.resolve(messageData.payload.data);
+                    callback.resolve(new PromiseResult_1.ExplainResult(messageData.payload.data, messageData.explain));
                 }
             }
         });
@@ -83,7 +84,7 @@ class Dex {
     }
     sendJSON(payload, explain, collectionName) {
         const db = this;
-        return new Promise((resolve, reject) => {
+        return new PromiseResult_1.PromiseResult((resolve, reject) => {
             let request_id = Utils.randomString(12);
             const message = JSON.stringify({
                 request_id: request_id,

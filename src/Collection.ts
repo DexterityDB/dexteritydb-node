@@ -1,7 +1,7 @@
 import { Dex } from './Dex';
 import * as Ops from './Ops';
-import { PayloadRequestType, UpdateKind, UpdateKindType, UpdateOps } from './Request';
 import { ReadQuery } from './Query';
+import { PayloadRequestType, UpdateKind, UpdateKindType, UpdateOps } from './Request';
 
 export class Collection {
     private explain: boolean;

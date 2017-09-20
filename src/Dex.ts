@@ -1,8 +1,9 @@
 import * as WebSocket from 'ws';
 import { Collection } from './Collection';
 import * as Ops from './Ops';
-import { PayloadRequest, PayloadRequestType } from './Request';
+import { ExplainResult, PromiseResult } from './PromiseResult';
 import { Query } from './Query';
+import { PayloadRequest, PayloadRequestType } from './Request';
 import { ResponseMessage } from './Response';
 import { Value } from './Utils';
 import * as Utils from './Utils';
@@ -84,7 +85,7 @@ export class Dex {
                 const callback = db.activeRequests.get(messageData.request_id);
                 if (callback != null) {
                     db.activeRequests.delete(messageData.request_id);
-                    callback.resolve(messageData.payload.data);
+                    callback.resolve(new ExplainResult(messageData.payload.data, messageData.explain));
                 }
             }
         });
@@ -100,9 +101,9 @@ export class Dex {
         }
     }
 
-    sendJSON(payload: PayloadRequest, explain: boolean, collectionName: string): Promise<any> {
+    sendJSON(payload: PayloadRequest, explain: boolean, collectionName: string): PromiseResult<any> {
         const db = this;
-        return new Promise((resolve, reject) => {
+        return new PromiseResult((resolve, reject) => {
             let request_id = Utils.randomString(12);
 
             const message = JSON.stringify({
@@ -129,7 +130,7 @@ export class Dex {
         return new Collection(this, collectionName);
     }
     
-    dropCollection(collectionName: string): Promise<any> {
+    dropCollection(collectionName: string): PromiseResult<any> {
         return this.sendJSON({ type: PayloadRequestType.RemoveCollection }, false, collectionName);
     }
 

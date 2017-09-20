@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Ops = require("./Ops");
-const Request_1 = require("./Request");
 const Query_1 = require("./Query");
+const Request_1 = require("./Request");
 class Collection {
     constructor(db, collectionName, { bench = false } = {}) {
         this.db = db;
