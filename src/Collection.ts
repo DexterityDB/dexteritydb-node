@@ -3,37 +3,76 @@ import * as Ops from './Ops';
 import { ReadQuery } from './Query';
 import { PayloadRequestType, UpdateKind, UpdateKindType, UpdateOps } from './Request';
 
+/**
+ * Purpose: A Collection object based on the collection that is passed to its constructor
+ * 
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * 
+ */
 export class Collection {
     private explain: boolean;
 
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(public db: Dex, public collectionName: string, { bench = false }: { bench?: boolean } = {}) {
         this.explain = (bench != null ? bench : this.explain);
     }
 
+    /**
+     * Purpose: Returns the name of the collection
+     */
     get name() {
         return this.collectionName;
     }
 
-    // Sets explain parameter which measures the time it takes for the query to process on the database side
-    bench(isOn: boolean = true) {
+    /**
+     * Purpose: Set a parameter that tells the database to bench (or "explain") how long each query takes<br>
+     * @param { boolean } isOn Indicates if parameter should be set or unset
+     * @returns { Collection } The same ```Collection``` that called the function, with the modified parameter
+     */
+    // Sets explain variable
+    bench(isOn: boolean = true): Collection {
         return this.options({bench: isOn});
     }
 
-    // Allows mulitple options to be set through a JSON interface
+    /**
+     * Purpose: Set options for a query
+     * 
+     * Note: Options are being worked on. There will be more in the future...
+     * @param { JSON } options A field-value pair that contains one or more options and their desired values
+     * @param { boolean } options.bench Sets a parameter that tells the database to bench (or "explain") how long each query takes - same functionality as ```Collection.bench```
+     * @returns { Collection } A new ```Collection``` with the desired options set
+     */
+    // Allows multiple options to be set through a JSON interface
     options(options: Object): Collection {
         return new Collection (this.db, this.collectionName, options);
     }
 
+    /**
+     * Purpose: Drop or remove a collection (and its contents) from the database
+     * @returns { Promise } ```true``` if collection was dropped, ```false``` if unsuccessful
+     */
     // Drop/Remove collection
     drop(): Promise<any> {
         return this.send(PayloadRequestType.RemoveCollection);
     }
 
+    /**
+     * Purpose: Index a field. This allows the field to be searchable
+     * @param { string } indexName The name of the field to be indexed
+     * @returns { Promise } ```true``` if the field was indexed or if it has previously been indexed, ```false``` if unsuccessful
+     */
     // Create index or make sure it exists
     index(indexName: string): Promise<any> {
         return this.send(PayloadRequestType.EnsureIndex, indexName);
     }
 
+    /**
+     * Purpose: Find a specified pattern in the database. Can be chained with a consumable method
+     * @param { ReadOp | JSON | null } pattern The pattern that is being searched for; passing ```null``` will return everything in the collection
+     * @returns { ReadQuery } A new ```ReadQuery``` that contains the pattern to be searched
+     */
     // Matches a pattern or a ReadOp object
     find(pattern: Ops.ReadOp | Object | null): ReadQuery {
         return new ReadQuery(this, Ops.resolveReadOp(pattern), this.explain); 

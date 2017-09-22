@@ -3,8 +3,17 @@ import * as Ops from '../Ops';
 import { Query } from './Query';
 import { Op, PayloadRequestType, Projection, ProjectionType, UpdateKind, UpdateKindType, UpdateOps } from '../Request';
 
+/**
+ * Purpose: A class that represents an in-progress query.
+ * A ```ReadQuery``` is chainable so additional methods can be used to modify the query before it is submitted to the database.
+ * 
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ */
 export class ReadQuery extends Query {
 
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(collection: Collection, private optree: Ops.ReadOp | null, explain: boolean, private projection?: Projection) {
         super(collection, explain);
     }

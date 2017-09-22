@@ -1,0 +1,3615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dex - Documentation</title>
+
+    <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav class="nav">
+    <h2 class="home-link"><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Collection.html#bench">bench</a></li><li data-type='method'><a href="Collection.html#drop">drop</a></li><li data-type='method'><a href="Collection.html#find">find</a></li><li data-type='method'><a href="Collection.html#index">index</a></li><li data-type='method'><a href="Collection.html#options">options</a></li></ul></li><li><a href="Dex.html">Dex</a><ul class='methods'><li data-type='method'><a href="Dex.html#.and">and</a></li><li data-type='method'><a href="Dex.html#.delete">delete</a></li><li data-type='method'><a href="Dex.html#.eq">eq</a></li><li data-type='method'><a href="Dex.html#.exclude">exclude</a></li><li data-type='method'><a href="Dex.html#.gt">gt</a></li><li data-type='method'><a href="Dex.html#.gt_lt">gt_lt</a></li><li data-type='method'><a href="Dex.html#.gt_lte">gt_lte</a></li><li data-type='method'><a href="Dex.html#.gte">gte</a></li><li data-type='method'><a href="Dex.html#.gte_lt">gte_lt</a></li><li data-type='method'><a href="Dex.html#.gte_lte">gte_lte</a></li><li data-type='method'><a href="Dex.html#.in">in</a></li><li data-type='method'><a href="Dex.html#.include">include</a></li><li data-type='method'><a href="Dex.html#.lt">lt</a></li><li data-type='method'><a href="Dex.html#.lte">lte</a></li><li data-type='method'><a href="Dex.html#.or">or</a></li><li data-type='method'><a href="Dex.html#close">close</a></li><li data-type='method'><a href="Dex.html#collection">collection</a></li><li data-type='method'><a href="Dex.html#connect">connect</a></li><li data-type='method'><a href="Dex.html#dropCollection">dropCollection</a></li><li data-type='method'><a href="Dex.html#isClosed">isClosed</a></li><li data-type='method'><a href="Dex.html#isOpen">isOpen</a></li><li data-type='method'><a href="Dex.html#isReady">isReady</a></li></ul></li><li><a href="ReadOp.html">ReadOp</a></li><li><a href="ReadQuery.html">ReadQuery</a></li></ul>
+</nav>
+
+<div id="main" class="main-container">
+    
+        <h1 class="page-title">Dex</h1>
+    
+
+    
+
+
+
+
+<section class="page-container">
+
+    <header class="page-header">
+        
+            <h2>
+            Dex
+            </h2>
+            
+                <div class="class-description"><p>Purpose: The main database object that is used in almost every call.
+In most cases, there should be only 1 instance of the <code>Dex</code> class in any single piece of code</p></div>
+            
+        
+    </header>
+
+    <section class="page-content">
+        <article class="container-overview">
+            
+                
+                    <h3>Constructor</h3>
+                
+                
+
+<article class="method">
+    
+        <h4 class="name" id="Dex"><span class="signature-type"></span>new Dex<span class="signature">(<span class="optional">[url]</span>, <span class="optional">[allowReconnect]</span>)</span><span class="signature-return"></span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+            <th>Attributes</th>
+        
+
+        
+            <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>url</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+                <div class="attribute optional">optional</div>
+            
+
+            
+
+            
+        </td>
+    
+
+    
+        <td class="default">
+            
+                <code>""</code>
+            
+        </td>
+    
+
+    <td class="description last"><p>Indicates the database address to connect to
+If this parameter is provided, the driver will automatically begin the connection process
+If not, then the user is required to use <code>Dex.connect</code> when it is time to connect.</p></td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>allowReconnect</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">boolean</span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+                <div class="attribute optional">optional</div>
+            
+
+            
+
+            
+        </td>
+    
+
+    
+        <td class="default">
+            
+                <code>true</code>
+            
+        </td>
+    
+
+    <td class="description last"><p>Indicates if the driver should try to reconnect to the database after the websocket is unintentionally closed</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+            
+        </article>
+
+        
+
+        
+
+        
+
+         
+
+        
+
+        
+
+        
+            <article class="container-methods">
+                <h3 class="subsection-title">Methods</h3>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".and"><span class="signature-type">(static) </span>and<span class="signature">(&hellip;ops)</span><span class="signature-return"> &rarr; {And}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to &quot;And&quot; 2 or more patterns together for searching capabilities</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+            <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>ops</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="ReadOp.html">ReadOp</a></span>
+|
+
+<span class="param-type">JSON</span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+
+            
+
+            
+                <div class="attribute repeatable">repeatable</div>
+            
+        </td>
+    
+
+    
+
+    <td class="description last"><p>The patterns being &quot;And&quot;ed together</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>An <code>And</code> <code>ReadOp</code> that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">And</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".delete"><span class="signature-type">(static) </span>delete<span class="signature">()</span><span class="signature-return"> &rarr; {PartialDelete}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>update</code> queries to indicate a field that should be removed from the items that were found</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialDelete</code> which is used in an <code>update</code> query to modify items in the database</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialDelete</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".eq"><span class="signature-type">(static) </span>eq<span class="signature">(value)</span><span class="signature-return"> &rarr; {PartialEq}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to match fields that have a value equal to the passed value. Usually unnecessary as this is the default operator</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>value</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field must contain to indicate a matched item</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialEq</code> that will resolve to a <code>LoadEq</code> operator that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialEq</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".exclude"><span class="signature-type">(static) </span>exclude<span class="signature">(&hellip;fields)</span><span class="signature-return"> &rarr; {PartialExclude}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>project</code> queries to indicate fields that should be excluded from the result set of items</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+            <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>fields</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+
+            
+
+            
+                <div class="attribute repeatable">repeatable</div>
+            
+        </td>
+    
+
+    
+
+    <td class="description last"><p>The fields that should not be included in the returned result set</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialExclude</code> which is used in a <code>project</code> query to filter results</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialExclude</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".gt"><span class="signature-type">(static) </span>gt<span class="signature">(value)</span><span class="signature-return"> &rarr; {PartialGt}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to match fields that have a value greater than the passed value</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>value</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value is compared to</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialGt</code> that will resolve to a <code>LoadGt</code> operator that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialGt</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".gt_lt"><span class="signature-type">(static) </span>gt_lt<span class="signature">(start, end)</span><span class="signature-return"> &rarr; {PartialGtLt}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to match fields that have a value greater than the start <code>Value</code> and less than the end <code>Value</code></p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>start</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value must be greater than</p></td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>end</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value must be less than</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialGtLt</code> that will resolve to a <code>LoadGtLt</code> operator that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialGtLt</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".gt_lte"><span class="signature-type">(static) </span>gt_lte<span class="signature">(start, end)</span><span class="signature-return"> &rarr; {PartialGtLte}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to match fields that have a value greater than the start <code>Value</code> and less than or equal to the end <code>Value</code></p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>start</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value must be greater than</p></td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>end</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value must be less than or equal to</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialGtLte</code> that will resolve to a <code>LoadGtLte</code> operator that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialGtLte</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".gte"><span class="signature-type">(static) </span>gte<span class="signature">(value)</span><span class="signature-return"> &rarr; {PartialGte}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to match fields that have a value greater than or equal to the passed value</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>value</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value is compared to</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialGte</code> that will resolve to a <code>LoadGte</code> operator that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialGte</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".gte_lt"><span class="signature-type">(static) </span>gte_lt<span class="signature">(start, end)</span><span class="signature-return"> &rarr; {PartialGteLt}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to match fields that have a value greater than or equal to the start <code>Value</code> and less than the end <code>Value</code></p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>start</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value must be greater than or equal to</p></td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>end</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value must be less than</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialGteLt</code> that will resolve to a <code>LoadGteLt</code> operator that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialGteLt</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".gte_lte"><span class="signature-type">(static) </span>gte_lte<span class="signature">(start, end)</span><span class="signature-return"> &rarr; {PartialGteLte}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to match fields that have a value greater than or equal to the start <code>Value</code> and less than or equal to the end <code>Value</code></p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>start</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value must be greater than or equal to</p></td>
+
+</tr>
+
+
+
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>end</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value must be less than or equal to</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialGteLte</code> that will resolve to a <code>LoadGteLte</code> operator that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialGteLte</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".in"><span class="signature-type">(static) </span>in<span class="signature">(&hellip;value)</span><span class="signature-return"> &rarr; {PartialIn}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to match fields that have a value equal to any one of the passed values</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+            <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>value</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+
+            
+
+            
+                <div class="attribute repeatable">repeatable</div>
+            
+        </td>
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code>s that the field must contain at least one of to indicate a matched item</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialIn</code> that will resolve to a <code>LoadIn</code> operator that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialIn</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".include"><span class="signature-type">(static) </span>include<span class="signature">(&hellip;fields)</span><span class="signature-return"> &rarr; {PartialInclude}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>project</code> queries to indicate fields that should be included in the result set of items. Results in all other fields being excluded</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+            <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>fields</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+
+            
+
+            
+                <div class="attribute repeatable">repeatable</div>
+            
+        </td>
+    
+
+    
+
+    <td class="description last"><p>The fields that should be included in the returned result set</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialInclude</code> which is used in a <code>project</code> query to filter results</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialInclude</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".lt"><span class="signature-type">(static) </span>lt<span class="signature">(value)</span><span class="signature-return"> &rarr; {PartialLt}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to match fields that have a value less than the passed value</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>value</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value is compared to</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialLt</code> that will resolve to a <code>LoadLt</code> operator that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialLt</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".lte"><span class="signature-type">(static) </span>lte<span class="signature">(value)</span><span class="signature-return"> &rarr; {PartialLte}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to match fields that have a value less than or equal to the passed value</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>value</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">Value</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The <code>Value</code> that the field's value is compared to</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>PartialLte</code> that will resolve to a <code>LoadLte</code> operator that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">PartialLte</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id=".or"><span class="signature-type">(static) </span>or<span class="signature">(&hellip;ops)</span><span class="signature-return"> &rarr; {Or}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: A shorthand operator used in <code>find</code> queries to &quot;Or&quot; 2 or more patterns together for searching capabilities</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+            <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>ops</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type"><a href="ReadOp.html">ReadOp</a></span>
+|
+
+<span class="param-type">JSON</span>
+
+
+        
+    </td>
+
+    
+        <td class="attributes">
+            
+
+            
+
+            
+                <div class="attribute repeatable">repeatable</div>
+            
+        </td>
+    
+
+    
+
+    <td class="description last"><p>The patterns being &quot;Or&quot;ed together</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>An <code>Or</code> <code>ReadOp</code> that can be used in <code>find</code> queries</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Or</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id="close"><span class="signature-type"></span>close<span class="signature">()</span><span class="signature-return"></span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: Manually disconnect from the database and close websocket connection</p>
+<p>Note: This function overrides the <code>allowReconnect</code> setting and will prevent the websocket from reestablishing a connection.
+To reconnect after running this function, use <code>Dex.connect</code></p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id="collection"><span class="signature-type"></span>collection<span class="signature">(collectionName)</span><span class="signature-return"> &rarr; {<a href="Collection.html">Collection</a>}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: Returns a <code>Collection</code> object, which can be used to query the database - see <code>Collection</code> for more details</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>collectionName</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>The name of the collection that you want to query on</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A <code>Collection</code> object that corresponds to the collection on the database that has the same <code>collectionName</code></p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Collection.html">Collection</a></span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id="connect"><span class="signature-type"></span>connect<span class="signature">(url)</span><span class="signature-return"></span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: Begin connection with database</p>
+<p>Note: This function is unnecessary if a url was passed to the <code>Dex</code> object when constructing it.
+This function is only necessary if no url was passed or if the websocket connection has been manually closed with <code>Dex.close</code></p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>url</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Indicates the database address to connect to</p></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id="dropCollection"><span class="signature-type"></span>dropCollection<span class="signature">(collectionName)</span><span class="signature-return"> &rarr; {Promise}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: Drop or remove a collection (and its contents) from the database</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+            <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        
+            
+            
+<tr class="prop">
+    
+        <td class="name">
+            
+            <code>collectionName</code>
+        </td>
+    
+
+    <td class="type">
+        
+            
+<span class="param-type">string</span>
+
+
+        
+    </td>
+
+    
+
+    
+
+    <td class="description last"></td>
+
+</tr>
+
+
+
+        
+    </tbody>
+</table>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p><code>true</code> if collection was dropped, <code>false</code> if unsuccessful</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id="isClosed"><span class="signature-type"></span>isClosed<span class="signature">()</span><span class="signature-return"> &rarr; {boolean}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: Check if the websocket connection has been manually closed (prevents reconnections until <code>Dex.connect</code> is manually called)</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p><code>true</code> if websocket has been manually closed, <code>false</code> if it has not</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id="isOpen"><span class="signature-type"></span>isOpen<span class="signature">()</span><span class="signature-return"> &rarr; {boolean}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: Check if the websocket connection has not been manually closed (manual closure of websocket connection will prevent the websocket from trying to reconnect)</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p><code>true</code> if websocket is not manually closed, <code>false</code> if it has been manually closed</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+                    
+
+<article class="method">
+    
+        <h4 class="name" id="isReady"><span class="signature-type"></span>isReady<span class="signature">()</span><span class="signature-return"> &rarr; {boolean}</span></h4>
+
+        
+    
+
+    
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+    
+    <div class="description">
+        <p>Purpose: Check if the websocket connection is established and ready for querying</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p><code>true</code> if ready, <code>false</code> if not</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+        
+</article>
+
+                
+            </article>
+        
+
+        
+
+        
+    </section>
+
+</section>
+
+
+
+
+</div>
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Sep 22 2017 14:22:21 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>

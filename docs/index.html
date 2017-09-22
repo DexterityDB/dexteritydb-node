@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home - Documentation</title>
+
+    <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav class="nav">
+    <h2 class="home-link"><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Collection.html">Collection</a><ul class='methods'><li data-type='method'><a href="Collection.html#bench">bench</a></li><li data-type='method'><a href="Collection.html#drop">drop</a></li><li data-type='method'><a href="Collection.html#find">find</a></li><li data-type='method'><a href="Collection.html#index">index</a></li><li data-type='method'><a href="Collection.html#options">options</a></li></ul></li><li><a href="Dex.html">Dex</a><ul class='methods'><li data-type='method'><a href="Dex.html#.and">and</a></li><li data-type='method'><a href="Dex.html#.delete">delete</a></li><li data-type='method'><a href="Dex.html#.eq">eq</a></li><li data-type='method'><a href="Dex.html#.exclude">exclude</a></li><li data-type='method'><a href="Dex.html#.gt">gt</a></li><li data-type='method'><a href="Dex.html#.gt_lt">gt_lt</a></li><li data-type='method'><a href="Dex.html#.gt_lte">gt_lte</a></li><li data-type='method'><a href="Dex.html#.gte">gte</a></li><li data-type='method'><a href="Dex.html#.gte_lt">gte_lt</a></li><li data-type='method'><a href="Dex.html#.gte_lte">gte_lte</a></li><li data-type='method'><a href="Dex.html#.in">in</a></li><li data-type='method'><a href="Dex.html#.include">include</a></li><li data-type='method'><a href="Dex.html#.lt">lt</a></li><li data-type='method'><a href="Dex.html#.lte">lte</a></li><li data-type='method'><a href="Dex.html#.or">or</a></li><li data-type='method'><a href="Dex.html#close">close</a></li><li data-type='method'><a href="Dex.html#collection">collection</a></li><li data-type='method'><a href="Dex.html#connect">connect</a></li><li data-type='method'><a href="Dex.html#dropCollection">dropCollection</a></li><li data-type='method'><a href="Dex.html#isClosed">isClosed</a></li><li data-type='method'><a href="Dex.html#isOpen">isOpen</a></li><li data-type='method'><a href="Dex.html#isReady">isReady</a></li></ul></li><li><a href="ReadOp.html">ReadOp</a></li><li><a href="ReadQuery.html">ReadQuery</a></li></ul>
+</nav>
+
+<div id="main" class="main-container">
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme has-github-corner">
+        <article><h1>dexteritydb-node</h1><p><a href="https://www.npmjs.com/package/dexteritydb"><img src="https://img.shields.io/npm/v/dexteritydb.svg" alt="npm"></a>
+<img src="https://david-dm.org/Savizar/dexteritydb-node.svg" /></p>
+<p>The official Node.js driver for DexterityDB. Provides a high-level API for use in node based applications.</p>
+<h1>Getting Started</h1><p>The easiest way to start using the DexterityDB Node.js driver is to use the node package manager:</p>
+<pre class="prettyprint source lang-bash"><code>npm install dexteritydb</code></pre><p>Then add the following to your Node.js script:</p>
+<pre class="prettyprint source lang-javascript"><code>const { Dex } = require(&quot;dexteritydb&quot;);</code></pre><p>That's it! That's all you need to start using the DexterityDB Node.js driver.</p>
+<h1>Basic Usage</h1><h2>Dex Class</h2><p>The DexterityDB Node.js driver was designed to be easy to use. It was built to be as dextrous and as flexible as possible, while still providing all of the feature capabilities that you might need to write powerful applications and scripts.</p>
+<p>All programs written with the DexterityDB node driver begin with an instance of the <code>Dex</code> class. The <code>Dex</code> class is a database object that contains all of the methods that you might need to start using DexterityDB. It is recommended to use a single instance of <code>Dex</code> in any single piece of code.</p>
+<pre class="prettyprint source lang-javascript"><code>let db = new Dex('http://localhost:3000');</code></pre><p>The <code>Dex</code> constructor accepts two optional parameters. The first parameter, as shown above, is the endpoint of the DexterityDB instance that you want to connect up to. If an address is given, the driver will attempt to connect immediately upon generation of the <code>Dex</code> object. The second optional parameter, not shown in the example above, is a flag that indicates whether or not you want the driver to try to reconnect to the database after a disconnection. By default, this parameter is <code>true</code>.</p>
+<h2>Example Walkthrough</h2><p>The following lines of code can be run in the node driver. We will walk through this example and what it does below. It is important to note that the node driver is asynchronous so the example below uses promises to execute syncronously:</p>
+<pre class="prettyprint source lang-javascript"><code>async function main() {
+    const example = db.collection(&quot;example&quot;);
+    await example.insert({ name: &quot;John&quot;, age: 35 }, { name: &quot;Jane&quot;, age 28 });
+    await example.index(&quot;name&quot;);
+    example.find({ name: &quot;John&quot; }).fetch().then((result) => {
+        console.log(result);
+    });
+}
+
+main();</code></pre><h3>Collection Class</h3><p>The <code>Collection</code> class is the second most used class in the DexterityDB node driver. The <code>Collection</code> class is instantiated with a simple <code>collection</code> function call from a <code>Dex</code> instance. This can be seen in the first line of the <code>main</code> function:</p>
+<pre class="prettyprint source lang-javascript"><code>const example = db.collection(&quot;example&quot;);</code></pre><p>We pass the <code>example</code> string to the <code>collection</code> call to indicate that we are working on the <code>example collection</code>.</p>
+<h3>Insert</h3><p>The second line of the <code>main</code> function shows a simple <code>insert</code> call:</p>
+<pre class="prettyprint source lang-javascript"><code>await example.insert({ name: &quot;John&quot;, age: 35 }, { name: &quot;Jane&quot;, age 28 });</code></pre><p>Any number of JSON objects can be passed into the <code>insert</code> function. Simply treat each object as a separate parameter in the function call.</p>
+<h3>Indexing</h3><p>One of the things that makes DexterityDB special is the requirement of indexing any fields that you may want to search on. Once indexed, a field becomes immediately searchable. Any previously inserted items, as well as any future inserted items will automatically be indexed by the designated field. This is best practice in the database world. It is a bit different than some other databases' approaches, but we feel that encouraging best practices is how we can make everyone's experience with DexterityDB more simple and enjoyable. The third line of the example reads:</p>
+<pre class="prettyprint source lang-javascript"><code>await example.index(&quot;name&quot;);</code></pre><p>Indexing is easy. The above example proves that. Simply pass in the field that you want to index and it will become instantly searchable. DexterityDB does the rest.</p>
+<h3>Find and Fetch</h3><p>The DexterityDB driver utilizes chained commands to provide the user with a language that is very easy to use and easy to understand. <code>Find</code> is a key method that can be chained on a <code>collection</code> call. It can be used to retrieve (or fetch) results, as well as updating and removing items in the database. The fourth line in the <code>main</code> function shows off this capability:</p>
+<pre class="prettyprint source lang-javascript"><code>example.find({ name: &quot;John&quot; }).fetch().then((result) => {
+    console.log(result);
+});</code></pre><p>Just to reiterate, the field that we search on MUST be indexed. If you missed the indexing step, please go up a few mouse scrolls and reread the indexing section. </p>
+<p>To search for something in the database, first we use <code>.find</code> and pass the object pattern that we are looking for. The pattern in the example indicates that we are looking for all items that have the name, &quot;John&quot;, as the value under the indexed field, &quot;name.&quot;</p>
+<p>Since there are many things that we can do with a query result on the database side, there are many methods that can be chained onto the <code>find</code> method. For this example, we use <code>fetch</code>, an intuitive function. <code>Fetch</code> returns all of the objects that fit the <code>find</code> query. No parameters required. As stated earlier, DexterityDB is asynchronous, so we use a <code>.then</code> to consume the <code>promise</code> and print the results.</p>
+<p>That's it! You now have all of the information you need to get started with the DexterityDB Node.js driver. But don't stop there...check out the full <a href="https://dexteritydb.com/api">DexterityDB Node.js API</a> for all of the options and chainable methods that exist on the driver.</p>
+<p>Happy Dexing</p>
+<h2>Helpful Links</h2><p><a href="http://dexteritydb.com">DexterityDB</a><br>
+<!--Node.JS API Documentation<br>-->
+<a href="https://github.com/Savizar/dexteritydb-node">Node.JS Driver GitHub</a></p></article>
+    </section>
+
+    
+        <a href="http://github.com/Savizar/dexteritydb-node" class="github-corner">
+            <svg width="80" height="80" viewBox="0 0 250 250">
+                <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+                <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" class="octo-arm"></path>
+                <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+            </svg>
+        </a>
+
+    
+
+
+
+
+
+
+</div>
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Sep 22 2017 14:22:21 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script src="scripts/main.js"></script>
+</body>
+</html>

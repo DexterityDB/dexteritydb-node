@@ -3,7 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Ops = require("../Ops");
 const Query_1 = require("./Query");
 const Request_1 = require("../Request");
+/**
+ * Purpose: A class that represents an in-progress query.
+ * A ```ReadQuery``` is chainable so additional methods can be used to modify the query before it is submitted to the database.
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ */
 class ReadQuery extends Query_1.Query {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(collection, optree, explain, projection) {
         super(collection, explain);
         this.optree = optree;

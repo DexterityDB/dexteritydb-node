@@ -1,7 +1,18 @@
 import { Projection, ProjectionType, UpdatePartial } from './Request';
 import { Value } from './Utils';
 
+/**
+ * Purpose: An abstract class that represents a single operator that can be interpreted by the driver.
+ * A ```ReadOp``` is created to translate different combinations of patterns into something that the database can understand.
+ * 
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ */
 export class ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
+    constructor(){ };
+
     serialize(opList: any[]): number {
         throw 'Method called on abstract class!';
     }

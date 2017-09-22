@@ -1,0 +1,31 @@
+{
+    "source": {
+        "include": ["build/", "README.md"],
+        "exclude": []
+    },
+    "templates": {
+        "default": {
+            "outputSourceFiles": false
+        }
+    },
+    "plugins": ["plugins/markdown"],
+    "opts": {
+        "recurse": true,
+        "template": "./node_modules/hotdoc/template",
+        "destination": "./docs/"
+    },
+    "hotdoc": {
+        "static": true,         // Display the static members inside the navbar
+        "sort": true,           // Sort the methods in the navbar
+        "collapsible": false,    // If set, categories will be collapsible
+        "startExpanded": true,  // If not set, categories are collapsed by default
+        "home": "Home",          // Text that appears on the "Home" link
+        // if set, the corner will link to the GitHub project
+        "github": "http://github.com/Savizar/dexteritydb-node",
+        // custom variables are added under the default variables and mixins,
+        // but before any style declarations
+        "customVariables": "./styles/_variables.scss"
+        // custom overrides are added under the default styles
+        //"customOverrides": "path/to/your/overrides.scss"
+    }
+}

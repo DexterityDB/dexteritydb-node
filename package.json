@@ -12,7 +12,10 @@
   ],
   "main": "build/Dex.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-ts": "tsc -p tsconfig.json",
+    "generate-docs": "jsdoc -c jsdoc.json",
+    "build": "npm run build-ts && npm run generate-docs"
   },
   "repository": {
     "type": "git",
@@ -29,6 +32,8 @@
   },
   "devDependencies": {
     "@types/ws": "^3.0.2",
+    "hotdoc": "^0.7.2",
+    "jsdoc": "^3.5.5",
     "typescript": "^2.5.2"
   }
 }

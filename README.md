@@ -1,5 +1,6 @@
 # dexteritydb-node
 [![npm](https://img.shields.io/npm/v/dexteritydb.svg)](https://www.npmjs.com/package/dexteritydb)
+<img src="https://david-dm.org/Savizar/dexteritydb-node.svg" />
 
 The official Node.js driver for DexterityDB. Provides a high-level API for use in node based applications.
 

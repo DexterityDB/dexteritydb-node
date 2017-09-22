@@ -1,7 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Request_1 = require("./Request");
+/**
+ * Purpose: An abstract class that represents a single operator that can be interpreted by the driver.
+ * A ```ReadOp``` is created to translate different combinations of patterns into something that the database can understand.
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ */
 class ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
+    constructor() { }
+    ;
     serialize(opList) {
         throw 'Method called on abstract class!';
     }
