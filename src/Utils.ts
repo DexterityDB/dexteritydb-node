@@ -1,3 +1,7 @@
+/**
+ * @typedef {(number | string | null)} Value Purpose: Any value that can be stored by the database in a collection
+ */
+
 export type Value = number | string | null;
 
 export interface CollectionTag {
