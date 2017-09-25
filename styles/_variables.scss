@@ -10,13 +10,15 @@ $color-reblog-green: #56bc8a;
 $color-neat-blue: #529ecc;
 $color-purple-rain: #a77dc2;
 $color-gloomy-cloud: #748089;
+$color-dex-primary: #006064;
+$color-dex-secondary: #00B8D4;
 
 $color-just-vaped: mix($color-tuatura, $color-white, 13%);
 
 // Colors
 $background-color: $color-white;
 $text-color: $color-tuatura;
-$link-color: $color-reblog-green;
+$link-color: $color-dex-secondary;
 $link-active-color: $color-purple-rain;
 $link-hover-color: $link-color;
 $border-color: $color-just-vaped;
@@ -24,11 +26,11 @@ $disabled-text-color: rgba($text-color, 0.5);
 $important-text-color: $color-likable-red;
 $ancestor-text-color: rgba($text-color, 0.8);
 
-$header-text-color: $color-neat-blue;
+$header-text-color: $color-dex-primary;
 $footer-text-color: inherit;
 
 $method-container-border-color: $border-color;
-$method-background-color: $color-neat-blue;
+$method-background-color: $color-dex-primary;
 $method-text-color: $color-white;
 $method-signature-text-color: rgba($color-white, 0.8);
 $method-signature-type-text-color: rgba($color-white, 0.7);
@@ -40,30 +42,30 @@ $table-head-background-color: transparent;
 $table-row-background-color: transparent;
 $table-row-alt-background-color: transparent;
 
-$param-type-text-color: $color-reblog-green;
+$param-type-text-color: $color-dex-secondary;
 $param-attributes-text-color: $color-dank-smoke;
 
 $nav-background-color: $background-color;
 $nav-header-color: $text-color;
-$nav-subheader-color: $color-neat-blue;
+$nav-subheader-color: $color-dex-primary;
 $nav-subheader-active-color: $nav-subheader-color;
 $nav-subheader-hover-color: $nav-subheader-color;
 $nav-text-color: $color-dank-smoke;
 $nav-bullet-color: rgba($text-color, 0.5);
-$nav-active-color: $color-neat-blue;
-$nav-hover-color: $color-neat-blue;
+$nav-active-color: $color-dex-primary;
+$nav-hover-color: $color-dex-primary;
 $nav-border-color: $border-color;
 
 $menu-text-color: $text-color;
 $overlay-background-color: rgba($background-color, 0.5);
-$overlay-text-color: $color-neat-blue;
+$overlay-text-color: $color-dex-primary;
 
 $code-background-color: $color-just-vaped;
 $code-text-color: inherit;
 $code-block-background-color: mix($background-color, $color-just-vaped, 69%);
 $code-block-text-color: inherit;
 $code-border-color: $border-color;
-$code-selected-border-color: $color-reblog-green;
+$code-selected-border-color: $color-dex-secondary;
 
 $github-corner-background-color: $header-text-color;
 $github-corner-foreground-color: $background-color;
@@ -72,24 +74,24 @@ $github-corner-foreground-color: $background-color;
 $syntax-default: $code-text-color;
 
 $syntax-keyword: $color-likable-red;
-$syntax-built-in: $color-reblog-green;
-$syntax-type: $color-neat-blue;
+$syntax-built-in: $color-dex-secondary;
+$syntax-type: $color-dex-primary;
 $syntax-literal: $color-cheezbort;
 $syntax-number: $color-purple-rain;
 $syntax-regexp: $color-purple-rain;
-$syntax-string: $color-reblog-green;
+$syntax-string: $color-dex-secondary;
 $syntax-subst: $color-likable-red;
 $syntax-symbol: $color-likable-red;
-$syntax-class: $color-reblog-green;
+$syntax-class: $color-dex-secondary;
 $syntax-function: $syntax-default;
-$syntax-title: $color-reblog-green;
+$syntax-title: $color-dex-secondary;
 $syntax-params: $color-cheezbort;
 
 $syntax-comment: $color-gloomy-cloud;
 $syntax-doctag: $color-purple-rain;
 $syntax-meta: $color-likable-red;
 $syntax-meta-keyword: $color-gloomy-cloud;
-$syntax-meta-string: $color-reblog-green;
+$syntax-meta-string: $color-dex-secondary;
 
 $syntax-section: $color-gloomy-cloud;
 $syntax-tag: $color-purple-rain;
@@ -97,33 +99,33 @@ $syntax-name: $color-gloomy-cloud;
 $syntax-built-in-name: $color-gloomy-cloud;
 $syntax-attr: $color-dank-smoke;
 $syntax-attribute: $color-dank-smoke;
-$syntax-variable: $color-reblog-green;
+$syntax-variable: $color-dex-secondary;
 
 $syntax-bullet: $color-purple-rain;
 $syntax-code: $color-purple-rain;
 $syntax-emphasis: $color-cheezbort;
 $syntax-strong: $color-black;
-$syntax-formula: $color-neat-blue;
-$syntax-link: $color-reblog-green;
+$syntax-formula: $color-dex-primary;
+$syntax-link: $color-dex-secondary;
 $syntax-quote: $color-cheezbort;
 
 $syntax-selector-tag: $color-cheezbort;
 $syntax-selector-id: $color-cheezbort;
-$syntax-selector-class: $color-reblog-green;
+$syntax-selector-class: $color-dex-secondary;
 $syntax-selector-attr: $color-cheezbort;
 $syntax-selector-pseudo: $color-dank-smoke;
 
 $syntax-template-tag: $color-likable-red;
 $syntax-template-variable: $color-gloomy-cloud;
 
-$syntax-diff-addition: $color-reblog-green;
+$syntax-diff-addition: $color-dex-secondary;
 $syntax-diff-deletion: $color-likable-red;
 
 $syntax-tag-name: $color-purple-rain;
 $syntax-tag-attr: $color-dank-smoke;
-$syntax-tag-string: $color-reblog-green;
+$syntax-tag-string: $color-dex-secondary;
 $syntax-html-tag: $color-gloomy-cloud;
-$syntax-function-keyword: $color-neat-blue;
+$syntax-function-keyword: $color-dex-primary;
 $syntax-function-params: $color-cheezbort;
 
 // Fonts
