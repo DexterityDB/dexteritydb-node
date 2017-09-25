@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Request_1 = require("./Request");
 /**
  * Purpose: An abstract class that represents a single operator that can be interpreted by the driver.
- * A ```ReadOp``` is created to translate different combinations of patterns into something that the database can understand.
+ * A ```ReadOp``` is created to translate different combinations of patterns into something that the database can understand
  *
  * **_This class is created internally as a result of other methods and should never be constructed directly._**
  */
@@ -33,7 +33,17 @@ exports.ProjectionOpPartial = ProjectionOpPartial;
 class UpdateOpPartial {
 }
 exports.UpdateOpPartial = UpdateOpPartial;
+/**
+ * Purpose: A partial operator used in ```ReadQuery``` to find a value that is equal to the passed value.
+ * Created from ```Dex.eq```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOpPartial
+ */
 class PartialEq extends ReadOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(value) {
         super();
         this.value = value;
@@ -43,7 +53,16 @@ class PartialEq extends ReadOpPartial {
     }
 }
 exports.PartialEq = PartialEq;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to find a value that is equal to the passed value
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class LoadEq extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(field, value) {
         super();
         this.field = field;
@@ -63,7 +82,17 @@ class LoadEq extends ReadOp {
     }
 }
 exports.LoadEq = LoadEq;
+/**
+ * Purpose: A partial operator used in ```ReadQuery``` to find a value that is equal to one of the passed values.
+ * Created from ```Dex.in```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOpPartial
+ */
 class PartialIn extends ReadOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(...values) {
         super();
         if (values.length === 0)
@@ -75,7 +104,16 @@ class PartialIn extends ReadOpPartial {
     }
 }
 exports.PartialIn = PartialIn;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to find a value that is equal to one of the passed values
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class LoadIn extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(field, ...values) {
         super();
         this.field = field;
@@ -97,7 +135,17 @@ class LoadIn extends ReadOp {
     }
 }
 exports.LoadIn = LoadIn;
+/**
+ * Purpose: A partial operator used in ```ReadQuery``` to find a value that is less than the passed value.
+ * Created from ```Dex.lt```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOpPartial
+ */
 class PartialLt extends ReadOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(value) {
         super();
         this.value = value;
@@ -107,7 +155,16 @@ class PartialLt extends ReadOpPartial {
     }
 }
 exports.PartialLt = PartialLt;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to find a value that is less than the passed value
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class LoadLt extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(field, value) {
         super();
         this.field = field;
@@ -127,7 +184,17 @@ class LoadLt extends ReadOp {
     }
 }
 exports.LoadLt = LoadLt;
+/**
+ * Purpose: A partial operator used in ```ReadQuery``` to find a value that is less than or equal to the passed value.
+ * Created from ```Dex.lte```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOpPartial
+ */
 class PartialLte extends ReadOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(value) {
         super();
         this.value = value;
@@ -137,7 +204,16 @@ class PartialLte extends ReadOpPartial {
     }
 }
 exports.PartialLte = PartialLte;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to find a value that is less than or equal to the passed value
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class LoadLte extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(field, value) {
         super();
         this.field = field;
@@ -157,7 +233,17 @@ class LoadLte extends ReadOp {
     }
 }
 exports.LoadLte = LoadLte;
+/**
+ * Purpose: A partial operator used in ```ReadQuery``` to find a value that is greater than the passed value.
+ * Created from ```Dex.gt```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOpPartial
+ */
 class PartialGt extends ReadOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(value) {
         super();
         this.value = value;
@@ -167,7 +253,16 @@ class PartialGt extends ReadOpPartial {
     }
 }
 exports.PartialGt = PartialGt;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to find a value that is greater than the passed value
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class LoadGt extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(field, value) {
         super();
         this.field = field;
@@ -187,7 +282,17 @@ class LoadGt extends ReadOp {
     }
 }
 exports.LoadGt = LoadGt;
+/**
+ * Purpose: A partial operator used in ```ReadQuery``` to find a value that is greater than the passed value.
+ * Created from ```Dex.gte```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOpPartial
+ */
 class PartialGte extends ReadOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(value) {
         super();
         this.value = value;
@@ -197,7 +302,16 @@ class PartialGte extends ReadOpPartial {
     }
 }
 exports.PartialGte = PartialGte;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to find a value that is greater than the passed value
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class LoadGte extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(field, value) {
         super();
         this.field = field;
@@ -217,7 +331,17 @@ class LoadGte extends ReadOp {
     }
 }
 exports.LoadGte = LoadGte;
+/**
+ * Purpose: A partial operator used in ```ReadQuery``` to find a value that is greater than the start value and less than the end value.
+ * Created from ```Dex.gtlt```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOpPartial
+ */
 class PartialGtLt extends ReadOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(start, end) {
         super();
         this.start = start;
@@ -228,7 +352,16 @@ class PartialGtLt extends ReadOpPartial {
     }
 }
 exports.PartialGtLt = PartialGtLt;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to find a value that is greater than the start value and less than the end value
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class LoadGtLt extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(field, start, end) {
         super();
         this.field = field;
@@ -250,7 +383,17 @@ class LoadGtLt extends ReadOp {
     }
 }
 exports.LoadGtLt = LoadGtLt;
+/**
+ * Purpose: A partial operator used in ```ReadQuery``` to find a value that is greater than or equal to the start value and less than the end value.
+ * Created from ```Dex.gtelt```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOpPartial
+ */
 class PartialGteLt extends ReadOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(start, end) {
         super();
         this.start = start;
@@ -261,7 +404,16 @@ class PartialGteLt extends ReadOpPartial {
     }
 }
 exports.PartialGteLt = PartialGteLt;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to find a value that is greater than or equal to the start value and less than the end value
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class LoadGteLt extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(field, start, end) {
         super();
         this.field = field;
@@ -283,7 +435,17 @@ class LoadGteLt extends ReadOp {
     }
 }
 exports.LoadGteLt = LoadGteLt;
+/**
+ * Purpose: A partial operator used in ```ReadQuery``` to find a value that is greater than the start value and less than or equal to the end value.
+ * Created from ```Dex.gtlte```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOpPartial
+ */
 class PartialGtLte extends ReadOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(start, end) {
         super();
         this.start = start;
@@ -294,7 +456,16 @@ class PartialGtLte extends ReadOpPartial {
     }
 }
 exports.PartialGtLte = PartialGtLte;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to find a value that is greater than the start value and less than or equal to the end value
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class LoadGtLte extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(field, start, end) {
         super();
         this.field = field;
@@ -316,7 +487,17 @@ class LoadGtLte extends ReadOp {
     }
 }
 exports.LoadGtLte = LoadGtLte;
+/**
+ * Purpose: A partial operator used in ```ReadQuery``` to find a value that is greater than or equal to the start value and less than or equal to the end value.
+ * Created from ```Dex.gtelte```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOpPartial
+ */
 class PartialGteLte extends ReadOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(start, end) {
         super();
         this.start = start;
@@ -327,7 +508,16 @@ class PartialGteLte extends ReadOpPartial {
     }
 }
 exports.PartialGteLte = PartialGteLte;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to find a value that is greater than or equal to the start value and less than or equal to the end value
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class LoadGteLte extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(field, start, end) {
         super();
         this.field = field;
@@ -349,21 +539,51 @@ class LoadGteLte extends ReadOp {
     }
 }
 exports.LoadGteLte = LoadGteLte;
+/**
+ * Purpose: A partial operator used to exclude specific fields on items returned in a ```fetch```.
+ * Created from ```Dex.exclude```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ProjectionOpPartial
+ */
 class PartialExclude extends ProjectionOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(...fields) { super(fields); }
     resolve() {
         return { type: Request_1.ProjectionType.Exclude, data: this.fields };
     }
 }
 exports.PartialExclude = PartialExclude;
+/**
+ * Purpose: A partial operator used to include specific fields on items returned in a ```fetch```.
+ * Created from ```Dex.include```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ProjectionOpPartial
+ */
 class PartialInclude extends ProjectionOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(...fields) { super(fields); }
     resolve() {
         return { type: Request_1.ProjectionType.Include, data: this.fields };
     }
 }
 exports.PartialInclude = PartialInclude;
+/**
+ * Purpose: A partial operator used to remove a field in an update query.
+ * Created from ```Dex.delete```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ProjectionOpPartial
+ */
 class PartialDelete extends UpdateOpPartial {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor() { super(); }
 }
 exports.PartialDelete = PartialDelete;
@@ -435,7 +655,18 @@ function convertMatchObject(obj) {
         return null;
     }
 }
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to combine two or more patterns to be matched.
+ * An "And" operator means that all patterns must match the item for it to be included in the result set.
+ * Created from ```Dex.and```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class And extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(...ops) {
         super();
         if (ops.length <= 1)
@@ -472,7 +703,18 @@ class And extends ReadOp {
     }
 }
 exports.And = And;
+/**
+ * Purpose: A complete ```ReadOp``` used in ```ReadQuery``` to combine two or more patterns to be matched.
+ * An "And" operator means that only one pattern must match the item for it to be included in the result set.
+ * Created from ```Dex.or```
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ * @extends ReadOp
+ */
 class Or extends ReadOp {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(...ops) {
         super();
         if (ops.length <= 1)

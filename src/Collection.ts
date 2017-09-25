@@ -69,7 +69,7 @@ export class Collection {
     }
 
     /**
-     * Purpose: Find a specified pattern in the database. Can be chained with a consumable method
+     * Purpose: Find a specified pattern in the database. Can be chained with a ReadQuery consumable method
      * @param { ReadOp | JSON | null } pattern The pattern that is being searched for; passing ```null``` will return everything in the collection
      * @returns { ReadQuery } A new ```ReadQuery``` that contains the pattern to be searched
      */
@@ -78,21 +78,42 @@ export class Collection {
         return new ReadQuery(this, Ops.resolveReadOp(pattern), this.explain); 
     }
 
+    /**
+     * Purpose: Insert one or more items into the collection. Item should be in JSON format
+     * @param { JSON } items One or more items that should be added to the collection
+     * @returns { Promise } ```true``` if the item(s) is successfully inserted, ```false``` if the insert fails
+     */
     // Inserts an item into the collection
     insert(...items: Object[]): Promise<any> {
         return this.send(PayloadRequestType.Insert, items);
     }
 
+    /**
+     * Purpose: Remove one or more items in the collection based on a pattern
+     * @param { ReadOp | JSON | null } pattern The pattern that matches the items that should be removed; passing a ```null``` will remove all items in the collection 
+     * @returns { Promise } ```true``` if the item(s) are successfully removedd, ```false``` if the removal fails
+     */
     // Removes items based on a matched pattern
     remove(pattern: Ops.ReadOp | Object | null): Promise<any> {
         return this.send(PayloadRequestType.Remove, this.find_then(pattern));
     }
 
+    /**
+     * Purpose: Removes the index on a field in the collection
+     * @param { string } indexName The name of the field that should be unindexed
+     * @returns { Promise } ```true``` if the index was successfully removed, ```false``` if the removal fails
+     */
     // Remove index
     removeIndex(indexName: string): Promise<any> {
         return this.send(PayloadRequestType.RemoveIndex, indexName);
     }
 
+    /**
+     * Purpose: Replaces one or more items with a new item
+     * @param { ReadOp | JSON | null } pattern The pattern to match the items that will be replaced
+     * @param { JSON } item The item that will be replacing the matched items
+     * @returns { Promise } ```true``` if the replacement was successful, ```false``` if the replacement fails
+     */
     // Replaces the matched objects with the designated items
     replace(pattern: Ops.ReadOp | Object | null, item: { [key:string]:any; }): Promise<any> {
         return this.send(
@@ -104,6 +125,12 @@ export class Collection {
         );
     }
 
+    /**
+     * Purpose: Updates one or more items by changing the value of one or more fields or completely deleting a field or fields from the items
+     * @param { ReadOp | JSON | null } pattern The pattern to match the items that will be updated
+     * @param { JSON } updateFields Field-value pairs that indicate what the new value of the field(s) should be or a ```PartialDelete``` shorthand operator
+     * @returns { Promise } ```true``` if the update was successful, ```false``` if the update fails
+     */
     // Updates items in the collection based on match results
     update(pattern: Ops.ReadOp | Object | null, updateFields: { [key:string]:any; }): Promise<any> {
         return this.send(

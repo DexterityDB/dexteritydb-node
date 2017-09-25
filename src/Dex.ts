@@ -265,7 +265,7 @@ export class Dex {
 
     /**
      * Purpose: A shorthand operator used in ```find``` queries to "And" 2 or more patterns together for searching capabilities
-     * @param { ...ReadOp | JSON } ops The patterns being "And"ed together
+     * @param { ReadOp | JSON } ops The patterns being "And"ed together
      * @returns { And } An ```And``` ```ReadOp``` that can be used in ```find``` queries
      */
     static and(...ops: (Ops.ReadOp | object)[]): Ops.And {
@@ -273,7 +273,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to "Or" 2 or more patterns together for searching capabilities
-     * @param { ...ReadOp | JSON } ops The patterns being "Or"ed together
+     * @param { ReadOp | JSON } ops The patterns being "Or"ed together
      * @returns { Or } An ```Or``` ```ReadOp``` that can be used in ```find``` queries
      */
     static or(...ops: (Ops.ReadOp | object)[]): Ops.Or {
@@ -290,7 +290,7 @@ export class Dex {
 
     /**
      * Purpose: A shorthand operator used in ```project``` queries to indicate fields that should be excluded from the result set of items
-     * @param { ...string } fields The fields that should not be included in the returned result set
+     * @param { string } fields The fields that should not be included in the returned result set
      * @returns { PartialExclude } A ```PartialExclude``` which is used in a ```project``` query to filter results
      */
     static exclude(...fields: string[]): Ops.PartialExclude {
@@ -298,7 +298,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```project``` queries to indicate fields that should be included in the result set of items. Results in all other fields being excluded
-     * @param { ...string } fields The fields that should be included in the returned result set
+     * @param { string } fields The fields that should be included in the returned result set
      * @returns { PartialInclude } A ```PartialInclude``` which is used in a ```project``` query to filter results
      */
     static include(...fields: string[]): Ops.PartialInclude {
