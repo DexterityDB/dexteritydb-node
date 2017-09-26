@@ -69,7 +69,7 @@ class Collection {
      */
     // Matches a pattern or a ReadOp object
     find(pattern) {
-        return new Query_1.ReadQuery(this, Ops.resolveReadOp(pattern), this.explain);
+        return new Query_1.ReadQuery(this, Ops.resolveReadOp(pattern));
     }
     /**
      * Purpose: Insert one or more items into the collection. Item should be in JSON format

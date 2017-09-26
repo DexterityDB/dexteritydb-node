@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const Collection_1 = require("../Collection");
 const Ops = require("../Ops");
 const Query_1 = require("./Query");
 const Request_1 = require("../Request");
@@ -13,10 +14,14 @@ class ReadQuery extends Query_1.Query {
     /**
      * **_ Should not be called by the user _**
      */
-    constructor(collection, optree, explain, projection) {
-        super(collection, explain);
+    constructor(collection, optree, projection) {
+        super(collection);
         this.optree = optree;
         this.projection = projection;
+    }
+    bench(isOn) {
+        const collection = new Collection_1.Collection(this.collection.db, this.collection.collectionName, { bench: isOn });
+        return new ReadQuery(collection, this.optree);
     }
     /**
      * Purpose: A chainable method that allows the user to "And" the current query with one or more additional patterns
@@ -38,7 +43,7 @@ class ReadQuery extends Query_1.Query {
         else {
             readQuery = new Ops.And(...patterns);
         }
-        return new ReadQuery(this.collection, readQuery, this.explain);
+        return new ReadQuery(this.collection, readQuery);
     }
     /**
      * Purpose: A chainable method that allows the user to "Or" the current query with one or more additional patterns
@@ -51,7 +56,7 @@ class ReadQuery extends Query_1.Query {
         if (this.optree == null)
             return this;
         else {
-            return new ReadQuery(this.collection, new Ops.Or(this.optree, ...patterns), this.explain);
+            return new ReadQuery(this.collection, new Ops.Or(this.optree, ...patterns));
         }
     }
     /**
@@ -128,7 +133,7 @@ class ReadQuery extends Query_1.Query {
     }
     // Prepares the message to be sent
     send(type, data) {
-        return this.collection.db.sendJSON({ type: type, data: data }, this.explain, this.collection.collectionName);
+        return this.collection.db.sendJSON({ type: type, data: data }, this.collection.explain, this.collection.collectionName);
     }
 }
 exports.ReadQuery = ReadQuery;
