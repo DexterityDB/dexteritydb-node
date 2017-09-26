@@ -10,7 +10,7 @@ import { PayloadRequestType, UpdateKind, UpdateKindType, UpdateOps } from './Req
  * 
  */
 export class Collection {
-    private explain: boolean;
+    explain: boolean;
 
     /**
      * **_ Should not be called by the user _**
@@ -75,7 +75,7 @@ export class Collection {
      */
     // Matches a pattern or a ReadOp object
     find(pattern: Ops.ReadOp | Object | null): ReadQuery {
-        return new ReadQuery(this, Ops.resolveReadOp(pattern), this.explain); 
+        return new ReadQuery(this, Ops.resolveReadOp(pattern)); 
     }
 
     /**

@@ -14,8 +14,13 @@ export class ReadQuery extends Query {
     /**
      * **_ Should not be called by the user _**
      */
-    constructor(collection: Collection, private optree: Ops.ReadOp | null, explain: boolean, private projection?: Projection) {
-        super(collection, explain);
+    constructor(collection: Collection, private optree: Ops.ReadOp | null, private projection?: Projection) {
+        super(collection);
+    }
+
+    bench(isOn: boolean): ReadQuery {
+        const collection = new Collection(this.collection.db, this.collection.collectionName, { bench: isOn });
+        return new ReadQuery(collection, this.optree);
     }
 
     /**
@@ -36,7 +41,7 @@ export class ReadQuery extends Query {
             readQuery = new Ops.And(...patterns);
         }
 
-        return new ReadQuery(this.collection, readQuery, this.explain);
+        return new ReadQuery(this.collection, readQuery);
     }
 
     /**
@@ -49,7 +54,7 @@ export class ReadQuery extends Query {
         // If there are no previous results to Or with
         if (this.optree == null) return this;
         else {
-            return new ReadQuery(this.collection, new Ops.Or(this.optree, ...patterns), this.explain);
+            return new ReadQuery(this.collection, new Ops.Or(this.optree, ...patterns));
         }
     }
 
@@ -150,6 +155,6 @@ export class ReadQuery extends Query {
 
     // Prepares the message to be sent
     private send(type: PayloadRequestType, data: any) {
-        return this.collection.db.sendJSON({ type: type, data: data }, this.explain, this.collection.collectionName);
+        return this.collection.db.sendJSON({ type: type, data: data }, this.collection.explain, this.collection.collectionName);
     }
 }
