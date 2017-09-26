@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ReadOpPartial - Documentation</title>
+    <title>Tutorial: Parts of the Language - Documentation</title>
 
     <!--[if lt IE 9]>
         <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -25,139 +25,50 @@
 
 <div id="main" class="main-container">
     
-        <h1 class="page-title">ReadOpPartial</h1>
+        <h1 class="page-title">Tutorial: Parts of the Language</h1>
     
 
+    <section>
+
+<header>
     
 
+    <h2>Parts of the Language</h2>
+</header>
 
+<article>
+    <p><br>
+The DexterityDB node driver was built to support monolithic operators that are popular in other database driver languages, but we wanted to try something new. The result was a system of chainable and consuming operators that are easier to write and more clear to read.</p>
+<h2>Example</h2><p>The easiest way to explain the chaining system is to lead by example; below we have an example of a moderately complex query that shows off the chaining system and some of the many operators that can be used to create powerful queries that are easy to build. If you haven't read the <a href="./index.html">Getting Started</a>, please do so now before moving forward:</p>
+<pre class="prettyprint source lang-javascript"><code>async function main() {
+    const ourCollection = db.collection(&quot;example&quot;);
+    await ourCollection.index(&quot;name&quot;);
+    await ourCollection.bench()
+        .insert(
+            { name: &quot;Dillon&quot;, age: 24, position: &quot;developer&quot; },
+            { name: &quot;Alex&quot;, age: 23, position: &quot;developer&quot; },
+            { name: &quot;Tom&quot;, position: &quot;marketing&quot; },
+            { name: &quot;Todd&quot;, position: &quot;sales&quot; }
+        );
+    example.find({ position: &quot;developer&quot; })
+        .and({ name: Dex.loadIn(&quot;Dillon&quot;, &quot;Alex&quot; })
+        .or({ name: &quot;Todd&quot; })
+        .or({ position: &quot;marketing&quot; })
+        .fetch()
+        .then((result) => {
+            console.log(result);
+        });
+}
 
-
-<section class="page-container">
-
-    <header class="page-header">
-        
-            <h2>
-            ReadOpPartial
-            </h2>
-            
-                <div class="class-description"><p>Purpose: An abstract class that represents a partial read operator that can be interpreted by the driver.
-A <code>ReadOpPartial</code> is created as a placeholder. They get transformed behind the scenes into <code>ReadOp</code>s</p>
-<p><strong><em>This class is created internally as a result of other methods and should never be constructed directly.</em></strong></p></div>
-            
-        
-    </header>
-
-    <section class="page-content">
-        <article class="container-overview">
-            
-                
-                    <h3>Constructor</h3>
-                
-                
-
-<article class="method">
-    
-        <h4 class="name" id="ReadOpPartial"><span class="signature-type"></span>new ReadOpPartial<span class="signature">()</span><span class="signature-return"></span></h4>
-
-        
-    
-
-    
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-    
-    <div class="description">
-        <p><strong><em> Should not be called by the user </em></strong></p>
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+main();</code></pre><h2>Starters</h2><p>First, a query begins with a function that starts a query. This is where the chain begins. The most commonly returned starter is a <a href="./ReadQuery.html"><code>ReadQuery</code></a> from a <a href="./Collection.html#find"><code>find</code></a> and many other chainable methods. The <code>collection</code> function returns a <code>Collection</code> object. In the example code:</p>
+<pre class="prettyprint source lang-javascript"><code>const ourCollection = db.collection(&quot;example&quot;);</code></pre><p>We have stored the &quot;example&quot; collection in the ourCollection variable. This collection object can now be used for chaining and transforming methods.</p>
+<p>It will become apparent that the line between starter and chaining methods is blurred and the idea is to use methods interchangeably to easily create query chains that can be executed by the database. The <code>find</code> method shows an example of a starter that is also chaining off of another. This method is called on the <code>Collection</code> object and returns a <code>ReadQuery</code> that is trying to match items with the position of &quot;developer.&quot; If we ran this query as is, it would return the Dillon and Alex entries that were inserted above. We will get to the rest of the chained operators in the next section.</p>
+<h2>Chainable Operators</h2><p>The query can be modified by certain chainable operators. These methods transform the query to add additional search parameters or modify the behavior of the function and the return results.</p>
+<h2>Shorthand Operators</h2><p>Sometimes, however, not every query can be created using only chained operators. For these cases, we have created shorthand operators. The <code>Dex</code> class contains many static methods that act as shorthand operators. These operators can be substituted for values in a query in order to modify the value in a way that would be impossible to do otherwise. Some of these operators include ranges and multiple possible values. Take a look at the <a href="./Dex.html"><code>Dex</code></a> documentation for more of these static shorthand methods.</p>
+<h2>Consuming Methods</h2><p>After one or more chainable operators are used, the query should be consumed. Usually a consuming operator takes the query that has been formed and sends it to the database, returning a result, usually (but not always) in the form of a Promise.</p>
 </article>
 
-            
-        </article>
-
-        
-
-        
-
-        
-
-         
-
-        
-
-        
-
-        
-
-        
-
-        
-    </section>
-
 </section>
-
-
-
 
 </div>
 

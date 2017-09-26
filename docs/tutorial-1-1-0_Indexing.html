@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ReadOpPartial - Documentation</title>
+    <title>Tutorial: Indexing - Documentation</title>
 
     <!--[if lt IE 9]>
         <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -25,139 +25,26 @@
 
 <div id="main" class="main-container">
     
-        <h1 class="page-title">ReadOpPartial</h1>
+        <h1 class="page-title">Tutorial: Indexing</h1>
     
 
+    <section>
+
+<header>
     
 
+    <h2>Indexing</h2>
+</header>
 
-
-
-<section class="page-container">
-
-    <header class="page-header">
-        
-            <h2>
-            ReadOpPartial
-            </h2>
-            
-                <div class="class-description"><p>Purpose: An abstract class that represents a partial read operator that can be interpreted by the driver.
-A <code>ReadOpPartial</code> is created as a placeholder. They get transformed behind the scenes into <code>ReadOp</code>s</p>
-<p><strong><em>This class is created internally as a result of other methods and should never be constructed directly.</em></strong></p></div>
-            
-        
-    </header>
-
-    <section class="page-content">
-        <article class="container-overview">
-            
-                
-                    <h3>Constructor</h3>
-                
-                
-
-<article class="method">
-    
-        <h4 class="name" id="ReadOpPartial"><span class="signature-type"></span>new ReadOpPartial<span class="signature">()</span><span class="signature-return"></span></h4>
-
-        
-    
-
-    
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-    
-    <div class="description">
-        <p><strong><em> Should not be called by the user </em></strong></p>
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+<article>
+    <p><br>
+In the database world, it is good practice to index items by the fields that you will want to search on. Indexing ensures the fastest performance possible, on all databases, not just DexterityDB. Therefore, DexterityDB REQUIRES the use of indexes to search on any field in the collection. Sometimes, it is inconvenient or otherwise time consuming to index every field that will be searched on. Therefore, we made it really simple to index a field on your DexterityDB collections.</p>
+<p>Simply call the <a href="../docs/Collection.html#index">index</a> function and pass the field name as a string. Do this at any point before searching on that field. The indexes will be kept up-to-date even after inserting new items in the collection. The DexterityDB team recommends prioritizing indexing and getting it out of the way early. Since DexterityDB automatically indexes new items, indexing fields early makes code cleaner and makes the intent to search on those fields more obvious.</p>
+<p>Now that we have gone over the principles of DexterityDB, let's jump into the way the node driver helps to simplify interactions with the database:</p>
+<p><a href="./tutorial-1-2-0_PartsOfTheLanguage.html">Parts of the Language</a></p>
 </article>
 
-            
-        </article>
-
-        
-
-        
-
-        
-
-         
-
-        
-
-        
-
-        
-
-        
-
-        
-    </section>
-
 </section>
-
-
-
 
 </div>
 

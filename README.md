@@ -56,7 +56,7 @@ await example.insert({ name: "John", age: 35 }, { name: "Jane", age 28 });
 Any number of JSON objects can be passed into the ```insert``` function. Simply treat each object as a separate parameter in the function call.
 
 ### Indexing
-One of the things that makes DexterityDB special is the requirement of indexing any fields that you may want to search on. Once indexed, a field becomes immediately searchable. Any previously inserted items, as well as any future inserted items will automatically be indexed by the designated field. This is best practice in the database world. It is a bit different than some other databases' approaches, but we feel that encouraging best practices is how we can make everyone's experience with DexterityDB more simple and enjoyable. The third line of the example reads:
+One of the things that makes DexterityDB special is the requirement of indexing any fields that you may want to search on. Once indexed, a field becomes immediately searchable. Any previously inserted items, as well as any future inserted items will automatically be indexed by the designated field. This is best practice in the database world. It is a bit different than some other databases' approaches, but we feel that encouraging best practices is how we can make everyone's experience with DexterityDB more simple and enjoyable. Usually, we would encourage indexing at the beginning of the script, but for ease of comprehension, we have done it after the insert. The third line of the example reads:
 ```javascript
 await example.index("name");
 ```

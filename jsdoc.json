@@ -12,7 +12,8 @@
     "opts": {
         "recurse": true,
         "template": "./node_modules/hotdoc/template",
-        "destination": "./docs/"
+        "destination": "./docs/",
+        "tutorials": "./tutorials"
     },
     "hotdoc": {
         "static": true,         // Display the static members inside the navbar

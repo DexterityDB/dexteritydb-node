@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ReadOpPartial - Documentation</title>
+    <title>Tutorial: The Approach - Documentation</title>
 
     <!--[if lt IE 9]>
         <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -25,139 +25,34 @@
 
 <div id="main" class="main-container">
     
-        <h1 class="page-title">ReadOpPartial</h1>
+        <h1 class="page-title">Tutorial: The Approach</h1>
     
 
+    <section>
+
+<header>
     
 
+    <h2>The Approach</h2>
+</header>
 
-
-
-<section class="page-container">
-
-    <header class="page-header">
-        
-            <h2>
-            ReadOpPartial
-            </h2>
-            
-                <div class="class-description"><p>Purpose: An abstract class that represents a partial read operator that can be interpreted by the driver.
-A <code>ReadOpPartial</code> is created as a placeholder. They get transformed behind the scenes into <code>ReadOp</code>s</p>
-<p><strong><em>This class is created internally as a result of other methods and should never be constructed directly.</em></strong></p></div>
-            
-        
-    </header>
-
-    <section class="page-content">
-        <article class="container-overview">
-            
-                
-                    <h3>Constructor</h3>
-                
-                
-
-<article class="method">
-    
-        <h4 class="name" id="ReadOpPartial"><span class="signature-type"></span>new ReadOpPartial<span class="signature">()</span><span class="signature-return"></span></h4>
-
-        
-    
-
-    
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-    
-    <div class="description">
-        <p><strong><em> Should not be called by the user </em></strong></p>
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+<article>
+    <p><br>
+DexterityDB was designed to be fast and easy to use. These principles were carried over to the DexterityDB Node.js driver. Simplicity and dexterity were priorities in building the language that would be used to interact with DexterityDB.</p>
+<p>By following the tutorials in this documentation, you will become familiar with the mantras used by the DexterityDB team. By the end, the DexterityDB node language should seem fluid and easy to understand and implement.</p>
+<h2>Vocabulary</h2><p>First, it is important that we go over some vocab. Some of these terms will probably be common knowledge to anyone very familiar with databases, as well as SQL and noSQL data structures. But some of the terms may have new meaning in the DexterityDB context so the vocab section should serve as a refresher. Feel free to skip this section if you think you're up to date with your database lingo!</p>
+<h3>Collection</h3><p>A group of items in a database, usually related in some way and pertaining to a similar use-case. Can be compared to a Table in structured datasets.</p>
+<h3>Driver</h3><p>You're using one! Databases have a core low-level API that they use to accept messages from applications. These messages can be in any format (DexterityDB currently uses JSON messages). Language drivers allow a developer to code using function calls in coding languages that they are more familiar with. By mapping the functions in the driver to the low-level API, code can be more easily written and understood in languages that are used more frequently in application building.</p>
+<h3>Field</h3><p>Fields in a collection correspond to labels that values will be categorized under. For instance, in a collection of people, there may be a field called &quot;name&quot;. Under this field, the &quot;value&quot; may be &quot;John.&quot; Fields can be compared to column labels in structured datasets.</p>
+<h3>Item</h3><p>An entry in a collection. The item can have field-value pairs that corespond to its characteristics. This is a common schema in noSQL datasets. Each item is basically a row in SQL datasets; each row has columns that contain values.</p>
+<h3>Projection</h3><p>The ability to filter the results that are returned from a search on the database. This filter is done on the database side so that the results returned to the user include or exclude certain fields.</p>
+<h3>Value</h3><p>Any piece of information that is inserted into a collection under a field label. DexterityDB currently supports <code>number</code> and <code>string</code> values.</p>
+<hr>
+<p>Now that's out of the way, check out the next section on Indexing:</p>
+<p><a href="./tutorial-1-1-0_Indexing.html">Indexing</a></p>
 </article>
 
-            
-        </article>
-
-        
-
-        
-
-        
-
-         
-
-        
-
-        
-
-        
-
-        
-
-        
-    </section>
-
 </section>
-
-
-
 
 </div>
 
