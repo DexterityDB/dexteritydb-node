@@ -21,7 +21,14 @@ interface QueuedMessage {
 
 /**
  * Purpose: The main database object that is used in almost every call.
- * In most cases, there should be only 1 instance of the ```Dex``` class in any single piece of code
+ * In most cases, there should be only 1 instance of the ```Dex``` class in any single piece of code.
+ * The ```Dex``` instance can queue up requests before actually connecting to the database,
+ * so we do not return a promise on the ```Dex``` constructor
+ * 
+ * Example:
+ * ```javascript
+ * const db = new Dex("192.168.1.1");
+ * ```
  * @param { string } [url=""] Indicates the database address to connect to
  * If this parameter is provided, the driver will automatically begin the connection process
  * If not, then the user is required to use ```Dex.connect``` when it is time to connect.
@@ -39,6 +46,13 @@ export class Dex {
 
     /**
      * Purpose: Check if the websocket connection has not been manually closed (manual closure of websocket connection will prevent the websocket from trying to reconnect)
+     * 
+     * Example:
+     * ```javascript
+     * if (db.isOpen()) {
+     *  console.log("Database has not been manually closed!");
+     * }
+     * ```
      * @returns { boolean } ```true``` if websocket is not manually closed, ```false``` if it has been manually closed
      */
     isOpen(): boolean {
@@ -47,6 +61,13 @@ export class Dex {
 
     /**
      * Purpose: Check if the websocket connection has been manually closed (prevents reconnections until ```Dex.connect``` is manually called)
+     * 
+     * Example:
+     * ```javascript
+     * if (db.isClosed()) {
+     *  console.log("Database has been manually closed!");
+     * }
+     * ```
      * @returns { boolean } ```true``` if websocket has been manually closed, ```false``` if it has not
      */
     isClosed(): boolean {
@@ -54,7 +75,15 @@ export class Dex {
     }
 
     /**
-     * Purpose: Check if the websocket connection is established and ready for querying
+     * Purpose: Check if the websocket connection is established and ready for querying.
+     * The ```isReady``` method is not necessary when formulating queries or sending messages as messages are queued while no connection is established
+     * 
+     * Example:
+     * ```javascript
+     * if (db.isReady()) {
+     *  console.log("Database is connected and ready!");
+     * }
+     * ```
      * @returns { boolean } ```true``` if ready, ```false``` if not
      */
     isReady(): boolean {
@@ -62,19 +91,28 @@ export class Dex {
     }
 
     /**
-     * Purpose: Begin connection with database
+     * Purpose: Begin connection with database.
+     * The ```Dex``` instance can queue up requests before actually connecting to the database,
+     * so we do not return a promise on the ```connect``` method
      * 
+     * Example:
+     * ```javascript
+     * db.connect("192.168.1.1");
+     * ```
      * Note: This function is unnecessary if a url was passed to the ```Dex``` object when constructing it.
      * This function is only necessary if no url was passed or if the websocket connection has been manually closed with ```Dex.close```
      * @param { string } url Indicates the database address to connect to
+     * @param { boolean } allowReconnect Indicates if the driver should try to reconnect to the database after the websocket is unintentionally closed
      */
-    connect(url: string = this.url) {
+    connect(url: string = this.url, allowReconnect: boolean = this.allowReconnect) {
         if (url === "") { throw 'No connection URL given!'; }
         const db = this;
-        db.closed = false;
         if (db.ws != null) {
             return;
         }
+        db.closed = false;
+        this.url = url;
+        this.allowReconnect = allowReconnect;
         db.ws = new WebSocket(db.url);
 
         db.ws.addEventListener("open", () => {
@@ -124,6 +162,10 @@ export class Dex {
     /**
      * Purpose: Manually disconnect from the database and close websocket connection
      * 
+     * Example:
+     * ```javascript
+     * db.close();
+     * ``` 
      * Note: This function overrides the ```allowReconnect``` setting and will prevent the websocket from reestablishing a connection.
      * To reconnect after running this function, use ```Dex.connect```
      */
@@ -162,6 +204,11 @@ export class Dex {
 
     /**
      * Purpose: Returns a ```Collection``` object, which can be used to query the database - see ```Collection``` for more details
+     * 
+     * Example:
+     * ```javascript
+     * const exampleCollection = db.collection("example");
+     * ```
      * @param { string } collectionName The name of the collection that you want to query on
      * @returns { Collection } A ```Collection``` object that corresponds to the collection on the database that has the same ```collectionName```
      */
@@ -171,6 +218,9 @@ export class Dex {
     
     /**
      * Purpose: Drop or remove a collection (and its contents) from the database
+     * Example:
+     * ```javascript
+     * db.dropCollection("example");
      * @param { string } collectionName 
      * @returns { Promise } ```true``` if collection was dropped, ```false``` if unsuccessful
      */

@@ -26,6 +26,8 @@ let db = new Dex('http://localhost:3000');
 ```
 The ```Dex``` constructor accepts two optional parameters. The first parameter, as shown above, is the endpoint of the DexterityDB instance that you want to connect up to. If an address is given, the driver will attempt to connect immediately upon generation of the ```Dex``` object. The second optional parameter, not shown in the example above, is a flag that indicates whether or not you want the driver to try to reconnect to the database after a disconnection. By default, this parameter is ```true```.
 
+_Due to how the DexterityDB Node.js driver queues messages, the line of code shown above does not need to complete before queries are run in sequential lines. For this reason, we do not handle, nor do we even create, a promise in the constructor of ```Dex``` instances or in its ```connect``` method. The driver will do the hard work of making sure the database is connected before sending requests._
+
 ## Example Walkthrough
 The following lines of code can be run in the node driver. We will walk through this example and what it does below. It is important to note that the node driver is asynchronous so the example below uses promises to execute syncronously:
 ```javascript
