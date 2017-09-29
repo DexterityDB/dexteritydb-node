@@ -221,6 +221,7 @@ export class Dex {
      * Example:
      * ```javascript
      * db.dropCollection("example");
+     * ```
      * @param { string } collectionName 
      * @returns { Promise } ```true``` if collection was dropped, ```false``` if unsuccessful
      */
@@ -229,7 +230,12 @@ export class Dex {
     }
 
     /**
-     * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value equal to the passed value. Usually unnecessary as this is the default operator
+     * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value equal to the passed value
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Alex", position: Dex.eq("developer") })
+     * ```
+     * Note: Usually unnecessary as this is the default operator
      * @param { Value } value The ```Value``` that the field must contain to indicate a matched item
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
      */
@@ -238,6 +244,11 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value equal to any one of the passed values
+     * 
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Alex", position: Dex.loadIn("developer", "marketing", "sales") })
+     * ```
      * @param { ...Value } value The ```Value```s that the field must contain at least one of to indicate a matched item
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
      */
@@ -246,6 +257,10 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value less than the passed value
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Alex", position: Dex.loadIn("developer", "marketing", "sales") })
+     * ```
      * @param { Value } value The ```Value``` that the field's value is compared to
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
      */

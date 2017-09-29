@@ -65,15 +65,6 @@ The ```and``` and ```or``` methods are chainable operators. They can be called o
 
 Chainable operators are designed to allow storage of modified elements without overwriting previous instances. So in the example, we have assigned the ```ourCollection.bench();``` to a new variable called ```benchedCollection```. The ```ourCollection``` object remains unchanged when calling ```bench```. The ```bench``` method simply returns a new ```Collection``` object that becomes ```benchedCollection```. The benefit of this layout is that now we can use ```benchedCollection``` with the ```insert``` method to insert items into the collection and measure how long this action takes, but then we can still use ```ourCollection``` with the ```find``` method to search for items without benching this action. This format provides the most amount of dexterity and makes it harder to accidentally modify ```Collection```s or ```Query```s without knowing it.
 
-Below, we have another example of assigning a partial query to a variable:
-```
-const readOperation = Dex.and({ name: "Alex" }, { position: "developer" });
-ourCollection.find(readOperation).fetch().then((result) => {
-    console.log(result);
-});
-```
-The first line returns a [```ReadOp```](./ReadQuery.html) to "readOperation". This unfinished query can then be passed directly to the ```find``` method, making it really easy to save unfinished queries and adjust them as necessary throughout your code.
-
 By chaining operators, you can create queries that are easy to read and write. But what if you don't like chainable operators, or the query is too complex to use them? This is where shorthand operators come in...
 
 ## Shorthand Operators
@@ -91,6 +82,18 @@ ourCollection.find({ position: "developer" })
 In the ```and``` method, we have used a ```Dex.loadIn``` shorthand operator. The ```Dex.loadIn``` operator essentially creates an "OR" between the values that are inputted into it. So in this example, we have a query that is looking for items with "position" as "developer". In the chained ```and``` method, we use a field, "name", and we give a value that should be searched for. We substitute ```Dex.loadIn``` here since it returns a [```ReadOpPartial```](./ReadOpPartial.html). The ```loadIn``` is a method that allows the user to input two or more values that the item might have on the specified field. So in this case, the item could have the name, "Dillon" or "Alex". There are many types of shorthand operators and they can be very handy in many situations, whether you like chaining methods or not.
 
 Take a look at the [```Dex```](./Dex.html) documentation for more of these static shorthand methods.
+
+## Put it Together
+Below, we have an example of assigning a partial queries to a variables in a way that provides a lot of control and dexterity:
+```javascript
+const developerOrSales = Dex.loadIn("developer", "sales");
+const readOperation = Dex.and({ name: "Alex" }, { position: developerOrSales });
+ourCollection.find(readOperation).fetch().then((result) => {
+    console.log(result);
+});
+```
+The first line returns a [```ReadOpPartial```](./ReadOpPartial.html) to "developerOrSales". The ```loadIn``` shorthand operator is essentially an "Or" for the passed values. So in this example, we are looking for people with the name, "Alex", whose position is either "developer" or "sales". It's easy to store possible ```Value```s or ranges using this method of shorthand operator assignment.
+Moreover, the second line takes advantage of the "developerOrSales" variable that we made and returns a [```ReadOp```](./ReadQuery.html) to "readOperation". This unfinished query can then be passed directly to the ```find``` method, making it really easy to save unfinished queries and adjust them as necessary throughout your code.
 
 ## Consuming Methods
 After one or more chainable operators are used, the query should be consumed. Usually a consuming operator takes the query that has been formed and sends it to the database, returning a result, usually (but not always) in the form of a Promise. We'll break down the example once more to see applications of consuming methods:

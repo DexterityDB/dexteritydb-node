@@ -44,7 +44,6 @@ export class ReadQuery extends Query {
      * ```javascript
      * collection.find({ name: "Alex" }).options({ bench: true });
      * ``` 
-     * 
      * Note: Options are being worked on. There will be more in the future...
      * @param { JSON } options A field-value pair that contains one or more options and their desired values
      * @param { boolean } options.bench Sets a parameter that tells the database to bench (or "explain") how long each query takes - same functionality as ```Collection.bench```
