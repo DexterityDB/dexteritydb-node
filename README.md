@@ -83,5 +83,5 @@ Happy Dexing
 
 ## Helpful Links
 [DexterityDB](http://dexteritydb.com)<br>
-[Node.JS API Documentation Tutorial](https://savizar.github.io/dexteritydb-node/)<br>
+[Node.JS API Documentation Tutorial](https://savizar.github.io/dexteritydb-node/tutorial-1-0-0_TheApproach.html)<br>
 [Node.JS Driver GitHub](https://github.com/Savizar/dexteritydb-node)
