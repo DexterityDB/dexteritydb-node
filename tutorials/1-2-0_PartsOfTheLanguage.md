@@ -28,7 +28,7 @@ main();
 ```
 
 ## Starters
-First, a query begins with a function that starts a query. This is where the chain begins. The most commonly returned starter is a [```ReadQuery```](./ReadQuery.html) from a [```find```](./Collection.html#find) and many other chainable methods. The ```collection``` function returns a ```Collection``` object. In the example code:
+First, a query begins with a function that starts a query. This is where the chain begins. The most commonly returned starter is a [```ReadQuery```](./ReadQuery.html) from a [```find```](./Collection.html#find) and many other chainable methods. The ```collection``` function returns a [```Collection```](./Collection.html) object. In the example code:
 ```javascript
 const ourCollection = db.collection("example");
 ```
@@ -92,7 +92,7 @@ ourCollection.find(readOperation).fetch().then((result) => {
     console.log(result);
 });
 ```
-The first line returns a [```ReadOpPartial```](./ReadOpPartial.html) to "developerOrSales". The ```loadIn``` shorthand operator is essentially an "Or" for the passed values. So in this example, we are looking for people with the name, "Alex", whose position is either "developer" or "sales". It's easy to store possible ```Value```s or ranges using this method of shorthand operator assignment.
+The first line returns a ```ReadOpPartial``` to "developerOrSales". The ```loadIn``` shorthand operator is essentially an "Or" for the passed values. So in this example, we are looking for people with the name, "Alex", whose position is either "developer" or "sales". It's easy to store possible [```Value```s](./global.html#Value) or ranges using this method of shorthand operator assignment.
 Moreover, the second line takes advantage of the "developerOrSales" variable that we made and returns a [```ReadOp```](./ReadQuery.html) to "readOperation". This unfinished query can then be passed directly to the ```find``` method, making it really easy to save unfinished queries and adjust them as necessary throughout your code.
 
 ## Consuming Methods

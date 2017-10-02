@@ -120,7 +120,7 @@ class Collection {
      *
      * Example:
      * ```javascript
-     * await collection.index("name");
+     * await collection.remove("name");
      * ```
      * @param { ReadOp | JSON | null } pattern The pattern that matches the items that should be removed; passing a ```null``` will remove all items in the collection
      * @returns { Promise } ```true``` if the item(s) are successfully removedd, ```false``` if the removal fails

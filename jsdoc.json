@@ -18,7 +18,7 @@
     "hotdoc": {
         "static": true,         // Display the static members inside the navbar
         "sort": true,           // Sort the methods in the navbar
-        "collapsible": false,    // If set, categories will be collapsible
+        "collapsible": true,    // If set, categories will be collapsible
         "startExpanded": true,  // If not set, categories are collapsed by default
         "home": "Home",          // Text that appears on the "Home" link
         // if set, the corner will link to the GitHub project

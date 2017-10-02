@@ -196,6 +196,7 @@ class Dex {
     }
     /**
      * Purpose: Drop or remove a collection (and its contents) from the database
+     *
      * Example:
      * ```javascript
      * db.dropCollection("example");
@@ -208,6 +209,7 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value equal to the passed value
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Alex", position: Dex.eq("developer") })
@@ -234,9 +236,10 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value less than the passed value
+     *
      * Example:
      * ```javascript
-     * collection.find({ name: "Alex", position: Dex.loadIn("developer", "marketing", "sales") })
+     * collection.find({ name: "Alex", age: Dex.lt(30) })
      * ```
      * @param { Value } value The ```Value``` that the field's value is compared to
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
@@ -246,6 +249,11 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value less than or equal to the passed value
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Alex", age: Dex.lte(23) })
+     * ```
      * @param { Value } value The ```Value``` that the field's value is compared to
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
      */
@@ -254,6 +262,11 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than the passed value
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon", age: Dex.gt(18) })
+     * ```
      * @param { Value } value The ```Value``` that the field's value is compared to
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
      */
@@ -262,6 +275,11 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than or equal to the passed value
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon", age: Dex.gte(24) })
+     * ```
      * @param { Value } value The ```Value``` that the field's value is compared to
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
      */
@@ -270,6 +288,11 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than the start ```Value``` and less than the end ```Value```
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Tom", age: Dex.gtlt(18, 30) })
+     * ```
      * @param { Value } start The ```Value``` that the field's value must be greater than
      * @param { Value } end The ```Value``` that the field's value must be less than
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
@@ -279,6 +302,11 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than or equal to the start ```Value``` and less than the end ```Value```
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Tom", age: Dex.gtelt(23, 30) })
+     * ```
      * @param { Value } start The ```Value``` that the field's value must be greater than or equal to
      * @param { Value } end The ```Value``` that the field's value must be less than
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
@@ -288,6 +316,11 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than the start ```Value``` and less than or equal to the end ```Value```
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Tom", age: Dex.gtlte(18, 23) })
+     * ```
      * @param { Value } start The ```Value``` that the field's value must be greater than
      * @param { Value } end The ```Value``` that the field's value must be less than or equal to
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
@@ -297,6 +330,11 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than or equal to the start ```Value``` and less than or equal to the end ```Value```
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Tom", age: Dex.gtelte(18, 30) })
+     * ```
      * @param { Value } start The ```Value``` that the field's value must be greater than or equal to
      * @param { Value } end The ```Value``` that the field's value must be less than or equal to
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
@@ -306,6 +344,11 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to "And" 2 or more patterns together for searching capabilities
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Alex" }).or(Dex.and({ name: Dillon }, { age: 24 }))
+     * ```
      * @param { ReadOp | JSON } ops The patterns being "And"ed together
      * @returns { ReadOp } A ```ReadOp``` that can be used in ```find``` queries
      */
@@ -314,6 +357,11 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to "Or" 2 or more patterns together for searching capabilities
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).and(Dex.or({ age: 35 }, { age: 24 }))
+     * ```
      * @param { ReadOp | JSON } ops The patterns being "Or"ed together
      * @returns { ReadOp } A ```ReadOp``` that can be used in ```find``` queries
      */
@@ -322,23 +370,42 @@ class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```update``` queries to indicate a field that should be removed from the items that were found
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Tom" }).update({ age: Dex.delete(), position: "sales" });
+     * ```
      * @returns { UpdateOpPartial } A ```UpdateOpPartial``` which is used in an ```update``` query to modify items in the database
      */
     static delete() {
         return new Ops.PartialDelete;
     }
     /**
-     * Purpose: A shorthand operator used in ```project``` queries to indicate fields that should be excluded from the result set of items
+     * Purpose: A shorthand operator used in ```fetch``` queries to indicate fields that should be excluded from the result set of items
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetch(Dex.exclude("age")).then((result) => {
+     *  console.log(result);
+     * });
+     * ```
      * @param { string } fields The fields that should not be included in the returned result set
-     * @returns { ProjectionOpPartial } A ```ProjectionOpPartial``` which is used in a ```project``` query to filter results
+     * @returns { ProjectionOpPartial } A ```ProjectionOpPartial``` which is used in a ```fetch``` query to filter results
      */
     static exclude(...fields) {
         return new Ops.PartialExclude(...fields);
     }
     /**
-     * Purpose: A shorthand operator used in ```project``` queries to indicate fields that should be included in the result set of items. Results in all other fields being excluded
+     * Purpose: A shorthand operator used in ```fetch``` queries to indicate fields that should be included in the result set of items. Results in all other fields being excluded
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetch(Dex.include("name", "position")).then((result) => {
+     *  console.log(result);
+     * });
+     * ```
      * @param { string } fields The fields that should be included in the returned result set
-     * @returns { ProjectionOpPartial } A ```ProjectionOpPartial``` which is used in a ```project``` query to filter results
+     * @returns { ProjectionOpPartial } A ```ProjectionOpPartial``` which is used in a ```fetch``` query to filter results
      */
     static include(...fields) {
         return new Ops.PartialInclude(...fields);

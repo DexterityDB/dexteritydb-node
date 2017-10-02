@@ -129,7 +129,7 @@ export class ReadQuery extends Query {
      *  console.log(result);
      * });
      * ```
-     * @param { ProjectionOpPartial | string } [fields] A ```PartialOpPartial``` object created using ```Dex.include``` or ```Dex.Exclude```.
+     * @param { ProjectionOpPartial | string } [fields] A ```PartialOpPartial``` object created using ```Dex.include``` or ```Dex.exclude```.
      * If one or more ```string```s are passed, the default behavior is to include those fields
      * 
      * Note: ```fetch``` will accept multiple ```string``` values or a single ```PartialOpPartial```, **but not both**
