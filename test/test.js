@@ -33,7 +33,7 @@ setTimeout(function() {
     });
 }, 2000);
 */
-async function main() {
+/*async function main() {
     await db.collection("test").insert({ field1: "value1" });
     await db.collection("test").index("field1");
     await db.collection("test").index("field2");
@@ -63,6 +63,33 @@ async function main() {
 
     db.collection("test").bench().find({ field10: "value4" }).fetch().then(function(items, time) {
         console.log("str2: ", items, time);
+    });
+}
+*/
+
+class Person {
+    constructor(name, age, position) {
+        this.name = name;
+        this.age = age;
+        this.position = position;
+    }
+}
+
+async function main() {
+    const coll = db.collection("employees").bench();
+    await coll.drop();
+    await coll.index("name");
+    await coll.index("age");
+    await coll.index("position");
+    const alex = new Person("Alex", 23, "developer");
+    const dillon = new Person("Dillon", 24, "developer");
+    const tom = new Person("Tom", 23, "marketing");
+    const todd = new Person("Todd", 30, "sales");
+    const employees = [alex, dillon, tom, todd];
+    await coll.insert(employees);
+    coll.find({ }).fetch(Dex.exclude("age")).then((result, time) => {
+        console.log("Employee(s): ", result);
+        console.log("Time taken: ", time);
     });
 }
 

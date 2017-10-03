@@ -102,18 +102,23 @@ class Collection {
         return new Query_1.ReadQuery(this, Ops.resolveReadOp(pattern));
     }
     /**
-     * Purpose: Insert one or more items into the collection. Item should be in JSON format
+     * Purpose: Insert one or more items into the collection. Item should be in JSON format or an array of JSON objects
      *
      * Example:
      * ```javascript
      * await collection.insert({ name: "Tom", position: "marketing" }, { name: "Todd", position: "sales"});
      * ```
-     * @param { JSON } items One or more items that should be added to the collection
+     * @param { JSON  } items One or more items that should be added to the collection. Can be individual items or an array of items
      * @returns { Promise } ```true``` if the item(s) is successfully inserted, ```false``` if the insert fails
      */
     // Inserts an item into the collection
     insert(...items) {
-        return this.send(Request_1.PayloadRequestType.Insert, items);
+        if (items.length === 1 && items[0] instanceof Array) {
+            return this.send(Request_1.PayloadRequestType.Insert, items[0]);
+        }
+        else {
+            return this.send(Request_1.PayloadRequestType.Insert, items);
+        }
     }
     /**
      * Purpose: Remove one or more items in the collection based on a pattern

@@ -1,4 +1,5 @@
 import { Dex } from './Dex';
+import { ExplainResult, PromiseResult } from './PromiseResult';
 import * as Ops from './Ops';
 import { ReadQuery } from './Query';
 import { PayloadRequestType, UpdateKind, UpdateKindType, UpdateOps } from './Request';
@@ -109,18 +110,22 @@ export class Collection {
     }
 
     /**
-     * Purpose: Insert one or more items into the collection. Item should be in JSON format
+     * Purpose: Insert one or more items into the collection. Item should be in JSON format or an array of JSON objects
      * 
      * Example:
      * ```javascript
      * await collection.insert({ name: "Tom", position: "marketing" }, { name: "Todd", position: "sales"});
      * ``` 
-     * @param { JSON } items One or more items that should be added to the collection
+     * @param { JSON  } items One or more items that should be added to the collection. Can be individual items or an array of items
      * @returns { Promise } ```true``` if the item(s) is successfully inserted, ```false``` if the insert fails
      */
     // Inserts an item into the collection
-    insert(...items: Object[]): Promise<any> {
-        return this.send(PayloadRequestType.Insert, items);
+    insert(...items: (Object | Object[])[]): Promise<any> {
+        if (items.length === 1 && items[0] instanceof Array) {
+            return this.send(PayloadRequestType.Insert, items[0]);
+        } else {
+            return this.send(PayloadRequestType.Insert, items);
+        }
     }
 
     /**

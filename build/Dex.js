@@ -134,7 +134,13 @@ class Dex {
                 const callback = db.activeRequests.get(messageData.request_id);
                 if (callback != null) {
                     db.activeRequests.delete(messageData.request_id);
-                    callback.resolve(new PromiseResult_1.ExplainResult(messageData.payload.data, messageData.explain));
+                    const explainResult = new PromiseResult_1.ExplainResult(messageData.payload.data, messageData.explain);
+                    if (messageData.payload.type === "Error") {
+                        callback.reject(explainResult);
+                    }
+                    else {
+                        callback.resolve(explainResult);
+                    }
                 }
             }
         });
