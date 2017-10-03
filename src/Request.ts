@@ -38,6 +38,11 @@ export enum UpdateKindType {
     Partial = "Partial"
 }
 
+export interface Cursor {
+    id: string,
+    size: number
+}
+
 interface FetchOps {
     ops: Op[],
     projection: Projection
