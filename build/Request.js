@@ -19,6 +19,7 @@ var PayloadRequestType;
 (function (PayloadRequestType) {
     PayloadRequestType["None"] = "None";
     PayloadRequestType["Count"] = "Count";
+    PayloadRequestType["Cursor"] = "Cursor";
     PayloadRequestType["Fetch"] = "Fetch";
     PayloadRequestType["Insert"] = "Insert";
     PayloadRequestType["Update"] = "Update";

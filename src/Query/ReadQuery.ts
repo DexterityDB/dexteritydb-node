@@ -155,12 +155,16 @@ export class ReadQuery extends Query {
                     throw 'Bad op passed!';
             }
         }
-        return this.send(PayloadRequestType.Fetch, { ops: this.serialize(), projection: projection });
+        const readQuery = this;
+        return this.send(PayloadRequestType.Fetch, { ops: this.serialize(), projection: projection })
+            .then(function (fetchResult) {
+                return new Cursor(readQuery.collection, fetchResult.cursor, fetchResult.items, arguments[1]);
+            });
     }
 
     fetchAll(...fields: (Ops.ProjectionOpPartial | string)[]): Promise<any> {
-        this.fetch(...fields).then((cursor: Cursor) => {
-            return cursor.next(cursor.remaining);
+        return this.fetch(...fields).then((cursor: Cursor) => {
+            return cursor.collect();
         });
     }
 

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Collection_1 = require("../Collection");
+const Cursor_1 = require("../Cursor");
 const Ops = require("../Ops");
 const Query_1 = require("./Query");
 const Request_1 = require("../Request");
@@ -154,7 +155,16 @@ class ReadQuery extends Query_1.Query {
                     throw 'Bad op passed!';
             }
         }
-        return this.send(Request_1.PayloadRequestType.Fetch, { ops: this.serialize(), projection: projection });
+        const readQuery = this;
+        return this.send(Request_1.PayloadRequestType.Fetch, { ops: this.serialize(), projection: projection })
+            .then(function (fetchResult) {
+            return new Cursor_1.Cursor(readQuery.collection, fetchResult.cursor, fetchResult.items, arguments[1]);
+        });
+    }
+    fetchAll(...fields) {
+        return this.fetch(...fields).then((cursor) => {
+            return cursor.collect();
+        });
     }
     /**
      * Purpose: A consumable method that takes the current ```Query``` and executes it, removing the items found by the query

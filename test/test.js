@@ -87,7 +87,7 @@ async function main() {
     const todd = new Person("Todd", 30, "sales");
     const employees = [alex, dillon, tom, todd];
     await coll.insert(employees);
-    coll.find({ }).fetch(Dex.exclude("age")).then((result, time) => {
+    coll.find({ name: Dex.in("Alex", "Dillon", "Tom", "Todd")}).fetch().then((result, time) => {
         console.log("Employee(s): ", result);
         console.log("Time taken: ", time);
     });
