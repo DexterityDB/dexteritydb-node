@@ -18,6 +18,7 @@ enum OpType {
 export enum PayloadRequestType {
     None = "None",
     Count = "Count",
+    Cursor = "Cursor",
     Fetch = "Fetch",
     Insert = "Insert",
     Update = "Update",
@@ -36,11 +37,6 @@ export enum ProjectionType {
 export enum UpdateKindType {
     Overwrite = "Overwrite",
     Partial = "Partial"
-}
-
-export interface Cursor {
-    id: string,
-    size: number
 }
 
 interface FetchOps {

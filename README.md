@@ -77,7 +77,7 @@ To search for something in the database, first we use ```.find``` and pass the o
 
 Since there are many things that we can do with a query result on the database side, there are many methods that can be chained onto the ```find``` method. For this example, we use ```fetch```, an intuitive function. ```Fetch``` returns all of the objects that fit the ```find``` query. No parameters required. As stated earlier, DexterityDB is asynchronous, so we use a ```.then``` to consume the ```promise``` and print the results.
 
-That's it! You now have all of the information you need to get started with the DexterityDB Node.js driver. But don't stop there...check out the full [DexterityDB Node.js API](https://dexteritydb.com/api) for all of the options and chainable methods that exist on the driver.
+That's it! You now have all of the information you need to get started with the DexterityDB Node.js driver. But don't stop there...check out the full [DexterityDB Node.js API Tutorial](https://savizar.github.io/dexteritydb-node/tutorial-1-0-0_TheApproach.html) for all of the options and chainable methods that exist on the driver.
 
 Happy Dexing
 

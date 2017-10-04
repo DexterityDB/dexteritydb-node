@@ -4,6 +4,11 @@
 
 export type Value = number | string | null;
 
+export interface Cursor {
+    id: string,
+    size: number
+}
+
 export interface CollectionTag {
     db: string,
     collection: string

@@ -1,4 +1,5 @@
 import { Collection } from '../Collection';
+import { Cursor } from '../Cursor';
 import * as Ops from '../Ops';
 import { Query } from './Query';
 import { Op, PayloadRequestType, Projection, ProjectionType, UpdateKind, UpdateKindType, UpdateOps } from '../Request';
@@ -155,6 +156,12 @@ export class ReadQuery extends Query {
             }
         }
         return this.send(PayloadRequestType.Fetch, { ops: this.serialize(), projection: projection });
+    }
+
+    fetchAll(...fields: (Ops.ProjectionOpPartial | string)[]): Promise<any> {
+        this.fetch(...fields).then((cursor: Cursor) => {
+            return cursor.next(cursor.remaining);
+        });
     }
 
     /**
