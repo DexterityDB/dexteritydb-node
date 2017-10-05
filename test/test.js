@@ -121,13 +121,24 @@ async function main() {
     }
     await coll.insert(items);
     await coll.index("id");
-    Promise.all([coll.find({ }).fetchAll().then((items) => {
+    Promise.all([
+    coll.find({ }).fetchAll().then((items) => {
         console.log(items);
         let correctItems = [];
         for (let i = 0; i < 100000; i += 1) {
             correctItems.push({ id: i });
         }
         assert.deepEqual(items, correctItems);
+    }),
+    coll.find({ }).fetch().then((cursor) => {
+        cursor.collect().then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 0; i < 100000; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
     }),
     coll.find({ id: Dex.lt(70000) }).fetchAll().then((items) => {
         console.log(items);
@@ -145,6 +156,16 @@ async function main() {
         }
         assert.deepEqual(items, correctItems);
     }),
+    coll.find({ id: Dex.lt(15) }).fetch().then((cursor) => {
+        cursor.collect().then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 0; i < 15; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
+    }),
     coll.find({ id: Dex.gt(10000) }).fetchAll().then((items) => {
         console.log(items);
         let correctItems = [];
@@ -160,6 +181,16 @@ async function main() {
             correctItems.push({ id: i });
         }
         assert.deepEqual(items, correctItems);
+    }),
+    coll.find({ id: Dex.gt(99950) }).fetch().then((cursor) => {
+        cursor.collect().then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 99951; i < 100000; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
     }),
     coll.find({ id: Dex.lte(80000) }).fetchAll().then((items) => {
         console.log(items);
@@ -177,6 +208,16 @@ async function main() {
         }
         assert.deepEqual(items, correctItems);
     }),
+    coll.find({ id: Dex.lte(35) }).fetch().then((cursor) => {
+        cursor.collect().then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 0; i <= 35; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
+    }),
     coll.find({ id: Dex.gte(10) }).fetchAll().then((items) => {
         console.log(items);
         let correctItems = [];
@@ -192,6 +233,16 @@ async function main() {
             correctItems.push({ id: i });
         }
         assert.deepEqual(items, correctItems);
+    }),
+    coll.find({ id: Dex.gte(99972) }).fetch().then((cursor) => {
+        cursor.collect().then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 99972; i < 100000; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
     }),
     coll.find({ id: Dex.gt_lt(1, 60000) }).fetchAll().then((items) => {
         console.log(items);
@@ -209,6 +260,16 @@ async function main() {
         }
         assert.deepEqual(items, correctItems);
     }),
+    coll.find({ id: Dex.gt_lt(56789, 56800) }).fetch().then((cursor) => {
+        cursor.collect().then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 56790; i < 56800; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
+    }),
     coll.find({ id: Dex.gte_lt(10000, 67546) }).fetchAll().then((items) => {
         console.log(items);
         let correctItems = [];
@@ -224,6 +285,16 @@ async function main() {
             correctItems.push({ id: i });
         }
         assert.deepEqual(items, correctItems);
+    }),
+    coll.find({ id: Dex.gte_lt(56289, 56305) }).fetch().then((cursor) => {
+        cursor.collect().then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 56289; i < 56305; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
     }),
     coll.find({ id: Dex.gt_lte(2, 40000) }).fetchAll().then((items) => {
         console.log(items);
@@ -241,6 +312,16 @@ async function main() {
         }
         assert.deepEqual(items, correctItems);
     }),
+    coll.find({ id: Dex.gt_lte(44789, 44800) }).fetch().then((cursor) => {
+        cursor.collect().then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 44790; i <= 44800; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
+    }),
     coll.find({ id: Dex.gte_lte(38, 77657) }).fetchAll().then((items) => {
         console.log(items);
         let correctItems = [];
@@ -256,7 +337,73 @@ async function main() {
             correctItems.push({ id: i });
         }
         assert.deepEqual(items, correctItems);
-    })]).then(() => {
+    }),
+    coll.find({ id: Dex.gte_lte(88789, 88800) }).fetch().then((cursor) => {
+        cursor.collect().then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 88789; i <= 88800; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
+    }),
+
+    coll.find({ }).fetch().then((cursor) => {
+        cursor.next(500).then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 0; i < 500; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
+    }),
+    coll.find({ }).fetch().then((cursor) => {
+        cursor.next(20000).then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 0; i < 20000; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
+    }),
+    coll.find({ }).fetch().then((cursor) => {
+        cursor.next(70000).then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 0; i < 70000; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
+    }),
+    coll.find({ }).fetch().then((cursor) => {
+        cursor.next(100000).then((items) => {
+            console.log(items);
+            let correctItems = [];
+            for (let i = 0; i < 100000; i += 1) {
+                correctItems.push({ id: i });
+            }
+            assert.deepEqual(items, correctItems);
+        });
+    }),
+    coll.find({ }).fetch().then((cursor) => {
+        cursor.next(40000).then((items) => {
+            cursor.collect().then((restOfResults) => {
+                items = items.concat(restOfResults);
+                console.log(items);
+                let correctItems = [];
+                for (let i = 0; i < 100000; i += 1) {
+                    correctItems.push({ id: i });
+                }
+                assert.deepEqual(items, correctItems);
+            });
+        });
+    }),
+
+    ]).then(() => {
         console.log("Tests were successful!");
     });
 }
