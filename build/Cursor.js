@@ -5,7 +5,16 @@ const Request_1 = require("./Request");
 const BUFFER_AHEAD_MIN = 2500;
 const BUFFER_AHEAD_MAX = 5000;
 const DBFETCHLIMIT = 10000;
+/**
+ * Purpose: A class that represents an in-progress query.
+ * A ```ReadQuery``` is chainable so additional methods can be used to modify the query before it is submitted to the database.
+ *
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ */
 class Cursor {
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(collection, cursor, buffer, explain) {
         this.collection = collection;
         this.buffer = buffer;
@@ -25,15 +34,59 @@ class Cursor {
             this.totalSize = buffer.length;
         }
     }
+    /**
+     * Purpose: Returns the number of results that have not been returned from the ```Cursor```
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     *  console.log("Remaining Results: ", cursor.getRemaining());
+     * });
+     * ```
+     * @returns { number } The number of results on the ```Cursor``` that have not been returned to the user yet
+     */
     getRemaining() {
         return this.remaining + this.buffer.length - this.userRequested;
     }
+    /**
+     * Purpose: Returns the number of total results from the query that returned the ```Cursor```
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     *  console.log("Total Results: ", cursor.getTotalSize());
+     * });
+     * ```
+     * @returns { number } The total number of results that were returned with the ```Cursor```
+     */
     getResultSize() {
         return this.totalSize;
     }
+    /**
+     * Purpose: Returns the explain information from the query that returned the ```Cursor```
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     *  console.log("Explain Results ", cursor.getBenchResults());
+     * });
+     * ```
+     * @returns { JSON[] } The explain information from the query that returned the ```Cursor```
+     */
     getBenchResults() {
         return this.explain;
     }
+    /**
+     * Purpose: Returns the explain information from the query that returned the ```Cursor```
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     *  console.log("Explain Results ", cursor.getBenchResults());
+     * });
+     * ```
+     * @returns { JSON[] } The explain information from the query that returned the ```Cursor```
+     */
     next(amount) {
         const cursor = this;
         let promise;
@@ -70,6 +123,7 @@ class Cursor {
     collect() {
         return this.next(this.getRemaining());
     }
+    // Used to request more results from the database to maintain buffer
     fetchMore(amount = DBFETCHLIMIT) {
         const cursor = this;
         if (cursor.activeBatchRequest != null || cursor.requestQueue.length === 0) {

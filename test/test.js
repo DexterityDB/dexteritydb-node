@@ -1,5 +1,6 @@
 'use strict';
 const { Dex } = require('../build/Dex');
+const assert = require('assert');
 
 let db = new Dex("ws://localhost:8080/");
 /*db.collection("stuff").find({field1: "value1"})
@@ -67,6 +68,7 @@ setTimeout(function() {
 }
 */
 
+/*
 class Person {
     constructor(name, age, position) {
         this.name = name;
@@ -87,13 +89,16 @@ async function main() {
     const todd = new Person("Todd", 30, "sales");
     const employees = [alex, dillon, tom, todd];
     await coll.insert(employees);
-    coll.find({ name: Dex.in("Alex", "Dillon", "Tom", "Todd")}).fetch().then((result, time) => {
-        console.log("Employee(s): ", result);
-        console.log("Time taken: ", time);
+    coll.find({ name: Dex.in("Alex", "Dillon", "Tom", "Todd")}).fetch(Dex.exclude("age")).then(async (cursor, explain) => {
+        console.log("Employee(s): ", await cursor.collect());
+        console.log("Time taken: ", explain);
+        db.close();
     });
 }
 
 main();
+
+*/
 
 /*
 setTimeout(function() {
@@ -105,3 +110,157 @@ setTimeout(function() {
     });
 }, 2000);
 */
+
+async function main() {
+    const coll = db.collection("items");
+    coll.drop();
+    let items = [];
+    for (let i = 0; i < 100000; i += 1) {
+        items.push({ id: i });
+    }
+    await coll.insert(items);
+    await coll.index("id");
+    /*
+    coll.find({ }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 0; i < 100000; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+        db.close();
+    });
+    */
+    coll.find({ id: Dex.lt(70000) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 0; i < 70000; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    /*
+    coll.find({ id: Dex.lt(15) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 0; i <= 15; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gt(10000) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 10001; i < 100000; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gt(99950) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 99951; i < 100000; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.lte(80000) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 0; i <= 80000; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.lte(35) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 0; i <= 35; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gte(10) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 10; i < 100000; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gte(99972) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 99972; i < 100000; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gt_lt(1, 60000) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 2; i < 60000; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gt_lt(56789, 56800) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 56790; i < 56800; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gte_lt(10000, 67546) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 10000; i < 67546; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gte_lt(56289, 56305) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 56289; i < 56305; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gt_lte(2, 40000) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 3; i <= 40000; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gt_lte(44789, 44800) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 44790; i <= 44800; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gte_lte(38, 77657) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 38; i <= 77657; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    coll.find({ id: Dex.gte_lte(88789, 88800) }).fetchAll().then((items) => {
+        console.log(items);
+        let correctItems = [];
+        for (let i = 88789; i <= 88800; i += 1) {
+            correctItems.push({ id: i });
+        }
+        assert.deepEqual(items, correctItems);
+    });
+    */
+}
+
+main();

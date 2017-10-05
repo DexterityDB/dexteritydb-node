@@ -29,7 +29,7 @@ class Collection {
      *
      * Example:
      * ```javascript
-     * collection.bench().find({ name: "Alex" }).fetch().then((result, t) => {
+     * collection.bench().find({ name: "Alex" }).fetchAll().then((result, t) => {
      *  console.log(result);
      *  console.log(t);
      * });
@@ -89,7 +89,7 @@ class Collection {
      *
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).fetch().then((result, t) => {
+     * collection.find({ name: "Dillon" }).fetchAll().then((result, t) => {
      *  console.log(result);
      *  console.log(t);
      * });
@@ -108,7 +108,7 @@ class Collection {
      * ```javascript
      * await collection.insert({ name: "Tom", position: "marketing" }, { name: "Todd", position: "sales"});
      * ```
-     * @param { JSON  } items One or more items that should be added to the collection. Can be individual items or an array of items
+     * @param { JSON } items One or more items that should be added to the collection. Can be individual items or an array of items
      * @returns { Promise } ```true``` if the item(s) is successfully inserted, ```false``` if the insert fails
      */
     // Inserts an item into the collection

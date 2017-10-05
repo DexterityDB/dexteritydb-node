@@ -35,7 +35,7 @@ async function main() {
     const example = db.collection("example");
     await example.insert({ name: "John", age: 35 }, { name: "Jane", age 28 });
     await example.index("name");
-    example.find({ name: "John" }).fetch().then((result) => {
+    example.find({ name: "John" }).fetchAll().then((result) => {
         console.log(result);
     });
 }
@@ -67,7 +67,7 @@ Indexing is easy. The above example proves that. Simply pass in the field that y
 ### Find and Fetch
 The DexterityDB driver utilizes chained commands to provide the user with a language that is very easy to use and easy to understand. ```Find``` is a key method that can be chained on a ```collection``` call. It can be used to retrieve (or fetch) results, as well as updating and removing items in the database. The fourth line in the ```main``` function shows off this capability:
 ```javascript
-example.find({ name: "John" }).fetch().then((result) => {
+example.find({ name: "John" }).fetchAll().then((result) => {
     console.log(result);
 });
 ```

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Collection_1 = require("../Collection");
 const Cursor_1 = require("../Cursor");
 const Ops = require("../Ops");
+const PromiseResult_1 = require("../PromiseResult");
 const Query_1 = require("./Query");
 const Request_1 = require("../Request");
 /**
@@ -25,7 +26,7 @@ class ReadQuery extends Query_1.Query {
      *
      * Example:
      * ```javascript
-     * collection.find({ name: "Alex" }).bench().fetch().then((result, t) => {
+     * collection.find({ name: "Alex" }).bench().fetchAll().then((result, t) => {
      *  console.log(result);
      *  console.log(t);
      * });
@@ -60,7 +61,7 @@ class ReadQuery extends Query_1.Query {
      *
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).and({ position: "developer" }).fetch().then((result) => {
+     * collection.find({ name: "Dillon" }).and({ position: "developer" }).fetchAll().then((result) => {
      *  console.log(result);
      * });
      * ```
@@ -89,7 +90,7 @@ class ReadQuery extends Query_1.Query {
      *
      * Example:
      * ```javascript
-     * collection.find({ name: "Todd" }).or({ name: "Tom" }).fetch().then((result) => {
+     * collection.find({ name: "Todd" }).or({ name: "Tom" }).fetchAll().then((result) => {
      *  console.log(result);
      * });
      * ```
@@ -121,11 +122,12 @@ class ReadQuery extends Query_1.Query {
         return this.send(Request_1.PayloadRequestType.Count, this.serialize());
     }
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, returning all of the actual items in the collection that match the query
+     * Purpose: A consumable method that takes the current ```Query``` and executes it, returning a ```Cursor``` that can be used to access a stream of the results
      *
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).fetch().then((result) => {
+     * await const cursor = collection.find({ name: "Dillon" }).fetch();
+     * cursor.next().then((result) => {
      *  console.log(result);
      * });
      * ```
@@ -133,7 +135,7 @@ class ReadQuery extends Query_1.Query {
      * If one or more ```string```s are passed, the default behavior is to include those fields
      *
      * Note: ```fetch``` will accept multiple ```string``` values or a single ```PartialOpPartial```, **but not both**
-     * @returns { Promise } An integer that indicates how many items in the collection that match the query being consumed
+     * @returns { Promise } A ```Cursor``` that can be used to access a stream of results that match the query
      */
     // Fetch items based on matches from ReadQuery
     fetch(...fields) {
@@ -156,14 +158,41 @@ class ReadQuery extends Query_1.Query {
             }
         }
         const readQuery = this;
-        return this.send(Request_1.PayloadRequestType.Fetch, { ops: this.serialize(), projection: projection })
-            .then(function (fetchResult) {
-            return new Cursor_1.Cursor(readQuery.collection, fetchResult.cursor, fetchResult.items, arguments[1]);
+        return new PromiseResult_1.PromiseResult((resolve, reject) => {
+            this.send(Request_1.PayloadRequestType.Fetch, { ops: this.serialize(), projection: projection })
+                .then(function (fetchResult) {
+                const explainResult = new PromiseResult_1.ExplainResult(new Cursor_1.Cursor(readQuery.collection, fetchResult.cursor, fetchResult.items, arguments[1]), arguments[1]);
+                resolve(explainResult);
+            });
         });
     }
+    /**
+     * Purpose: A consumable method that takes the current ```Query``` and executes it, returning all of the actual items in the collection that match the query
+     *
+     * Note: Equivalent to running ```fetch``` and then calling ```Cursor.collect()```
+     *
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetchAll().then((result) => {
+     *  console.log(result);
+     * });
+     * ```
+     * @param { ProjectionOpPartial | string } [fields] A ```PartialOpPartial``` object created using ```Dex.include``` or ```Dex.exclude```.
+     * If one or more ```string```s are passed, the default behavior is to include those fields
+     *
+     * Note: ```fetch``` will accept multiple ```string``` values or a single ```PartialOpPartial```, **but not both**
+     * @returns { Promise } An array of results that match the query
+     */
+    // Fetch items based on matches from ReadQuery
     fetchAll(...fields) {
-        return this.fetch(...fields).then((cursor) => {
-            return cursor.collect();
+        return new PromiseResult_1.PromiseResult((resolve, reject) => {
+            this.fetch(...fields).then((cursor) => {
+                cursor.collect()
+                    .then((items) => {
+                    const explainResult = new PromiseResult_1.ExplainResult(items, cursor.getBenchResults());
+                    resolve(explainResult);
+                });
+            });
         });
     }
     /**

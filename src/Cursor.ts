@@ -14,6 +14,12 @@ interface RequestCallback {
     amount?: number
 }
 
+/**
+ * Purpose: A class that represents an in-progress query.
+ * A ```ReadQuery``` is chainable so additional methods can be used to modify the query before it is submitted to the database.
+ * 
+ * **_This class is created internally as a result of other methods and should never be constructed directly._**
+ */
 export class Cursor {
     private id: string | null = null;
     private totalSize: number;
@@ -22,6 +28,9 @@ export class Cursor {
     private requestQueue: RequestCallback[] = [];
     private activeBatchRequest: Promise<any> | null = null;
 
+    /**
+     * **_ Should not be called by the user _**
+     */
     constructor(private collection: Collection, cursor: Utils.Cursor | null, private buffer: Utils.Value[], private explain: any) {
         if (cursor != null) {
             this.id = cursor.id;
@@ -33,18 +42,62 @@ export class Cursor {
         }
     }
 
-    getRemaining() {
+    /**
+     * Purpose: Returns the number of results that have not been returned from the ```Cursor```
+     * 
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     *  console.log("Remaining Results: ", cursor.getRemaining());
+     * });
+     * ```
+     * @returns { number } The number of results on the ```Cursor``` that have not been returned to the user yet
+     */
+    getRemaining(): number {
         return this.remaining + this.buffer.length - this.userRequested;
     }
 
-    getResultSize() {
+    /**
+     * Purpose: Returns the number of total results from the query that returned the ```Cursor```
+     * 
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     *  console.log("Total Results: ", cursor.getTotalSize());
+     * });
+     * ```
+     * @returns { number } The total number of results that were returned with the ```Cursor```
+     */
+    getResultSize(): number {
         return this.totalSize;
     }
 
-    getBenchResults() {
+    /**
+     * Purpose: Returns the explain information from the query that returned the ```Cursor```
+     * 
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     *  console.log("Explain Results ", cursor.getBenchResults());
+     * });
+     * ```
+     * @returns { JSON[] } The explain information from the query that returned the ```Cursor```
+     */
+    getBenchResults(): number {
         return this.explain; 
     }
 
+    /**
+     * Purpose: Returns the explain information from the query that returned the ```Cursor```
+     * 
+     * Example:
+     * ```javascript
+     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     *  console.log("Explain Results ", cursor.getBenchResults());
+     * });
+     * ```
+     * @returns { JSON[] } The explain information from the query that returned the ```Cursor```
+     */
     next(amount?: number): Promise<any> {
         const cursor = this;
         let promise: Promise<any>;
@@ -84,6 +137,7 @@ export class Cursor {
         return this.next(this.getRemaining());
     }
 
+    // Used to request more results from the database to maintain buffer
     private fetchMore(amount: number = DBFETCHLIMIT) {
         const cursor = this;
         if (cursor.activeBatchRequest != null || cursor.requestQueue.length === 0) { return; }
@@ -129,8 +183,6 @@ export class Cursor {
     }
     
     /*
-    TODO: drop() {
-
-    }
+    TODO: drop() { }
     */
 }

@@ -18,7 +18,7 @@ async function main() {
         .and({ name: Dex.loadIn("Dillon", "Alex" })
         .or({ name: "Todd" })
         .or({ position: "marketing" })
-        .fetch()
+        .fetchAll()
         .then((result) => {
             console.log(result);
         });
@@ -54,7 +54,7 @@ ourCollection.find({ position: "developer" })
         .and({ name: Dex.loadIn("Dillon", "Alex" })
         .or({ name: "Todd" })
         .or({ position: "marketing" })
-        .fetch()
+        .fetchAll()
         .then((result) => {
             console.log(result);
         });
@@ -74,7 +74,7 @@ ourCollection.find({ position: "developer" })
         .and({ name: Dex.loadIn("Dillon", "Alex" })
         .or({ name: "Todd" })
         .or({ position: "marketing" })
-        .fetch()
+        .fetchAll()
         .then((result) => {
             console.log(result);
         });
@@ -88,7 +88,7 @@ Below, we have an example of assigning a partial queries to a variables in a way
 ```javascript
 const developerOrSales = Dex.loadIn("developer", "sales");
 const readOperation = Dex.and({ name: "Alex" }, { position: developerOrSales });
-ourCollection.find(readOperation).fetch().then((result) => {
+ourCollection.find(readOperation).fetchAll().then((result) => {
     console.log(result);
 });
 ```
@@ -112,7 +112,7 @@ async function main() {
         .and({ name: Dex.loadIn("Dillon", "Alex" })
         .or({ name: "Todd" })
         .or({ position: "marketing" })
-        .fetch()
+        .fetchAll()
         .then((result) => {
             console.log(result);
         });
