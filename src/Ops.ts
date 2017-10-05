@@ -622,6 +622,7 @@ export function convertUpdateObject(obj: { [key:string]:any; }): UpdatePartial|n
     for (const field in obj) {
         let value = obj[field];
         switch (value.constructor) {
+            case Boolean:
             case Number:
             case String:
             case Array:
@@ -647,6 +648,7 @@ function convertMatchObject(obj: { [key:string]:any; }): ReadOp|null {
     for (const field in obj) {
         let value = obj[field];
         switch (value.constructor) {
+            case Boolean:
             case Number:
             case String:
                 value = new LoadEq(field, value);

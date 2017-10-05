@@ -649,6 +649,7 @@ function convertUpdateObject(obj) {
     for (const field in obj) {
         let value = obj[field];
         switch (value.constructor) {
+            case Boolean:
             case Number:
             case String:
             case Array:
@@ -675,6 +676,7 @@ function convertMatchObject(obj) {
     for (const field in obj) {
         let value = obj[field];
         switch (value.constructor) {
+            case Boolean:
             case Number:
             case String:
                 value = new LoadEq(field, value);
