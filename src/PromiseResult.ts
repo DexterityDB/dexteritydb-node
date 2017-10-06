@@ -18,6 +18,30 @@ export class PromiseResult<T> extends Promise<T> {
                 }
             }
         }
+        if (onrejected != null) {
+            let callback = onrejected as any;
+            onrejected = (args) => {
+                if (args instanceof ExplainResult) {
+                    return callback(args.result, args.explain);
+                } else {
+                    return callback(args);
+                }
+            }
+        }
         return super.then(onfulfilled, onrejected);
+    }
+
+    catch<TResult2 = never>(onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult2 | T> {
+        if (onrejected != null) {
+            let callback = onrejected as any;
+            onrejected = (args) => {
+                if (args instanceof ExplainResult) {
+                    return callback(args.result, args.explain);
+                } else {
+                    return callback(args);
+                }
+            }
+        }
+        return super.catch(onrejected);
     }
 }

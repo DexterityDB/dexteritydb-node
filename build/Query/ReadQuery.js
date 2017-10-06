@@ -163,7 +163,7 @@ class ReadQuery extends Query_1.Query {
                 .then(function (fetchResult) {
                 const explainResult = new PromiseResult_1.ExplainResult(new Cursor_1.Cursor(readQuery.collection, fetchResult.cursor, fetchResult.items, arguments[1]), arguments[1]);
                 resolve(explainResult);
-            });
+            }, reject);
         });
     }
     /**
@@ -191,8 +191,8 @@ class ReadQuery extends Query_1.Query {
                     .then((items) => {
                     const explainResult = new PromiseResult_1.ExplainResult(items, cursor.getBenchResults());
                     resolve(explainResult);
-                });
-            });
+                }, reject);
+            }, reject);
         });
     }
     /**
@@ -204,7 +204,7 @@ class ReadQuery extends Query_1.Query {
      * ```
      * @returns { Promise } ```true``` if the removal was successful, ```false``` if the removal fails
      */
-    // Remove items based on matches from ReadQuery 
+    // Remove items based on matches from ReadQuery
     remove() {
         return this.send(Request_1.PayloadRequestType.Remove, this.serialize());
     }

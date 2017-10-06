@@ -193,7 +193,7 @@ class Cursor {
             cursor.requestQueue.splice(0, finishedAmount);
             cursor.activeBatchRequest = null;
             cursor.fetchMore();
-        });
+        }, (err) => { console.error("DexterityDB Internal Cursor Error:", err); });
     }
 }
 exports.Cursor = Cursor;
