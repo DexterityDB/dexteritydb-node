@@ -8,7 +8,7 @@ import { Op, PayloadRequestType, Projection, ProjectionType, UpdateKind, UpdateK
 /**
  * Purpose: A class that represents an in-progress query.
  * A ```ReadQuery``` is chainable so additional methods can be used to modify the query before it is submitted to the database.
- * 
+ *
  * **_This class is created internally as a result of other methods and should never be constructed directly._**
  */
 export class ReadQuery extends Query {
@@ -22,7 +22,7 @@ export class ReadQuery extends Query {
 
     /**
      * Purpose: Set a parameter that tells the database to bench (or "explain") how long each query takes<br>
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Alex" }).bench().fetchAll().then((result, t) => {
@@ -41,11 +41,11 @@ export class ReadQuery extends Query {
 
     /**
      * Purpose: Set options for a query
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Alex" }).options({ bench: true });
-     * ``` 
+     * ```
      * Note: Options are being worked on. There will be more in the future...
      * @param { JSON } options A field-value pair that contains one or more options and their desired values
      * @param { boolean } options.bench Sets a parameter that tells the database to bench (or "explain") how long each query takes - same functionality as ```Collection.bench```
@@ -59,7 +59,7 @@ export class ReadQuery extends Query {
 
     /**
      * Purpose: A chainable method that allows the user to "And" the current query with one or more additional patterns
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon" }).and({ position: "developer" }).fetchAll().then((result) => {
@@ -87,7 +87,7 @@ export class ReadQuery extends Query {
 
     /**
      * Purpose: A chainable method that allows the user to "Or" the current query with one or more additional patterns
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Todd" }).or({ name: "Tom" }).fetchAll().then((result) => {
@@ -108,7 +108,7 @@ export class ReadQuery extends Query {
 
     /**
      * Purpose: A consumable method that takes the current ```Query``` and executes it, returning just the number of items in the collection that match the query
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon" }).count().then((resultCnt) => {
@@ -124,7 +124,7 @@ export class ReadQuery extends Query {
 
     /**
      * Purpose: A consumable method that takes the current ```Query``` and executes it, returning a ```Cursor``` that can be used to access a stream of the results
-     * 
+     *
      * Example:
      * ```javascript
      * await const cursor = collection.find({ name: "Dillon" }).fetch();
@@ -134,7 +134,7 @@ export class ReadQuery extends Query {
      * ```
      * @param { ProjectionOpPartial | string } [fields] A ```PartialOpPartial``` object created using ```Dex.include``` or ```Dex.exclude```.
      * If one or more ```string```s are passed, the default behavior is to include those fields
-     * 
+     *
      * Note: ```fetch``` will accept multiple ```string``` values or a single ```PartialOpPartial```, **but not both**
      * @returns { Promise } A ```Cursor``` that can be used to access a stream of results that match the query
      */
@@ -163,15 +163,15 @@ export class ReadQuery extends Query {
                 .then(function (fetchResult) {
                     const explainResult = new ExplainResult(new Cursor(readQuery.collection, fetchResult.cursor, fetchResult.items, arguments[1]), arguments[1]);
                     resolve(explainResult);
-                });
+                }, reject);
         });
     }
 
     /**
      * Purpose: A consumable method that takes the current ```Query``` and executes it, returning all of the actual items in the collection that match the query
-     * 
+     *
      * Note: Equivalent to running ```fetch``` and then calling ```Cursor.collect()```
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon" }).fetchAll().then((result) => {
@@ -180,7 +180,7 @@ export class ReadQuery extends Query {
      * ```
      * @param { ProjectionOpPartial | string } [fields] A ```PartialOpPartial``` object created using ```Dex.include``` or ```Dex.exclude```.
      * If one or more ```string```s are passed, the default behavior is to include those fields
-     * 
+     *
      * Note: ```fetch``` will accept multiple ```string``` values or a single ```PartialOpPartial```, **but not both**
      * @returns { Promise } An array of results that match the query
      */
@@ -192,32 +192,32 @@ export class ReadQuery extends Query {
                     .then((items) => {
                         const explainResult = new ExplainResult(items, cursor.getBenchResults());
                         resolve(explainResult);
-                    });
-            });
+                    }, reject);
+            }, reject);
         });
     }
 
     /**
      * Purpose: A consumable method that takes the current ```Query``` and executes it, removing the items found by the query
-     * 
+     *
      * Example:
      * ```javascript
      * await collection.find({ name: "Dillon" }).remove();
-     * ``` 
+     * ```
      * @returns { Promise } ```true``` if the removal was successful, ```false``` if the removal fails
      */
-    // Remove items based on matches from ReadQuery 
+    // Remove items based on matches from ReadQuery
     remove(): Promise<any> {
         return this.send(PayloadRequestType.Remove, this.serialize());
     }
 
     /**
      * Purpose: A consumable method that takes the current ```Query``` and executes it, removing the items found by the query and replacing them with the passed object
-     * 
+     *
      * Example:
      * ```javascript
      * await collection.find({ name: "Todd" }).replace( { name: "Tom", age: 23 });
-     * ``` 
+     * ```
      * @param { JSON } item The item that will be replacing the matched items
      * @returns { Promise } ```true``` if the replacement was successful, ```false``` if the replacement fails
      */
@@ -237,7 +237,7 @@ export class ReadQuery extends Query {
 
     /**
      * Purpose: A consumable method that takes the current ```Query``` and executes it, removing the items found by the query and replacing them with the passed object
-     * 
+     *
      * Example:
      * ```javascript
      * await collection.find({ name: "Tom" }).update({ name: "Todd", age: Dex.delete() });
@@ -248,7 +248,7 @@ export class ReadQuery extends Query {
     // Updates items in the collection based on previous match results
     update(updateFields: { [key:string]:any; }): Promise<any> {
         return this.send(
-            PayloadRequestType.Update, 
+            PayloadRequestType.Update,
             new UpdateOps(
                 this.serialize(),
                 new UpdateKind(

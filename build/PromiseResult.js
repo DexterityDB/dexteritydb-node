@@ -23,7 +23,32 @@ class PromiseResult extends Promise {
                 }
             };
         }
+        if (onrejected != null) {
+            let callback = onrejected;
+            onrejected = (args) => {
+                if (args instanceof ExplainResult) {
+                    return callback(args.result, args.explain);
+                }
+                else {
+                    return callback(args);
+                }
+            };
+        }
         return super.then(onfulfilled, onrejected);
+    }
+    catch(onrejected) {
+        if (onrejected != null) {
+            let callback = onrejected;
+            onrejected = (args) => {
+                if (args instanceof ExplainResult) {
+                    return callback(args.result, args.explain);
+                }
+                else {
+                    return callback(args);
+                }
+            };
+        }
+        return super.catch(onrejected);
     }
 }
 exports.PromiseResult = PromiseResult;

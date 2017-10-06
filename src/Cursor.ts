@@ -17,7 +17,7 @@ interface RequestCallback {
 /**
  * Purpose: A class that represents an in-progress query.
  * A ```ReadQuery``` is chainable so additional methods can be used to modify the query before it is submitted to the database.
- * 
+ *
  * **_This class is created internally as a result of other methods and should never be constructed directly._**
  */
 export class Cursor {
@@ -44,7 +44,7 @@ export class Cursor {
 
     /**
      * Purpose: Returns the number of results that have not been returned from the ```Cursor```
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
@@ -59,7 +59,7 @@ export class Cursor {
 
     /**
      * Purpose: Returns the number of total results from the query that returned the ```Cursor```
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
@@ -74,7 +74,7 @@ export class Cursor {
 
     /**
      * Purpose: Returns the explain information from the query that returned the ```Cursor```
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
@@ -84,12 +84,12 @@ export class Cursor {
      * @returns { JSON[] } The explain information from the query that returned the ```Cursor```
      */
     getBenchResults(): number {
-        return this.explain; 
+        return this.explain;
     }
 
     /**
      * Purpose: Returns the explain information from the query that returned the ```Cursor```
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
@@ -127,9 +127,9 @@ export class Cursor {
                 });
             }
         }
-        
+
         cursor.fetchMore();
-        
+
         return promise;
     }
 
@@ -153,7 +153,7 @@ export class Cursor {
             cursor.requestQueue = [];
             return;
         }
-        cursor.activeBatchRequest = cursor.collection.db.sendJSON({ type: PayloadRequestType.Cursor, data: { id: cursor.id, size: amount} }, cursor.collection.explain, cursor.collection.collectionName);
+        cursor.activeBatchRequest = cursor.collection.db.sendJSON({ type: PayloadRequestType.Cursor, data: { id: cursor.id, size: amount } }, cursor.collection.explain, cursor.collection.collectionName);
         cursor.activeBatchRequest.then((result: FetchResult) => {
             cursor.remaining -= result.items.length;
             cursor.buffer = cursor.buffer.concat(result.items);
@@ -179,9 +179,9 @@ export class Cursor {
             cursor.requestQueue.splice(0, finishedAmount);
             cursor.activeBatchRequest = null;
             cursor.fetchMore();
-        });
+        }, (err) => { console.error("DexterityDB Internal Cursor Error:", err); });
     }
-    
+
     /*
     TODO: drop() { }
     */
