@@ -7,8 +7,8 @@ The easiest way to explain the chaining system is to lead by example; below we h
 async function main() {
     const ourCollection = db.collection("example");
     await ourCollection.index("name");
-    let benchedCollection = ourCollection.bench();
-    await benchedCollection.insert(
+    let explainedCollection = ourCollection.explain();
+    await explainedCollection.insert(
             { name: "Dillon", age: 24, position: "developer" },
             { name: "Alex", age: 23, position: "developer" },
             { name: "Tom", position: "marketing" },
@@ -43,8 +43,8 @@ This method is called on the ```Collection``` object and returns a ```ReadQuery`
 ## Chainable Operators
 The query can be modified by certain chainable operators. These methods transform the query to add additional search parameters or modify the behavior of the function and the return results. In the example code:
 ```javascript
-let benchedCollection = ourCollection.bench();
-benchedCollection.insert(
+let explainedCollection = ourCollection.explain();
+explainedCollection.insert(
             { name: "Dillon", age: 24, position: "developer" },
             { name: "Alex", age: 23, position: "developer" },
             { name: "Tom", position: "marketing" },
@@ -59,11 +59,11 @@ ourCollection.find({ position: "developer" })
             console.log(results);
         });
 ```
-The ```bench``` method can be considered a chainable operator because it takes the ```Collection``` it is called on and returns a new ```Collection``` that has the ```explain``` parameter set. This parameter tells the database to measure the time that it takes to do queries, whether that be an insert, remove, or find. The ```bench``` parameter can also be called off of other objects and it will act the same way, returning a new object that has the ```explain``` parameter set on its ```Collection```.
+The ```explain``` method can be considered a chainable operator because it takes the ```Collection``` it is called on and returns a new ```Collection``` that has the ```explain``` parameter set. This parameter tells the database to provide information about the queries that are performed, whether that be an insert, remove, or find. This information contains statistics on things such as how long the database took to perform an operation or how much data it searched through, etc. The ```explain``` parameter can also be called off of other objects and it will act the same way, returning a new object that has the ```explain``` parameter set on its ```Collection```.
 
 The ```and``` and ```or``` methods are chainable operators. They can be called on methods that return ```ReadQuery``` objects, such as the ```find``` method. In this example, the ```find``` begins with a search for all items with "developer" as the person's "position". An easy way to add more parameters to this search is to add the ```and``` method. The ```add``` method makes it so that the items being returned should also have the "name", "Dillon" or "Alex". We'll get to what the ```Dex.loadIn``` is in the next section! The next ```or``` method adds the ability to also look for items whose "name" is "Todd".
 
-Chainable operators are designed to allow storage of modified elements without overwriting previous instances. So in the example, we have assigned the ```ourCollection.bench();``` to a new variable called ```benchedCollection```. The ```ourCollection``` object remains unchanged when calling ```bench```. The ```bench``` method simply returns a new ```Collection``` object that becomes ```benchedCollection```. The benefit of this layout is that now we can use ```benchedCollection``` with the ```insert``` method to insert items into the collection and measure how long this action takes, but then we can still use ```ourCollection``` with the ```find``` method to search for items without benching this action. This format provides the most amount of dexterity and makes it harder to accidentally modify ```Collection```s or ```Query```s without knowing it.
+Chainable operators are designed to allow storage of modified elements without overwriting previous instances. So in the example, we have assigned the ```ourCollection.explain();``` to a new variable called ```explainedCollection```. The ```ourCollection``` object remains unchanged when calling ```explain```. The ```explain``` method simply returns a new ```Collection``` object that becomes ```explainedCollection```. The benefit of this layout is that now we can use ```explainedCollection``` with the ```insert``` method to insert items into the collection and measure how long this action takes, but then we can still use ```ourCollection``` with the ```find``` method to search for items without explaining this action. This format provides the most amount of dexterity and makes it harder to accidentally modify ```Collection```s or ```Query```s without knowing it.
 
 By chaining operators, you can create queries that are easy to read and write. But what if you don't like chainable operators, or the query is too complex to use them? This is where shorthand operators come in...
 
@@ -101,8 +101,8 @@ After one or more chainable operators are used, the query should be consumed. Us
 async function main() {
     const ourCollection = db.collection("example");
     await ourCollection.index("name");
-    let benchedCollection = ourCollection.bench();
-    await benchedCollection.insert(
+    let explainedCollection = ourCollection.explain();
+    await explainedCollection.insert(
             { name: "Dillon", age: 24, position: "developer" },
             { name: "Alex", age: 23, position: "developer" },
             { name: "Tom", position: "marketing" },

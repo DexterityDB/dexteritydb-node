@@ -11,13 +11,13 @@ import { PayloadRequestType, UpdateKind, UpdateKindType, UpdateOps } from './Req
  * 
  */
 export class Collection {
-    explain: boolean;
+    _explain: boolean;
 
     /**
      * **_ Should not be called by the user _**
      */
-    constructor(public db: Dex, public collectionName: string, { bench = false }: { bench?: boolean } = {}) {
-        this.explain = (bench != null ? bench : this.explain);
+    constructor(public db: Dex, public collectionName: string, {  explain = false }: { explain?: boolean } = {}) {
+        this._explain = (explain != null ? explain : this._explain);
     }
 
     /**
@@ -28,11 +28,11 @@ export class Collection {
     }
 
     /**
-     * Purpose: Set a parameter that tells the database to bench (or "explain") how long each query takes
+     * Purpose: Set a parameter on the ```Collection``` object that tells the database to provide information about the queries that are performed
      * 
      * Example:
      * ```javascript
-     * collection.bench().find({ name: "Alex" }).fetchAll().then((results, t) => {
+     * collection.explain().find({ name: "Alex" }).fetchAll().then((results, t) => {
      *  console.log(results);
      *  console.log(t);
      * });
@@ -41,8 +41,8 @@ export class Collection {
      * @returns { Collection } The same ```Collection``` that called the function, with the modified parameter
      */
     // Sets explain variable
-    bench(isOn: boolean = true): Collection {
-        return this.options({bench: isOn});
+    explain(isOn: boolean = true): Collection {
+        return this.options({explain: isOn});
     }
 
     /**
@@ -50,11 +50,11 @@ export class Collection {
      * 
      * Example:
      * ```javascript
-     * collection.options({ bench: true });
+     * collection.options({ explain: true });
      * ```
      * Note: Options are being worked on. There will be more in the future...
      * @param { JSON } options A field-value pair that contains one or more options and their desired values
-     * @param { boolean } options.bench Sets a parameter that tells the database to bench (or "explain") how long each query takes - same functionality as ```Collection.bench```
+     * @param { boolean } options.explain Sets a parameter on the ```Collection``` object that tells the database to provide information about the queries that are performed - same functionality as ```Collection.explain```
      * @returns { Collection } A new ```Collection``` with the desired options set
      */
     // Allows multiple options to be set through a JSON interface
@@ -214,6 +214,6 @@ export class Collection {
 
     // Prepares message to be sent
     private send(type: PayloadRequestType, data?: any) {
-        return this.db.sendJSON({ type: type, data: data }, this.explain, this.collectionName);
+        return this.db.sendJSON({ type: type, data: data }, this._explain, this.collectionName);
     }
 }

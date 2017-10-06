@@ -9,7 +9,7 @@ let db = new Dex("ws://localhost:8080/");
     .or({num: 0})
     .count();
 
-db.collection("stuff").bench().find({field1: "value1"}).fetch();
+db.collection("stuff").explain().find({field1: "value1"}).fetch();
 
 db.collection("stuff").drop();
 db.dropCollection("stuff");
@@ -23,8 +23,8 @@ db.collection("stuff").index("field1");
 
 db.collection("stuff").removeIndex("field1");
 
-db.collection("stuff").bench().drop();
-db.collection("stuff").options({bench: true}).drop();
+db.collection("stuff").explain().drop();
+db.collection("stuff").options({explain: true}).drop();
 
 setTimeout(function() {
     db.collection("test").insert({field1: "value1a", field2: "value2"}, {field1: "value1b"});
@@ -58,11 +58,11 @@ setTimeout(function() {
     db.close();
     db.connect();
 
-    db.collection("test").bench().find({ field2: "value2", field3: "value3", field10: "value4" }).and({ field10: "value5" }).fetch().then(function(items) {
+    db.collection("test").explain().find({ field2: "value2", field3: "value3", field10: "value4" }).and({ field10: "value5" }).fetch().then(function(items) {
         console.log("str1: ", items);
     });
 
-    db.collection("test").bench().find({ field10: "value4" }).fetch().then(function(items, time) {
+    db.collection("test").explain().find({ field10: "value4" }).fetch().then(function(items, time) {
         console.log("str2: ", items, time);
     });
 }
@@ -78,7 +78,7 @@ class Person {
 }
 
 async function main() {
-    const coll = db.collection("employees").bench();
+    const coll = db.collection("employees").explain();
     await coll.drop();
     await coll.index("name");
     await coll.index("age");

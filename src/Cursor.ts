@@ -82,12 +82,12 @@ export class Cursor {
      * Example:
      * ```javascript
      * collection.find({ position: "developer" }).fetch().then((cursor) => {
-     *  console.log("Explain Results ", cursor.getBenchResults());
+     *  console.log("Explain Results ", cursor.getExplainResults());
      * });
      * ```
      * @returns { JSON[] } The explain information from the query that returned the ```Cursor```
      */
-    getBenchResults(): number {
+    getExplainResults(): number {
         return this.explain;
     }
 
@@ -177,7 +177,7 @@ export class Cursor {
             cursor.requestQueue = [];
             return;
         }
-        cursor.activeBatchRequest = cursor.collection.db.sendJSON({ type: PayloadRequestType.Cursor, data: { id: cursor.id, size: amount } }, cursor.collection.explain, cursor.collection.collectionName);
+        cursor.activeBatchRequest = cursor.collection.db.sendJSON({ type: PayloadRequestType.Cursor, data: { id: cursor.id, size: amount } }, cursor.collection._explain, cursor.collection.collectionName);
         cursor.activeBatchRequest.then((result: FetchResult) => {
             cursor.remaining -= result.items.length;
             cursor.buffer = cursor.buffer.concat(result.items);

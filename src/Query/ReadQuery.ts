@@ -21,11 +21,12 @@ export class ReadQuery extends Query {
     }
 
     /**
-     * Purpose: Set a parameter that tells the database to bench (or "explain") how long each query takes<br>
+     * Purpose: Set a parameter on the ```Collection``` object that the ```ReadQuery``` was created from.
+     * The parameter tells the database to provide information about the queries that are performed
      *
      * Example:
      * ```javascript
-     * collection.find({ name: "Alex" }).bench().fetchAll().then((results, t) => {
+     * collection.find({ name: "Alex" }).explain().fetchAll().then((results, t) => {
      *  console.log(results);
      *  console.log(t);
      * });
@@ -34,8 +35,8 @@ export class ReadQuery extends Query {
      * @returns { ReadQuery } A new ```ReadQuery```, with a reference to a newly created ```Collection``` containing the modified parameter
      */
     // Sets the explain variable on a new Collection object that the new ReadQuery will refer to
-    bench(isOn: boolean): ReadQuery {
-        const collection = new Collection(this.collection.db, this.collection.collectionName, { bench: isOn });
+    explain(isOn: boolean): ReadQuery {
+        const collection = new Collection(this.collection.db, this.collection.collectionName, { explain: isOn });
         return new ReadQuery(collection, this.optree);
     }
 
@@ -44,11 +45,11 @@ export class ReadQuery extends Query {
      *
      * Example:
      * ```javascript
-     * collection.find({ name: "Alex" }).options({ bench: true });
+     * collection.find({ name: "Alex" }).options({ explain: true });
      * ```
      * Note: Options are being worked on. There will be more in the future...
      * @param { JSON } options A field-value pair that contains one or more options and their desired values
-     * @param { boolean } options.bench Sets a parameter that tells the database to bench (or "explain") how long each query takes - same functionality as ```Collection.bench```
+     * @param { boolean } options.explain Sets a parameter that tells the database to provide information about the queries that are performed - same functionality as ```Collection.explain```
      * @returns { ReadQuery } A new ```ReadQuery```, with a reference to a newly created ```Collection``` containing the modified parameters
      */
     // Allows multiple options to be set through a JSON interface
@@ -190,7 +191,7 @@ export class ReadQuery extends Query {
             this.fetch(...fields).then((cursor: Cursor) => {
                 cursor.collect()
                     .then((items) => {
-                        const explainResult = new ExplainResult(items, cursor.getBenchResults());
+                        const explainResult = new ExplainResult(items, cursor.getExplainResults());
                         resolve(explainResult);
                     }, reject);
             }, reject);
@@ -270,6 +271,6 @@ export class ReadQuery extends Query {
 
     // Prepares the message to be sent
     private send(type: PayloadRequestType, data: any) {
-        return this.collection.db.sendJSON({ type: type, data: data }, this.collection.explain, this.collection.collectionName);
+        return this.collection.db.sendJSON({ type: type, data: data }, this.collection._explain, this.collection.collectionName);
     }
 }

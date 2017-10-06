@@ -13,10 +13,10 @@ class Collection {
     /**
      * **_ Should not be called by the user _**
      */
-    constructor(db, collectionName, { bench = false } = {}) {
+    constructor(db, collectionName, { explain = false } = {}) {
         this.db = db;
         this.collectionName = collectionName;
-        this.explain = (bench != null ? bench : this.explain);
+        this._explain = (explain != null ? explain : this._explain);
     }
     /**
      * Purpose: Returns the name of the collection
@@ -25,11 +25,11 @@ class Collection {
         return this.collectionName;
     }
     /**
-     * Purpose: Set a parameter that tells the database to bench (or "explain") how long each query takes
+     * Purpose: Set a parameter on the ```Collection``` object that tells the database to provide information about the queries that are performed
      *
      * Example:
      * ```javascript
-     * collection.bench().find({ name: "Alex" }).fetchAll().then((results, t) => {
+     * collection.explain().find({ name: "Alex" }).fetchAll().then((results, t) => {
      *  console.log(results);
      *  console.log(t);
      * });
@@ -38,19 +38,19 @@ class Collection {
      * @returns { Collection } The same ```Collection``` that called the function, with the modified parameter
      */
     // Sets explain variable
-    bench(isOn = true) {
-        return this.options({ bench: isOn });
+    explain(isOn = true) {
+        return this.options({ explain: isOn });
     }
     /**
      * Purpose: Set options for a query
      *
      * Example:
      * ```javascript
-     * collection.options({ bench: true });
+     * collection.options({ explain: true });
      * ```
      * Note: Options are being worked on. There will be more in the future...
      * @param { JSON } options A field-value pair that contains one or more options and their desired values
-     * @param { boolean } options.bench Sets a parameter that tells the database to bench (or "explain") how long each query takes - same functionality as ```Collection.bench```
+     * @param { boolean } options.explain Sets a parameter on the ```Collection``` object that tells the database to provide information about the queries that are performed - same functionality as ```Collection.explain```
      * @returns { Collection } A new ```Collection``` with the desired options set
      */
     // Allows multiple options to be set through a JSON interface
@@ -189,7 +189,7 @@ class Collection {
     }
     // Prepares message to be sent
     send(type, data) {
-        return this.db.sendJSON({ type: type, data: data }, this.explain, this.collectionName);
+        return this.db.sendJSON({ type: type, data: data }, this._explain, this.collectionName);
     }
 }
 exports.Collection = Collection;
