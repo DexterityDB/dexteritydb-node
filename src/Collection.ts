@@ -32,8 +32,8 @@ export class Collection {
      * 
      * Example:
      * ```javascript
-     * collection.bench().find({ name: "Alex" }).fetchAll().then((result, t) => {
-     *  console.log(result);
+     * collection.bench().find({ name: "Alex" }).fetchAll().then((results, t) => {
+     *  console.log(results);
      *  console.log(t);
      * });
      * ``` 
@@ -96,8 +96,8 @@ export class Collection {
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).fetchAll().then((result, t) => {
-     *  console.log(result);
+     * collection.find({ name: "Dillon" }).fetchAll().then((results, t) => {
+     *  console.log(results);
      *  console.log(t);
      * });
      * ``` 

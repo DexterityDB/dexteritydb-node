@@ -36,7 +36,7 @@ async function main() {
     await example.insert({ name: "John", age: 35 }, { name: "Jane", age 28 });
     await example.index("name");
     example.find({ name: "John" }).fetchAll().then((result) => {
-        console.log(result);
+        console.log(results);
     });
 }
 
@@ -68,14 +68,26 @@ Indexing is easy. The above example proves that. Simply pass in the field that y
 The DexterityDB driver utilizes chained commands to provide the user with a language that is very easy to use and easy to understand. ```Find``` is a key method that can be chained on a ```collection``` call. It can be used to retrieve (or fetch) results, as well as updating and removing items in the database. The fourth line in the ```main``` function shows off this capability:
 ```javascript
 example.find({ name: "John" }).fetchAll().then((result) => {
-    console.log(result);
+    console.log(results);
 });
 ```
 Just to reiterate, the field that we search on MUST be indexed. If you missed the indexing step, please go up a few mouse scrolls and reread the indexing section. 
 
 To search for something in the database, first we use ```.find``` and pass the object pattern that we are looking for. The pattern in the example indicates that we are looking for all items that have the name, "John", as the value under the indexed field, "name."
 
-Since there are many things that we can do with a query result on the database side, there are many methods that can be chained onto the ```find``` method. For this example, we use ```fetch```, an intuitive function. ```Fetch``` returns all of the objects that fit the ```find``` query. No parameters required. As stated earlier, DexterityDB is asynchronous, so we use a ```.then``` to consume the ```promise``` and print the results.
+Since there are many things that we can do with a query result on the database side, there are many methods that can be chained onto the ```find``` method. For this example, we use ```fetchAll```, an intuitive function. ```FetchAll``` returns all of the objects that fit the ```find``` query. No parameters required (some allowed!).
+
+Alternatively, the above example can be written as such:
+```javascript
+example.find({ name: "John" }).fetch().then((cursor) => {
+    cursor.collect().then((results) => {
+        console.log(results);
+    })
+});
+```
+This setup shows off the ```Cursor``` object, which allows for streaming ```fetch``` results. The ```Cursor``` makes retrieving results more efficient, because one or more items can be retrieved and used at a time, when they are needed. In this example we simply ```collect``` all of them to show that this is equivalent to the ```fetchAll``` shown in the last example.
+
+As stated earlier, DexterityDB is asynchronous, so we use a ```.then``` to consume the ```promise```s and print the results.
 
 That's it! You now have all of the information you need to get started with the DexterityDB Node.js driver. But don't stop there...check out the full [DexterityDB Node.js API Tutorial](https://savizar.github.io/dexteritydb-node/tutorial-1-0-0_TheApproach.html) for all of the options and chainable methods that exist on the driver.
 
@@ -85,3 +97,16 @@ Happy Dexing
 [DexterityDB](http://dexteritydb.com)<br>
 [Node.JS API Documentation Tutorial](https://savizar.github.io/dexteritydb-node/tutorial-1-0-0_TheApproach.html)<br>
 [Node.JS Driver GitHub](https://github.com/Savizar/dexteritydb-node)
+
+
+# For Contributors
+The DexterityDB Node.js driver is written mostly in [TypeScript](https://www.typescriptlang.org/). It is compiled into Javascript using the Typescript compiler.
+
+Documentation is generated using [JSDoc](http://usejsdoc.org/) with the [Docdash](https://github.com/clenemt/docdash) template, customized with [Hotdoc](https://github.com/kmck/hotdoc).
+
+**_Note: To install necessary npm packages, you will need [Python 2.7.13](https://www.python.org/downloads/release/python-2713/)._**
+
+To make changes to driver, download the repository and execute ```npm install``` to get all relevant packages.
+
+After making changes to the TypeScript files or adding/modifying JSDoc documentation, simply execute ```npm run build```.
+This will build all javascript files and all documentation and you'll be good to go!

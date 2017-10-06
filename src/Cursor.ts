@@ -15,8 +15,12 @@ interface RequestCallback {
 }
 
 /**
- * Purpose: A class that represents an in-progress query.
- * A ```ReadQuery``` is chainable so additional methods can be used to modify the query before it is submitted to the database.
+ * Purpose: A class that allows for streaming the results returned from a fetch.
+ * ```Cursor```s are used to prevent large amounts of result data from being returned all at once.
+ * Streaming these results with a ```Cursor``` allows the results to be more efficiently loaded into the Node.js script, when they are actually needed.
+ * 
+ * Note: A ```Cursor``` contains a snapshot of the results at the moment the ```Cursor``` is returned.
+ * The results on a ```Cursor``` will not be affected by sequential updates and other writes to the database.
  * 
  * **_This class is created internally as a result of other methods and should never be constructed directly._**
  */
@@ -47,7 +51,7 @@ export class Cursor {
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     * collection.find({ position: "developer" }).fetch().then((cursor) => {
      *  console.log("Remaining Results: ", cursor.getRemaining());
      * });
      * ```
@@ -62,7 +66,7 @@ export class Cursor {
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     * collection.find({ position: "developer" }).fetch().then((cursor) => {
      *  console.log("Total Results: ", cursor.getTotalSize());
      * });
      * ```
@@ -77,7 +81,7 @@ export class Cursor {
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
+     * collection.find({ position: "developer" }).fetch().then((cursor) => {
      *  console.log("Explain Results ", cursor.getBenchResults());
      * });
      * ```
@@ -88,15 +92,22 @@ export class Cursor {
     }
 
     /**
-     * Purpose: Returns the explain information from the query that returned the ```Cursor```
+     * Purpose: Returns the next item or next set of items from the ```Cursor```.
+     * ```Next``` also moves the location of the cursor to the item after the last one retrieved, effectively removing the returned item(s) from the ```Cursor```.
+     * 
+     * Note: If no parameter is passed, a single item will be returned (the next item).
+     * If a number is passed into the function, ```next``` will return that many results from the cursor in an ```Array``` structure.
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).fetch().then((cursor) => {
-     *  console.log("Explain Results ", cursor.getBenchResults());
+     * collection.find({ position: "developer" }).fetch().then((cursor) => {
+     *  cursor.next().then((item) => {
+     *      console.log(item);
+     *  });
      * });
      * ```
-     * @returns { JSON[] } The explain information from the query that returned the ```Cursor```
+     * @param { number } [amount] The number of items that should be returned from the ```Cursor```
+     * @returns { Promise } The next item or set of items from the ```Cursor```
      */
     next(amount?: number): Promise<any> {
         const cursor = this;
@@ -133,6 +144,19 @@ export class Cursor {
         return promise;
     }
 
+    /**
+     * Purpose: Returns all items left on the ```Cursor```
+     * 
+     * Example:
+     * ```javascript
+     * collection.find({ position: "developer" }).fetch().then((cursor) => {
+     *  cursor.collect().then((items) => {
+     *      console.log(items);
+     *  });
+     * });
+     * ```
+     * @returns { Promise } The rest of the items left on the ```Cursor``` in an ```Array```
+     */
     collect(): Promise<any> {
         return this.next(this.getRemaining());
     }

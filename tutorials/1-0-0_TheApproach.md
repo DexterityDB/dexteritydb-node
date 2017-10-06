@@ -9,8 +9,14 @@ First, it is important that we go over some vocab. Some of these terms will prob
 ### Collection
 A group of items in a database, usually related in some way and pertaining to a similar use-case. Can be compared to a Table in structured datasets.
 
+### Cursor
+An type of object that allows streaming of fetched results. Can be used to retrieve all of the results or just a few of them.
+
 ### Driver
 You're using one! Databases have a core low-level API that they use to accept messages from applications. These messages can be in any format (DexterityDB currently uses JSON messages). Language drivers allow a developer to code using function calls in coding languages that they are more familiar with. By mapping the functions in the driver to the low-level API, code can be more easily written and understood in languages that are used more frequently in application building.
+
+### Fetch
+Fetch is the idea of returning actual results to the driver. Usually this is done after finding what you need and transforming your data.
 
 ### Field
 Fields in a collection correspond to labels that values will be categorized under. For instance, in a collection of people, there may be a field called "name". Under this field, the "value" may be "John." Fields can be compared to column labels in structured datasets.
@@ -22,7 +28,7 @@ An entry in a collection. The item can have field-value pairs that corespond to 
 The ability to filter the results that are returned from a search on the database. This filter is done on the database side so that the results returned to the user include or exclude certain fields.
 
 ### Value
-Any piece of information that is inserted into a collection under a field label. DexterityDB currently supports ```number``` and ```string``` values.
+Any piece of information that is inserted into a collection under a field label. DexterityDB currently supports ```boolean```, ```number```, and ```string``` values. Dates can be represented by either ```number```s or ```string```s and we will be adding a new ```date``` type soon!
 
 ---
 

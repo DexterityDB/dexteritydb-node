@@ -19,8 +19,8 @@ async function main() {
         .or({ name: "Todd" })
         .or({ position: "marketing" })
         .fetchAll()
-        .then((result) => {
-            console.log(result);
+        .then((results) => {
+            console.log(results);
         });
 }
 
@@ -55,8 +55,8 @@ ourCollection.find({ position: "developer" })
         .or({ name: "Todd" })
         .or({ position: "marketing" })
         .fetchAll()
-        .then((result) => {
-            console.log(result);
+        .then((results) => {
+            console.log(results);
         });
 ```
 The ```bench``` method can be considered a chainable operator because it takes the ```Collection``` it is called on and returns a new ```Collection``` that has the ```explain``` parameter set. This parameter tells the database to measure the time that it takes to do queries, whether that be an insert, remove, or find. The ```bench``` parameter can also be called off of other objects and it will act the same way, returning a new object that has the ```explain``` parameter set on its ```Collection```.
@@ -75,8 +75,8 @@ ourCollection.find({ position: "developer" })
         .or({ name: "Todd" })
         .or({ position: "marketing" })
         .fetchAll()
-        .then((result) => {
-            console.log(result);
+        .then((results) => {
+            console.log(results);
         });
 ```
 In the ```and``` method, we have used a ```Dex.loadIn``` shorthand operator. The ```Dex.loadIn``` operator essentially creates an "OR" between the values that are inputted into it. So in this example, we have a query that is looking for items with "position" as "developer". In the chained ```and``` method, we use a field, "name", and we give a value that should be searched for. We substitute ```Dex.loadIn``` here since it returns a [```ReadOpPartial```](./ReadOpPartial.html). The ```loadIn``` is a method that allows the user to input two or more values that the item might have on the specified field. So in this case, the item could have the name, "Dillon" or "Alex". There are many types of shorthand operators and they can be very handy in many situations, whether you like chaining methods or not.
@@ -88,8 +88,8 @@ Below, we have an example of assigning a partial queries to a variables in a way
 ```javascript
 const developerOrSales = Dex.loadIn("developer", "sales");
 const readOperation = Dex.and({ name: "Alex" }, { position: developerOrSales });
-ourCollection.find(readOperation).fetchAll().then((result) => {
-    console.log(result);
+ourCollection.find(readOperation).fetchAll().then((results) => {
+    console.log(results);
 });
 ```
 The first line returns a ```ReadOpPartial``` to "developerOrSales". The ```loadIn``` shorthand operator is essentially an "Or" for the passed values. So in this example, we are looking for people with the name, "Alex", whose position is either "developer" or "sales". It's easy to store possible [```Value```s](./global.html#Value) or ranges using this method of shorthand operator assignment.
@@ -113,14 +113,14 @@ async function main() {
         .or({ name: "Todd" })
         .or({ position: "marketing" })
         .fetchAll()
-        .then((result) => {
-            console.log(result);
+        .then((results) => {
+            console.log(results);
         });
 }
 
 main();
 ```
-Consuming methods are any methods that break a chain and do not allow any further chains from being formed after it. In this example, ```index```, ```insert```, and ```fetch``` can all be considered examples of consuming methods. They finish the chain (minus any promise handling) and send the query to the database. Before a consuming method, all of the previous methods formulate the query that is sent. The consuming method causes the formed query to be serialized and sent to the database. Consuming methods may or may not have passed parameters, but many of the ```ReadQuery``` consumers do not because they use the ```ReadQuery``` that has been formed up until that point.
+Consuming methods are any methods that break a chain and do not allow any further chains from being formed after it. In this example, ```index```, ```insert```, and ```fetchAll``` can all be considered examples of consuming methods. They finish the chain (minus any promise handling) and send the query to the database. Before a consuming method, all of the previous methods formulate the query that is sent. The consuming method causes the formed query to be serialized and sent to the database. Consuming methods may or may not have passed parameters, but many of the ```ReadQuery``` consumers do not because they use the ```ReadQuery``` that has been formed up until that point.
 
 ## Conclusion
 So that's it! You should have all of the tools you need to start using the DexterityDB Node.js driver. For more help with specific methods or results see any of the examples that are littered throughout the Classes' documention.

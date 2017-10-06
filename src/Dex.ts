@@ -416,8 +416,8 @@ export class Dex {
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).fetch(Dex.exclude("age")).then((result) => {
-     *  console.log(result);
+     * collection.find({ name: "Dillon" }).fetch(Dex.exclude("age")).then((results) => {
+     *  console.log(results);
      * });
      * ```
      * @param { string } fields The fields that should not be included in the returned result set
@@ -431,8 +431,8 @@ export class Dex {
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).fetch(Dex.include("name", "position")).then((result) => {
-     *  console.log(result);
+     * collection.find({ name: "Dillon" }).fetch(Dex.include("name", "position")).then((results) => {
+     *  console.log(results);
      * });
      * ```
      * @param { string } fields The fields that should be included in the returned result set

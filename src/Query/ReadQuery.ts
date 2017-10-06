@@ -25,8 +25,8 @@ export class ReadQuery extends Query {
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Alex" }).bench().fetchAll().then((result, t) => {
-     *  console.log(result);
+     * collection.find({ name: "Alex" }).bench().fetchAll().then((results, t) => {
+     *  console.log(results);
      *  console.log(t);
      * });
      * ```
@@ -62,8 +62,8 @@ export class ReadQuery extends Query {
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).and({ position: "developer" }).fetchAll().then((result) => {
-     *  console.log(result);
+     * collection.find({ name: "Dillon" }).and({ position: "developer" }).fetchAll().then((results) => {
+     *  console.log(results);
      * });
      * ```
      * @param { ReadOp | Object } patterns The additional pattern(s) that will be "And"ed with the existing ```ReadQuery```
@@ -90,8 +90,8 @@ export class ReadQuery extends Query {
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Todd" }).or({ name: "Tom" }).fetchAll().then((result) => {
-     *  console.log(result);
+     * collection.find({ name: "Todd" }).or({ name: "Tom" }).fetchAll().then((results) => {
+     *  console.log(results);
      * });
      * ```
      * @param { ReadOp | Object } patterns The additional pattern(s) that will be "Or"ed with the existing ```ReadQuery```
@@ -128,8 +128,8 @@ export class ReadQuery extends Query {
      * Example:
      * ```javascript
      * await const cursor = collection.find({ name: "Dillon" }).fetch();
-     * cursor.next().then((result) => {
-     *  console.log(result);
+     * cursor.next().then((results) => {
+     *  console.log(results);
      * });
      * ```
      * @param { ProjectionOpPartial | string } [fields] A ```PartialOpPartial``` object created using ```Dex.include``` or ```Dex.exclude```.
@@ -174,14 +174,14 @@ export class ReadQuery extends Query {
      * 
      * Example:
      * ```javascript
-     * collection.find({ name: "Dillon" }).fetchAll().then((result) => {
-     *  console.log(result);
+     * collection.find({ name: "Dillon" }).fetchAll().then((results) => {
+     *  console.log(results);
      * });
      * ```
      * @param { ProjectionOpPartial | string } [fields] A ```PartialOpPartial``` object created using ```Dex.include``` or ```Dex.exclude```.
      * If one or more ```string```s are passed, the default behavior is to include those fields
      * 
-     * Note: ```fetch``` will accept multiple ```string``` values or a single ```PartialOpPartial```, **but not both**
+     * Note: ```fetchAll``` will accept multiple ```string``` values or a single ```PartialOpPartial```, **but not both**
      * @returns { Promise } An array of results that match the query
      */
     // Fetch items based on matches from ReadQuery
