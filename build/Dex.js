@@ -114,7 +114,7 @@ class Dex {
             // TODO: remove next "for loop" after this line when database supports preservation of active requests
             // Kill all active requests - reconnection will not preserve active requests
             for (const callback of db.activeRequests.values()) {
-                callback.reject();
+                callback.reject("Connection was closed!");
             }
             db.activeRequests.clear();
             // Check if reconnection should be attempted

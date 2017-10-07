@@ -24,7 +24,7 @@ interface QueuedMessage {
  * In most cases, there should be only 1 instance of the ```Dex``` class in any single piece of code.
  * The ```Dex``` instance can queue up requests before actually connecting to the database,
  * so we do not return a promise on the ```Dex``` constructor
- * 
+ *
  * Example:
  * ```javascript
  * const db = new Dex("192.168.1.1");
@@ -46,7 +46,7 @@ export class Dex {
 
     /**
      * Purpose: Check if the websocket connection has not been manually closed (manual closure of websocket connection will prevent the websocket from trying to reconnect)
-     * 
+     *
      * Example:
      * ```javascript
      * if (db.isOpen()) {
@@ -61,7 +61,7 @@ export class Dex {
 
     /**
      * Purpose: Check if the websocket connection has been manually closed (prevents reconnections until ```Dex.connect``` is manually called)
-     * 
+     *
      * Example:
      * ```javascript
      * if (db.isClosed()) {
@@ -77,7 +77,7 @@ export class Dex {
     /**
      * Purpose: Check if the websocket connection is established and ready for querying.
      * The ```isReady``` method is not necessary when formulating queries or sending messages as messages are queued while no connection is established
-     * 
+     *
      * Example:
      * ```javascript
      * if (db.isReady()) {
@@ -94,7 +94,7 @@ export class Dex {
      * Purpose: Begin connection with database.
      * The ```Dex``` instance can queue up requests before actually connecting to the database,
      * so we do not return a promise on the ```connect``` method
-     * 
+     *
      * Example:
      * ```javascript
      * db.connect("192.168.1.1");
@@ -129,7 +129,7 @@ export class Dex {
             // TODO: remove next "for loop" after this line when database supports preservation of active requests
             // Kill all active requests - reconnection will not preserve active requests
             for (const callback of db.activeRequests.values()) {
-                callback.reject();
+                callback.reject("Connection was closed!");
             }
             db.activeRequests.clear();
             // Check if reconnection should be attempted
@@ -166,11 +166,11 @@ export class Dex {
 
     /**
      * Purpose: Manually disconnect from the database and close websocket connection
-     * 
+     *
      * Example:
      * ```javascript
      * db.close();
-     * ``` 
+     * ```
      * Note: This function overrides the ```allowReconnect``` setting and will prevent the websocket from reestablishing a connection.
      * To reconnect after running this function, use ```Dex.connect```
      */
@@ -209,7 +209,7 @@ export class Dex {
 
     /**
      * Purpose: Returns a ```Collection``` object, which can be used to query the database - see ```Collection``` for more details
-     * 
+     *
      * Example:
      * ```javascript
      * const exampleCollection = db.collection("example");
@@ -220,15 +220,15 @@ export class Dex {
     collection(collectionName: string): Collection {
         return new Collection(this, collectionName);
     }
-    
+
     /**
      * Purpose: Drop or remove a collection (and its contents) from the database
-     * 
+     *
      * Example:
      * ```javascript
      * db.dropCollection("example");
      * ```
-     * @param { string } collectionName 
+     * @param { string } collectionName
      * @returns { Promise } ```true``` if collection was dropped, ```false``` if unsuccessful
      */
     dropCollection(collectionName: string): PromiseResult<any> {
@@ -237,7 +237,7 @@ export class Dex {
 
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value equal to the passed value
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Alex", position: Dex.eq("developer") })
@@ -251,7 +251,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value equal to any one of the passed values
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Alex", position: Dex.loadIn("developer", "marketing", "sales") })
@@ -264,7 +264,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value less than the passed value
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Alex", age: Dex.lt(30) })
@@ -277,7 +277,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value less than or equal to the passed value
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Alex", age: Dex.lte(23) })
@@ -290,7 +290,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than the passed value
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon", age: Dex.gt(18) })
@@ -303,7 +303,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than or equal to the passed value
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon", age: Dex.gte(24) })
@@ -316,7 +316,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than the start ```Value``` and less than the end ```Value```
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Tom", age: Dex.gtlt(18, 30) })
@@ -330,7 +330,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than or equal to the start ```Value``` and less than the end ```Value```
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Tom", age: Dex.gtelt(23, 30) })
@@ -344,7 +344,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than the start ```Value``` and less than or equal to the end ```Value```
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Tom", age: Dex.gtlte(18, 23) })
@@ -358,7 +358,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to match fields that have a value greater than or equal to the start ```Value``` and less than or equal to the end ```Value```
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Tom", age: Dex.gtelte(18, 30) })
@@ -373,7 +373,7 @@ export class Dex {
 
     /**
      * Purpose: A shorthand operator used in ```find``` queries to "And" 2 or more patterns together for searching capabilities
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Alex" }).or(Dex.and({ name: Dillon }, { age: 24 }))
@@ -386,7 +386,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```find``` queries to "Or" 2 or more patterns together for searching capabilities
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon" }).and(Dex.or({ age: 35 }, { age: 24 }))
@@ -400,7 +400,7 @@ export class Dex {
 
     /**
      * Purpose: A shorthand operator used in ```update``` queries to indicate a field that should be removed from the items that were found
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Tom" }).update({ age: Dex.delete(), position: "sales" });
@@ -413,7 +413,7 @@ export class Dex {
 
     /**
      * Purpose: A shorthand operator used in ```fetch``` queries to indicate fields that should be excluded from the result set of items
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon" }).fetch(Dex.exclude("age")).then((results) => {
@@ -428,7 +428,7 @@ export class Dex {
     }
     /**
      * Purpose: A shorthand operator used in ```fetch``` queries to indicate fields that should be included in the result set of items. Results in all other fields being excluded
-     * 
+     *
      * Example:
      * ```javascript
      * collection.find({ name: "Dillon" }).fetch(Dex.include("name", "position")).then((results) => {
