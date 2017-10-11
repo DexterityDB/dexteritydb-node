@@ -28,13 +28,13 @@ main();
 ```
 
 ## Starters
-First, a query begins with a function that starts a query. This is where the chain begins. The most commonly returned starter is a [```ReadQuery```](./ReadQuery.html) from a [```find```](./Collection.html#find) and many other chainable methods. The ```collection``` function returns a [```Collection```](./Collection.html) object. In the example code:
+First, a query begins with a function that starts a query. This is where the chain begins. The most commonly returned starter is a [```ReadQuery```](./ReadQuery.html) from a [```find```](./Collection.html#find) method. The ```collection``` function returns a [```Collection```](./Collection.html) object. In the example code:
 ```javascript
 const ourCollection = db.collection("example");
 ```
 We have stored the "example" collection in the ourCollection variable. This collection object can now be used for chaining and transforming methods.
 
-It will become apparent that the line between starter and chaining methods is blurred and the idea is to use methods interchangeably to easily create query chains that can be executed by the database. The ```find``` method shows an example of a starter that is also chaining off of another:
+It will become apparent that the line between starter and chaining methods is blurred and the idea is to use methods interchangeably to easily create query chains that can be executed by the database. The ```find``` method shows an example of a starter that is also chaining off of another method (```.collection```):
 ```javascript
 example.find({ position: "developer" })
 ```
@@ -59,9 +59,9 @@ ourCollection.find({ position: "developer" })
             console.log(results);
         });
 ```
-The ```explain``` method can be considered a chainable operator because it takes the ```Collection``` it is called on and returns a new ```Collection``` that has the ```explain``` parameter set. This parameter tells the database to provide information about the queries that are performed, whether that be an insert, remove, or find. This information contains statistics on things such as how long the database took to perform an operation or how much data it searched through, etc. The ```explain``` parameter can also be called off of other objects and it will act the same way, returning a new object that has the ```explain``` parameter set on its ```Collection```.
+The ```explain``` method can be considered a chainable operator because it takes the ```Collection``` it is called on and returns a new ```Collection``` that has the ```explain``` parameter set. This parameter tells the database to provide information about the queries that are performed, whether that be an insert, remove, or find. This information contains statistics on things such as how long the database took to perform an operation or how much data it searched through, etc. The ```explain``` parameter can also be called off of other objects and it will act the same way, returning a new object of that type that has the ```explain``` parameter set on its referenced ```Collection```.
 
-The ```and``` and ```or``` methods are chainable operators. They can be called on methods that return ```ReadQuery``` objects, such as the ```find``` method. In this example, the ```find``` begins with a search for all items with "developer" as the person's "position". An easy way to add more parameters to this search is to add the ```and``` method. The ```add``` method makes it so that the items being returned should also have the "name", "Dillon" or "Alex". We'll get to what the ```Dex.loadIn``` is in the next section! The next ```or``` method adds the ability to also look for items whose "name" is "Todd".
+The ```and``` and ```or``` methods are chainable operators. They can be called on methods that return ```ReadQuery``` objects, such as the ```find``` method. In this example, the ```find``` begins with a search for all items with "developer" as the person's "position". An easy way to add more parameters to this search is to add the ```and``` method. The ```and``` method makes it so that the items being returned should also have the "name", "Dillon" or "Alex". We'll get to what the ```Dex.loadIn``` is in the next section! The next ```or``` method adds the ability to also look for items whose "name" is "Todd".
 
 Chainable operators are designed to allow storage of modified elements without overwriting previous instances. So in the example, we have assigned the ```ourCollection.explain();``` to a new variable called ```explainedCollection```. The ```ourCollection``` object remains unchanged when calling ```explain```. The ```explain``` method simply returns a new ```Collection``` object that becomes ```explainedCollection```. The benefit of this layout is that now we can use ```explainedCollection``` with the ```insert``` method to insert items into the collection and measure how long this action takes, but then we can still use ```ourCollection``` with the ```find``` method to search for items without explaining this action. This format provides the most amount of dexterity and makes it harder to accidentally modify ```Collection```s or ```Query```s without knowing it.
 
@@ -92,8 +92,8 @@ ourCollection.find(readOperation).fetchAll().then((results) => {
     console.log(results);
 });
 ```
-The first line returns a ```ReadOpPartial``` to "developerOrSales". The ```loadIn``` shorthand operator is essentially an "Or" for the passed values. So in this example, we are looking for people with the name, "Alex", whose position is either "developer" or "sales". It's easy to store possible [```Value```s](./global.html#Value) or ranges using this method of shorthand operator assignment.
-Moreover, the second line takes advantage of the "developerOrSales" variable that we made and returns a [```ReadOp```](./ReadQuery.html) to "readOperation". This unfinished query can then be passed directly to the ```find``` method, making it really easy to save unfinished queries and adjust them as necessary throughout your code.
+The first line returns a ```ReadOpPartial``` to "developerOrSales". The ```loadIn``` shorthand operator is essentially an "Or" for the passed values. So in this example, we are looking for people with the name, "Alex", whose position is either "developer" or "sales". It's easy to store possible [```Value```](./global.html#Value)s or ranges using this method of shorthand operator assignment.
+Moreover, the second line takes advantage of the "developerOrSales" variable that we made and returns a [```ReadOp```](./ReadOp.html) to "readOperation". This unfinished query can then be passed directly to the ```find``` method, making it really easy to save unfinished queries and adjust them as necessary throughout your code.
 
 ## Consuming Methods
 After one or more chainable operators are used, the query should be consumed. Usually a consuming operator takes the query that has been formed and sends it to the database, returning a result, usually (but not always) in the form of a Promise. We'll break down the example once more to see applications of consuming methods:

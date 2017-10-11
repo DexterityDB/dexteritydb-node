@@ -55,7 +55,7 @@ The second line of the ```main``` function shows a simple ```insert``` call:
 ```javascript
 await example.insert({ name: "John", age: 35 }, { name: "Jane", age 28 });
 ```
-Any number of JSON objects can be passed into the ```insert``` function. Simply treat each object as a separate parameter in the function call.
+Any number of JSON objects can be passed into the ```insert``` function. Simply treat each object as a separate parameter in the function call or pass an array of objects.
 
 ### Indexing
 One of the things that makes DexterityDB special is the requirement of indexing any fields that you may want to search on. Once indexed, a field becomes immediately searchable. Any previously inserted items, as well as any future inserted items will automatically be indexed by the designated field. This is best practice in the database world. It is a bit different than some other databases' approaches, but we feel that encouraging best practices is how we can make everyone's experience with DexterityDB more simple and enjoyable. Usually, we would encourage indexing at the beginning of the script, but for ease of comprehension, we have done it after the insert. The third line of the example reads:
@@ -75,7 +75,7 @@ Just to reiterate, the field that we search on MUST be indexed. If you missed th
 
 To search for something in the database, first we use ```.find``` and pass the object pattern that we are looking for. The pattern in the example indicates that we are looking for all items that have the name, "John", as the value under the indexed field, "name."
 
-Since there are many things that we can do with a query result on the database side, there are many methods that can be chained onto the ```find``` method. For this example, we use ```fetchAll```, an intuitive function. ```FetchAll``` returns all of the objects that fit the ```find``` query. No parameters required (some allowed!).
+Since there are many things that we can do with a query result on the database side, there are many methods that can be chained onto the ```find``` method. For this example, we use ```fetchAll```, an intuitive function. ```FetchAll``` returns all of the objects that fit the ```find``` query. No parameters required (some allowed!). See the [fetch](./ReadQuery.html#fetch) or [fetchAll](./ReadQuery.html#fetchAll) documentation for more information on optional parameters.
 
 Alternatively, the above example can be written as such:
 ```javascript
