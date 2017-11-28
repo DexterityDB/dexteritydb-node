@@ -102,7 +102,7 @@ class Collection {
         return new Query_1.ReadQuery(this, Ops.resolveReadOp(pattern));
     }
     /**
-     * Purpose: Insert one or more items into the collection. Item should be in JSON format or an array of JSON objects
+     * Purpose: Monolithic method for inserting one or more items into the collection. Item should be in JSON format or an array of JSON objects
      *
      * Example:
      * ```javascript
@@ -121,7 +121,7 @@ class Collection {
         }
     }
     /**
-     * Purpose: Remove one or more items in the collection based on a pattern
+     * Purpose: Monolithic method for removing one or more items in the collection based on a pattern
      *
      * Example:
      * ```javascript
@@ -149,7 +149,7 @@ class Collection {
         return this.send(Request_1.PayloadRequestType.RemoveIndex, indexName);
     }
     /**
-     * Purpose: Replaces one or more items with a new item
+     * Purpose: Monolithic method for replacing one or more items with a new item
      *
      * Example:
      * ```javascript
@@ -164,7 +164,7 @@ class Collection {
         return this.send(Request_1.PayloadRequestType.Update, new Request_1.UpdateOps(this.find_then(pattern), new Request_1.UpdateKind(Request_1.UpdateKindType.Overwrite, item)));
     }
     /**
-     * Purpose: Updates one or more items by changing the value of one or more fields or completely deleting a field or fields from the items
+     * Purpose: Monolithic method for updating one or more items by changing the value of one or more fields or completely deleting a field or fields from the items
      *
      * Example:
      * ```javascript

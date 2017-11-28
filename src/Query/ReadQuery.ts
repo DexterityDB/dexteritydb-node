@@ -108,7 +108,7 @@ export class ReadQuery extends Query {
     }
 
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, returning just the number of items in the collection that match the query
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, returning just the number of items in the collection that match the query
      *
      * Example:
      * ```javascript
@@ -124,7 +124,7 @@ export class ReadQuery extends Query {
     }
 
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, returning a ```Cursor``` that can be used to access a stream of the results
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, returning a ```Cursor``` that can be used to access a stream of the results
      *
      * Example:
      * ```javascript
@@ -169,7 +169,7 @@ export class ReadQuery extends Query {
     }
 
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, returning all of the actual items in the collection that match the query
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, returning all of the actual items in the collection that match the query
      *
      * Note: Equivalent to running ```fetch``` and then calling ```Cursor.collect()```
      *
@@ -199,7 +199,7 @@ export class ReadQuery extends Query {
     }
 
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, removing the items found by the query
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, removing the items found by the query
      *
      * Example:
      * ```javascript
@@ -213,7 +213,7 @@ export class ReadQuery extends Query {
     }
 
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, removing the items found by the query and replacing them with the passed object
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, removing the items found by the query and replacing them with the passed object
      *
      * Example:
      * ```javascript
@@ -237,7 +237,7 @@ export class ReadQuery extends Query {
     }
 
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, removing the items found by the query and replacing them with the passed object
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, removing the items found by the query and replacing them with the passed object
      *
      * Example:
      * ```javascript

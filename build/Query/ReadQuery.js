@@ -108,7 +108,7 @@ class ReadQuery extends Query_1.Query {
         }
     }
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, returning just the number of items in the collection that match the query
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, returning just the number of items in the collection that match the query
      *
      * Example:
      * ```javascript
@@ -123,7 +123,7 @@ class ReadQuery extends Query_1.Query {
         return this.send(Request_1.PayloadRequestType.Count, this.serialize());
     }
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, returning a ```Cursor``` that can be used to access a stream of the results
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, returning a ```Cursor``` that can be used to access a stream of the results
      *
      * Example:
      * ```javascript
@@ -168,7 +168,7 @@ class ReadQuery extends Query_1.Query {
         });
     }
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, returning all of the actual items in the collection that match the query
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, returning all of the actual items in the collection that match the query
      *
      * Note: Equivalent to running ```fetch``` and then calling ```Cursor.collect()```
      *
@@ -197,7 +197,7 @@ class ReadQuery extends Query_1.Query {
         });
     }
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, removing the items found by the query
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, removing the items found by the query
      *
      * Example:
      * ```javascript
@@ -210,7 +210,7 @@ class ReadQuery extends Query_1.Query {
         return this.send(Request_1.PayloadRequestType.Remove, this.serialize());
     }
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, removing the items found by the query and replacing them with the passed object
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, removing the items found by the query and replacing them with the passed object
      *
      * Example:
      * ```javascript
@@ -224,7 +224,7 @@ class ReadQuery extends Query_1.Query {
         return this.send(Request_1.PayloadRequestType.Update, new Request_1.UpdateOps(this.serialize(), new Request_1.UpdateKind(Request_1.UpdateKindType.Overwrite, item)));
     }
     /**
-     * Purpose: A consumable method that takes the current ```Query``` and executes it, removing the items found by the query and replacing them with the passed object
+     * Purpose: A consuming method that takes the current ```Query``` and executes it, removing the items found by the query and replacing them with the passed object
      *
      * Example:
      * ```javascript

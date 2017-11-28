@@ -110,7 +110,7 @@ export class Collection {
     }
 
     /**
-     * Purpose: Insert one or more items into the collection. Item should be in JSON format or an array of JSON objects
+     * Purpose: Monolithic method for inserting one or more items into the collection. Item should be in JSON format or an array of JSON objects
      * 
      * Example:
      * ```javascript
@@ -129,7 +129,7 @@ export class Collection {
     }
 
     /**
-     * Purpose: Remove one or more items in the collection based on a pattern
+     * Purpose: Monolithic method for removing one or more items in the collection based on a pattern
      * 
      * Example:
      * ```javascript
@@ -159,7 +159,7 @@ export class Collection {
     }
 
     /**
-     * Purpose: Replaces one or more items with a new item
+     * Purpose: Monolithic method for replacing one or more items with a new item
      * 
      * Example:
      * ```javascript
@@ -181,7 +181,7 @@ export class Collection {
     }
 
     /**
-     * Purpose: Updates one or more items by changing the value of one or more fields or completely deleting a field or fields from the items
+     * Purpose: Monolithic method for updating one or more items by changing the value of one or more fields or completely deleting a field or fields from the items
      * 
      * Example:
      * ```javascript
