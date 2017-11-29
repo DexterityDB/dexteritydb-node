@@ -237,7 +237,7 @@ class Dex {
      * @param { ...Value } value The ```Value```s that the field must contain at least one of to indicate a matched item
      * @returns { ReadOpPartial } A ```ReadOpPartial``` that will resolve to a ```ReadOp``` that can be used in ```find``` queries
      */
-    static in(...values) {
+    static loadIn(...values) {
         return new Ops.PartialIn(...values);
     }
     /**

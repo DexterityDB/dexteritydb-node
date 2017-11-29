@@ -15,7 +15,7 @@ async function main() {
             { name: "Todd", position: "sales" }
         );
     ourCollection.find({ position: "developer" })
-        .and({ name: Dex.loadIn("Dillon", "Alex" })
+        .and({ name: Dex.loadIn("Dillon", "Alex") })
         .or({ name: "Todd" })
         .or({ position: "marketing" })
         .fetchAll()
@@ -51,7 +51,7 @@ explainedCollection.insert(
             { name: "Todd", position: "sales" }
         );
 ourCollection.find({ position: "developer" })
-        .and({ name: Dex.loadIn("Dillon", "Alex" })
+        .and({ name: Dex.loadIn("Dillon", "Alex") })
         .or({ name: "Todd" })
         .or({ position: "marketing" })
         .fetchAll()
@@ -71,7 +71,7 @@ By chaining operators, you can create queries that are easy to read and write. B
 Sometimes not every query can be created using only chained operators and it can also be personal preference to avoid chainable operators. For these cases, we have created shorthand operators. The ```Dex``` class contains many static methods that act as shorthand operators. These operators can be substituted for values in a query in order to modify the value in a way that would be impossible to do otherwise. Some of these operators include ranges and multiple possible values. Let's look at the example:
 ```javascript
 ourCollection.find({ position: "developer" })
-        .and({ name: Dex.loadIn("Dillon", "Alex" })
+        .and({ name: Dex.loadIn("Dillon", "Alex") })
         .or({ name: "Todd" })
         .or({ position: "marketing" })
         .fetchAll()
@@ -109,7 +109,7 @@ async function main() {
             { name: "Todd", position: "sales" }
         );
     ourCollection.find({ position: "developer" })
-        .and({ name: Dex.loadIn("Dillon", "Alex" })
+        .and({ name: Dex.loadIn("Dillon", "Alex") })
         .or({ name: "Todd" })
         .or({ position: "marketing" })
         .fetchAll()

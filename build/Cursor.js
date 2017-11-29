@@ -58,7 +58,7 @@ class Cursor {
      * Example:
      * ```javascript
      * collection.find({ position: "developer" }).fetch().then((cursor) => {
-     *  console.log("Total Results: ", cursor.getTotalSize());
+     *  console.log("Total Results: ", cursor.getResultSize());
      * });
      * ```
      * @returns { number } The total number of results that were returned with the ```Cursor```

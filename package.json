@@ -34,7 +34,7 @@
     "ws": "^3.3"
   },
   "devDependencies": {
-    "@types/ws": "^3.3",
+    "@types/ws": "^3.2",
     "hotdoc": "^0.7",
     "jsdoc": "^3.5",
     "typescript": "^2.6"
