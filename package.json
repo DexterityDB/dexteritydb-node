@@ -1,6 +1,6 @@
 {
   "name": "dexteritydb",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Node.js driver for DexterityDB",
   "keywords": [
     "dexteritydb",
