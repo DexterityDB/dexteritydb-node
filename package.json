@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/Savizar/dexteritydb-node#readme",
   "dependencies": {
-    "ws": "^3.3"
+    "ws": "^3.3.2"
   },
   "devDependencies": {
     "@types/ws": "^3.2",
