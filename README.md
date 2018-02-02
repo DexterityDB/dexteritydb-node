@@ -91,7 +91,7 @@ As stated earlier, DexterityDB is asynchronous, so we use a ```.then``` to consu
 
 That's it! You now have all of the information you need to get started with the DexterityDB Node.js driver. But don't stop there...check out the full [DexterityDB Node.js API Tutorial](https://savizar.github.io/dexteritydb-node/tutorial-1-0-0_TheApproach.html) for all of the options and chainable methods that exist on the driver.
 
-Happy Dexing
+Happy Dexing!
 
 ## Helpful Links
 [DexterityDB](http://dexteritydb.com)<br>
