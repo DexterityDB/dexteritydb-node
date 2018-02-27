@@ -33,7 +33,7 @@ The following lines of code can be run in the node driver. We will walk through 
 ```javascript
 async function main() {
     const example = db.collection("example");
-    await example.insert({ name: "John", age: 35 }, { name: "Jane", age 28 });
+    await example.insert({ name: "John", age: 35 }, { name: "Jane", age: 28 });
     await example.index("name");
     example.find({ name: "John" }).fetchAll().then((result) => {
         console.log(results);
@@ -53,7 +53,7 @@ We pass the ```example``` string to the ```collection``` call to indicate that w
 ### Insert
 The second line of the ```main``` function shows a simple ```insert``` call:
 ```javascript
-await example.insert({ name: "John", age: 35 }, { name: "Jane", age 28 });
+await example.insert({ name: "John", age: 35 }, { name: "Jane", age: 28 });
 ```
 Any number of JSON objects can be passed into the ```insert``` function. Simply treat each object as a separate parameter in the function call or pass an array of objects.
 
@@ -95,7 +95,7 @@ Happy Dexing!
 
 ## Helpful Links
 [DexterityDB](http://dexteritydb.com)<br>
-[Node.JS API Documentation Tutorial](https://savizar.github.io/dexteritydb-node/tutorial-1-0-0_TheApproach.html)<br>
+[Node.JS API Tutorial](https://savizar.github.io/dexteritydb-node/tutorial-1-0-0_TheApproach.html)<br>
 [Node.JS Driver GitHub](https://github.com/Savizar/dexteritydb-node)
 
 
